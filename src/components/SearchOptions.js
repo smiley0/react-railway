@@ -1,9 +1,9 @@
 import React from 'react';
 
-function SearchOptions({options, addToForm}) {
+function SearchOptions({options, addToDst}) {
   const optionsList = options.map(option => {
     return(
-          <li onClick={() => {addToForm(option.id)}} key={option.id}>{option.name}</li>
+          <li onClick={() => {addToDst(option.id)}} key={option.id}>{option.name}</li>
     )
   })
   return (
