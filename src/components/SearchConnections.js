@@ -116,7 +116,7 @@ class SearchConnections extends React.Component {
                     <input autoComplete="off" type="text" id="date" onChange={this.handleChangeTD} value={this.state.date}></input>
                     <label htmlFor="time">Cas:</label>
                     <input autoComplete="off" type="text" id="time" onChange={this.handleChangeTD} value={this.state.time}></input>
-                    <button>Submit</button>
+                    <button><a href='/select'>Submit</a></button>
                 </form>
             </div>
         )
