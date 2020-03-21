@@ -1,5 +1,8 @@
 import React from 'react'
 import SearchOptions from './SearchOptions'
+import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
+
 
 class SearchConnections extends React.Component {
     state = {
@@ -10,7 +13,6 @@ class SearchConnections extends React.Component {
         id: "",
         time: "",
         date: "",
-        test: "FUNGUJE"
     }
 
     handleChange = (e) => {
@@ -99,13 +101,28 @@ class SearchConnections extends React.Component {
         this.addTimeDate();
     }
 
+    
+
+    handleClick = () => {
+        const url = {src: this.state.src, dst: this.state.dst, time: this.state.time, date: this.state.date}
+        //console.log(url)
+        //this.sleep(5000)
+        this.props.updateUrl(url)
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+    }
+
 
     render(){
+        console.log('props')
+        console.log(this.props)
         return(
             <div>
                 <h1> Form </h1>
                 <p>Tu bude form na hladanie</p>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <label htmlFor="src">Odkial:</label>
                     <input autoComplete="off" type="text" id="src" onChange={this.handleChange} value={this.state.src}></input>
                     <SearchOptions addToDst={this.addToSrc} options={this.state.src_items}></SearchOptions>
@@ -116,10 +133,25 @@ class SearchConnections extends React.Component {
                     <input autoComplete="off" type="text" id="date" onChange={this.handleChangeTD} value={this.state.date}></input>
                     <label htmlFor="time">Cas:</label>
                     <input autoComplete="off" type="text" id="time" onChange={this.handleChangeTD} value={this.state.time}></input>
-                    <button><a href='/select'>Submit</a></button>
+                    <button onClick={this.handleClick}><NavLink to="/select">Submit</NavLink></button>
                 </form>
+
+                
             </div>
         )
     }
 }
-export default SearchConnections
+
+const mapStateToProps = (state) => {
+    return {
+        searchInfo: state.searchInfo
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateUrl: (url) => {dispatch({type: 'UPDATE_URL', url: url})}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchConnections)

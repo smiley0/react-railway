@@ -9,7 +9,19 @@ const initState = {
     searchInfo: {src: 'Levice', dst: 'Trnava', date: '20.3.2020', time: '15:05'}
 }
 
+
 const rootReducer = (state = initState, action) => {
+    console.log('state:')
+    console.log(state)
+    console.log('action:')
+    console.log(action.url)
+    if(action.type === 'UPDATE_URL'){
+        console.log('Update URL')
+        return {
+            ...state,
+            searchInfo: action.url
+        }
+    }
     return state;
 }
 

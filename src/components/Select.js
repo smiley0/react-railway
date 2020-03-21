@@ -15,9 +15,8 @@ class Select extends React.Component {
     }
 
     render(){
+        console.log('props')
         console.log(this.props)
-        console.log(this.props.searchInfo)
-        console.log(this.props.searchInfo.src)
         //?time=8:00&src=Krivan&dst=Bratislava
 
         return(
