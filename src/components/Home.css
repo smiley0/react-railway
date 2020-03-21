@@ -1,0 +1,30 @@
+/*
+.home .bg{
+    height: 500px;
+    background-image: url("trainBG.jpg");
+    background-position: center;
+    background-repeat: no-repeat;    
+    background-size: cover;
+    opacity: 0.6;
+}
+.home .center {
+    opacity: 1.6;
+}*/
+
+.bg { 
+    height: 500px;
+    display: block;
+    position: relative;
+}
+
+.bg::after {
+    content: "";
+    background: url("trainBG.jpg"); 
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+}
