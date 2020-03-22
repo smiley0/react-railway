@@ -1,5 +1,6 @@
 import React from 'react'
 import SearchOptions from './SearchOptions'
+import './SearchConnection.css'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 
@@ -119,23 +120,31 @@ class SearchConnections extends React.Component {
         console.log('props')
         console.log(this.props)
         return(
-            <div>
-                <h1> Form </h1>
-                <p>Tu bude form na hladanie</p>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="src">Odkial:</label>
-                    <input autoComplete="off" type="text" id="src" onChange={this.handleChange} value={this.state.src}></input>
-                    <SearchOptions addToDst={this.addToSrc} options={this.state.src_items}></SearchOptions>
-                    <label htmlFor="dst">Kam:</label>
-                    <input autoComplete="off" type="text" id="dst" onChange={this.handleChange} value={this.state.dst}></input>                
-                    <SearchOptions addToDst={this.addToDst} options={this.state.dst_items}></SearchOptions>
-                    <label htmlFor="date">Datum:</label>
-                    <input autoComplete="off" type="text" id="date" onChange={this.handleChangeTD} value={this.state.date}></input>
-                    <label htmlFor="time">Cas:</label>
-                    <input autoComplete="off" type="text" id="time" onChange={this.handleChangeTD} value={this.state.time}></input>
-                    <button onClick={this.handleClick}><NavLink to="/select">Submit</NavLink></button>
-                </form>
-
+            <div className='sform'>
+                <div className='scontainer'>
+                    <i class="fas fa-search"></i>
+                    <h2> Vyhľadanie spojenia </h2>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className='inputrow'>
+                            <div className='src'>
+                            <input autoComplete="off" type="text" id="src" onChange={this.handleChange} placeholder='Odkial' value={this.state.src}></input>
+                            <SearchOptions addToDst={this.addToSrc} options={this.state.src_items}></SearchOptions>
+                            </div>
+                            <i class="fas fa-exchange-alt"></i>
+                            <div className='dst'>
+                            <input autoComplete="off" type="text" id="dst" onChange={this.handleChange} placeholder='Kam' value={this.state.dst}></input>                
+                            <SearchOptions addToDst={this.addToDst} options={this.state.dst_items}></SearchOptions>
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="date">Datum:</label>
+                            <input autoComplete="off" type="text" id="date" onChange={this.handleChangeTD} value={this.state.date}></input>
+                            <label htmlFor="time">Cas:</label>
+                            <input autoComplete="off" type="text" id="time" onChange={this.handleChangeTD} value={this.state.time}></input>
+                        </div>
+                        <button onClick={this.handleClick}><NavLink to="/select">Submit</NavLink></button>
+                    </form>
+                </div>
                 
             </div>
         )

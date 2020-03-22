@@ -1,0 +1,62 @@
+.sform {
+    width: 1024px;
+    background-color:rgba(249, 249, 249, .6);
+    border-radius: 8px;
+}
+.scontainer {
+    width: 800px;
+    margin: 0 auto;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    position: relative;
+
+    overflow: auto;
+}
+.fas {
+    font-size: 1.3em;
+    color: red;
+}
+.scontainer h2{
+    margin: 0;
+}
+.scontainer i {
+    float: left;
+    padding-right: 10px;
+}
+.scontainer form {
+    overflow: auto;
+}
+
+.scontainer input[type=text], select {
+    width: 45%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+  }
+
+.inputrow {
+    position: relative;
+    overflow: hidden;
+}
+.inputrow i {
+    width: 10%;
+    padding-right: 0;
+    margin-top: 16px;
+}
+.inputrow i::before {
+    padding-left: 40%;
+}
+.inputrow .src, .inputrow .dst{
+    width: 45%;
+    float:left;
+}
+.src input[type=text], select  {
+    width: 100%;
+}
+.dst input[type=text], select  {
+    width: 100%;
+}

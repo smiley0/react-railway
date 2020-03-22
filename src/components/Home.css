@@ -1,22 +1,10 @@
-/*
-.home .bg{
-    height: 500px;
-    background-image: url("trainBG.jpg");
-    background-position: center;
-    background-repeat: no-repeat;    
-    background-size: cover;
-    opacity: 0.6;
-}
-.home .center {
-    opacity: 1.6;
-}*/
-
 .bg { 
-    height: 500px;
     display: block;
     position: relative;
+    background: url("trainBG.jpg"); 
+    background-position: center center;
 }
-
+/*
 .bg::after {
     content: "";
     background: url("trainBG.jpg"); 
@@ -26,5 +14,6 @@
     bottom: 0;
     right: 0;
     position: absolute;
+    background-position: center center;
     z-index: -1;
-}
+}*/
