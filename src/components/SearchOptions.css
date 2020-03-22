@@ -1,0 +1,21 @@
+ul.src, ul.dst {
+    width: 360px !important;
+    margin: 0;
+    padding: 0;
+    background-color: salmon;
+    list-style: none;
+    position: absolute;
+}
+/*
+ul.crc {
+
+    top: 20px;
+}*/
+
+
+ul.src li,ul.dst li {
+    background-color: white;
+    border: 1px solid gray;
+
+    padding: 12px 20px;
+}

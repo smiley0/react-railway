@@ -8,9 +8,6 @@
     margin: 0 auto;
     padding-top: 60px;
     padding-bottom: 60px;
-    position: relative;
-
-    overflow: auto;
 }
 .fas {
     font-size: 1.3em;
@@ -22,9 +19,6 @@
 .scontainer i {
     float: left;
     padding-right: 10px;
-}
-.scontainer form {
-    overflow: auto;
 }
 
 .scontainer input[type=text], select {
@@ -39,8 +33,8 @@
   }
 
 .inputrow {
+    border: 1px solid green;
     position: relative;
-    overflow: hidden;
 }
 .inputrow i {
     width: 10%;
@@ -56,7 +50,23 @@
 }
 .src input[type=text], select  {
     width: 100%;
+    margin-bottom: 0;
 }
 .dst input[type=text], select  {
     width: 100%;
+    margin-bottom: 0;
 }
+
+.inputrow::after{
+    content: "";
+    display: block;
+    clear: both;
+
+}
+/*
+.inputrow .src::after{
+    content: "";
+    display: block;
+    clear: both;
+}
+*/

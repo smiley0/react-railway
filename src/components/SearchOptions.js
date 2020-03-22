@@ -1,13 +1,14 @@
 import React from 'react';
+import './SearchOptions.css';
 
-function SearchOptions({options, addToDst}) {
+function SearchOptions({type, options, addToDst}) {
   const optionsList = options.map(option => {
     return(
           <li onClick={() => {addToDst(option.id)}} key={option.id}>{option.name}</li>
     )
   })
   return (
-    <ul>
+    <ul className={type}>
       {optionsList}
     </ul>
   );
