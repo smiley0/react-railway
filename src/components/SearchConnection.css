@@ -63,6 +63,14 @@
     clear: both;
 
 }
+#src, #dst {
+    font-size: 1.2em;
+}
+#date, #time {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
 
 .inputrow2{
     margin-top: 25px;

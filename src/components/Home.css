@@ -1,3 +1,7 @@
+/*
+.home {
+    position: relative;
+}*/
 .bg { 
     display: block;
     position: relative;
@@ -19,3 +23,85 @@
     background-position: center center;
     z-index: -1;
 }*/
+
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.sbox {
+    width: 30%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+.sbox:first-child{
+    margin-left: 0;
+}
+.sbox:last-child{
+    margin-right: 0;
+}
+.sbox h3 {
+    text-align: center;
+    background-color: rgba(255,0,0,.85);
+    margin: 0;
+    padding: .6em;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.sbox p {
+    text-align: justify;
+    background-color: rgba(222, 222, 222, .85);
+    margin: 0;
+    padding: .5em 1em;
+    /*
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    */
+}
+.infobox {
+    position: relative;
+    top: 60px;
+}
+
+.setTop {
+    margin-top: 150px;
+}
+.setTop::after{
+    content: "";
+    display: block;
+    clear: both;
+
+}
+
+.lbox {
+    width: 49%;
+    background-color: rgba(222, 222, 222, .85);
+}
+.lbox img {
+    width: 100%;
+    height: 280px;
+}
+.lbox p, .lbox h4 {
+    margin: 0;
+    padding: .5em 1em;
+}
+.lbox h4 {
+    padding-top: 1em;
+}
+.lbox a {
+    text-decoration: none;
+    color: black;
+}
+.moreinfo {
+    display: block;
+    padding: 1.5em 1em;
+}
+.moreinfo i {
+    padding-right: .5em;
+}
+.lbox a:hover > span.moreinfo {
+    color: red;
+    text-decoration: underline;
+}
