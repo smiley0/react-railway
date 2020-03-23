@@ -128,19 +128,45 @@ class SearchConnections extends React.Component {
                         <div className='inputrow'>
                             <div className='src'>
                             <input autoComplete="off" type="text" id="src" onChange={this.handleChange} placeholder='Odkial' value={this.state.src}></input>
-                            <SearchOptions type='src' addToDst={this.addToSrc} options={this.state.src_items}></SearchOptions>
+                            <SearchOptions type='src' len={this.state.src.length} addToDst={this.addToSrc} options={this.state.src_items}></SearchOptions>
                             </div>
                             <i className="fas fa-exchange-alt"></i>
                             <div className='dst'>
                             <input autoComplete="off" type="text" id="dst" onChange={this.handleChange} placeholder='Kam' value={this.state.dst}></input>                
-                            <SearchOptions type='dst' addToDst={this.addToDst} options={this.state.dst_items}></SearchOptions>
+                            <SearchOptions type='dst' len={this.state.dst.length} addToDst={this.addToDst} options={this.state.dst_items}></SearchOptions>
                             </div>
                         </div>
                         <div className='inputrow2'>
-                            <input autoComplete="off" type="text" id="date" onChange={this.handleChangeTD} value={this.state.date}></input>
-                            <input autoComplete="off" type="text" id="time" onChange={this.handleChangeTD} value={this.state.time}></input>
+                            <div className='inputDate'>
+                                <div><i className="fas fa-chevron-left"></i></div>
+                                <input autoComplete="off" type="text" id="date" onChange={this.handleChangeTD} value={this.state.date}></input>
+                                <div><i className="fas fa-chevron-right"></i></div>
+                            </div>
+                            <div className='inputTime'>
+                                <div><i className="fas fa-chevron-left"></i></div>
+                                <input autoComplete="off" type="text" id="time" onChange={this.handleChangeTD} value={this.state.time}></input>
+                                <div><i className="fas fa-chevron-right"></i></div>
+                            </div>
+
+                            <div className='radio'>                                
+                                <label htmlFor="male" className="container">Odchod
+                                    <input type="radio" id="odchod" name="odchod" value="odchod" defaultChecked="checked"></input>
+                                    <span className='checkmark'></span>
+                                </label>
+                                <label htmlFor="female" className="container">Prichod
+                                    <input type="radio" id="prichod" name="prichod" value="prichod"></input>
+                                    <span className='checkmark'></span>
+                                </label>
+                            </div>
                         </div>
-                        <button onClick={this.handleClick}><NavLink to="/select">Submit</NavLink></button>
+                        <div className='inputrow3'>
+                            <div>
+                                <i className="far fa-caret-square-down"></i>
+                                Rozšírené hľadanie
+                            </div>
+                            <NavLink to="/select"><button className='submitbtn' onClick={this.handleClick}>Vyhľadať spojenie</button></NavLink>
+                        </div>
+                            
                     </form>
                 </div>
                 
@@ -162,3 +188,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchConnections)
+
+
+
+                                

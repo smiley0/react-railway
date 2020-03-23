@@ -2,7 +2,6 @@
     position: relative;
     background-color: #f9f9f9;
     overflow: hidden;
-    border-bottom: 2px solid #999999;
 }
 #navbar img{
     height: 100px;
@@ -38,7 +37,7 @@
     width: 140px;
     margin-left: 20px;
     margin-top: 15px;
-    background-color: rgb(255, 105, 105);
+    background-color: rgb(255, 0, 0);
     border:  2px solid rgb(255, 0, 0);
     border-radius: 4px;
     font-size: 16px;
@@ -48,4 +47,39 @@
 }
 #navbar button:hover {
     border:  4px solid rgb(255, 0, 0);
+}
+#navbar button.login:hover {
+    background-color: rgb(255, 105, 105);
+}
+
+#snav {
+    background-color: red;
+}
+#snav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+#snav li {
+    float: left;
+}
+#snav i {
+    color: white;
+    padding: 0;
+}
+#snav li a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.2em;
+    display: block;
+    text-align: center;
+    padding: 14px 16px;    
+}
+#snav .felem{
+    padding-bottom: 11px;
+}
+
+#snav li a:hover{
+    background-color: rgb(255, 105, 105);
 }
