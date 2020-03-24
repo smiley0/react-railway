@@ -6,7 +6,7 @@ const initState = {
         {id: "3", title: "333", body: "3333333333333333"}
     ]
     */
-    searchInfo: {src: 'Levice', dst: 'Trnava', date: '20.3.2020', time: '15:05'}
+    searchInfo: {src: 'Zvolen osob.st.', dst: 'Bratislava hl.st.', date: '20.3.2020', time: '6:05'}
 }
 
 

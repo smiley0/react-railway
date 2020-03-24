@@ -1,30 +1,55 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import SelectOptions from './SelectOptions'
 
 class Select extends React.Component {
     state = {
         url: "",
+        items: [],
+        isLoaded: false,
     }
 
     componentDidMount(){
         this.setState(
             {
-                url: "?src="+this.props.searchInfo.src + "&dst=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time,
+                url: "http://127.0.0.1:8000/results/?src="+this.props.searchInfo.src + "&dst=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time + "&limit=5",
             }
         )
+        console.log(">>>>"+this.state.url)
+        fetch("http://127.0.0.1:8000/results/?src="+this.props.searchInfo.src + "&dst=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time + "&limit=5")
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    isLoaded: true,
+                    items: json,
+                })
+            });
     }
 
     render(){
         console.log('props')
         console.log(this.props)
         //?time=8:00&src=Krivan&dst=Bratislava
+        
+        var { isLoaded, items, url} = this.state;
 
-        return(
+        if (!isLoaded) {
+            return (
             <div>
-                <h1> Select </h1>
-                <p>{this.state.url}</p>
+                <h4>Loading...</h4>
+                <p>{url}</p>
             </div>
-        )
+            )
+        }
+        else {
+            return(
+                <div>
+                    <h1> Select </h1>
+                    <p>{url}</p>
+                    <SelectOptions items={items} date={this.props.searchInfo.date}></SelectOptions>
+                </div>
+            )
+        }
     }
 }
 
