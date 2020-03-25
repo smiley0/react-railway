@@ -1,25 +1,34 @@
 import React from 'react'
-class SelectDetails extends React.Component {
+export default class SelectDetails extends React.Component {
     state = {
       opened: false,
     }
     render(){
-        console.log("details")
-        console.log(this.props.id)
-        console.log(this.props.show)
-      if(this.props.show){
-        return (
-            <div>
-              <h1>toggle </h1>
-            </div>
-          )
-      }
-      else{
-          return(
-              <div>:(</div>
-          )
-      }
+      console.log("trains")
+      console.log(this.props.trains)
+      return (
+        <div>
+          {this.props.trains.map((item, index) => (
+                <MoreDetail key={index} item={item}></MoreDetail>
+          ))}
+
+          <button>Kupit listok</button>
+        </div>
+      )
       
     }
   }
-  export default SelectDetails;
+
+  class MoreDetail extends React.Component {
+    state={
+        isShow: false,
+    }
+    render(){
+      return (
+        <div>
+          <h3>{this.props.item.name}</h3>
+          <p>Budu dalsie informacie o vlaku</p>
+        </div>
+      )
+    }
+  }

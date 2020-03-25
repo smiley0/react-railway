@@ -5,17 +5,66 @@ import SelectDetails from './SelectDetails'
 export default class SelectOptions extends React.Component {
   state = {
     isShow: false,
-    testShow: [],
+    trains: this.props,
+    newTrains: [],
     dmy: this.props.date.split("."),
+    isLoaded: false,
+  }
+  /*
+  componentDidMount(){
+    this.setState({
+      trains: this.props
+    })
+  }*/
+  loadNext = () => {
+    if(this.state.trains.items.next === null){
+      return
+    }
+
+    this.setState({
+      isLoaded: true,
+    }) 
+    this.forceUpdate()
+
+    fetch(this.state.trains.items.next)
+            .then(res => res.json())
+            .then(json => {
+              console.log(json)
+              //this.state.trains.items.next = json.next
+              //this.state.trains.items.results.push(...json.results)
+              
+              this.setState({
+                    //...trains,
+                    trains:{
+                      items:{
+                        next: json.next,
+                        results: [...this.state.trains.items.results, ...json.results],
+                        
+                      }
+                    },
+                    isLoaded: false
+                })
+              
+
+             //this.forceUpdate();
+              console.log(this.state.trains.items)
+            });
+    console.log("spracovanie dalsich poziadaviek")
+    //console.log(this.state.trains.items.next)
   }
 
   render(){
-
+    console.log("#####")    
+    console.log(this.props)
+    console.log("!!!!!!!")    
+    console.log(this.state.trains)
   return (
     <div>
-      {this.props.items.results.map((item, index) => (
+      {this.state.trains.items.results.map((item, index) => (
             <Item key={index} item={item} dmy={this.state.dmy}></Item>
       ))}
+      <button onClick={this.loadNext}>Pozdejsie spoje</button>
+      <p>{(this.state.isLoaded) ? "nacitavam" : null}</p>
     </div>
   )};
 }
@@ -28,17 +77,17 @@ class Item extends React.Component {
         this.setState(state => ({ isShow: !state.isShow }));
       };
     render(){
+        console.log(">>>>> props:")
+        console.log(this.props.item)
         var sum_distance = 0
         var sum_time = 0;
         var previous_time = 0;
         var transfere_time = 0;
         this.props.item.forEach(element => {
+            //this.state.train.push({number: element.number ,name: element.name})
             sum_distance += element.distance
             var arrival_time = element.arrival_time.split(":");
             var departure_time = element.departure_time.split(":");
-            console.log("dmy")            
-            console.log(this.props.id, this.props.dmy)
-            console.log(this.props.dmy[2],this.props.dmy[1],this.props.dmy[0], arrival_time[0], arrival_time[1])
             
             var reserve_arr_t = new Date(this.props.dmy[2],this.props.dmy[1],this.props.dmy[0], arrival_time[0], arrival_time[1])
             var reserve_dep_t = new Date(this.props.dmy[2],this.props.dmy[1],this.props.dmy[0], departure_time[0], departure_time[1])
@@ -74,9 +123,10 @@ class Item extends React.Component {
                         )
                     })}
                 </div>
+                <i className="fas fa-shopping-cart"></i>
                 <p>distance: {sum_distance}</p>
                 <p>time: {new Date(sum_time).toISOString().slice(11, 16)}</p>
-                {(this.state.isShow)?<SelectDetails></SelectDetails>:null}
+                {(this.state.isShow)?<SelectDetails trains={this.props.item}></SelectDetails>:null}
                 
             </div>
         )
