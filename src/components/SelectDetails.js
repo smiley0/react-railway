@@ -4,11 +4,22 @@ class SelectDetails extends React.Component {
       opened: false,
     }
     render(){
-      return (
-        <div>
-          <h1>toggle </h1>
-        </div>
-      )
+        console.log("details")
+        console.log(this.props.id)
+        console.log(this.props.show)
+      if(this.props.show){
+        return (
+            <div>
+              <h1>toggle </h1>
+            </div>
+          )
+      }
+      else{
+          return(
+              <div>:(</div>
+          )
+      }
+      
     }
   }
   export default SelectDetails;
