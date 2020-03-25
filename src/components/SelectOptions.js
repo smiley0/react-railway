@@ -1,13 +1,15 @@
 import React from 'react';
 import './SearchOptions.css';
+import SelectDetails from './SelectDetails'
 
-function SelectOptions({items, date}) {
+//function SelectOptions({items, date}) {
+class SelectOptions extends React.Component {
+  state = {
+    dmy: this.props.date.split("."),
+  }
+    //var dmy = this.props.date.split(".");
 
-    console.log("date")
-    var dmy = date.split(".");
-    console.log(dmy)
-
-    const itemsList = items.results.map((item, i) => {
+    itemsList = this.props.items.results.map((item, i) => {
     console.log(item)
     var sum_distance = 0;
     var sum_time = 0;
@@ -15,14 +17,10 @@ function SelectOptions({items, date}) {
     var transfere_time = 0;
     item.forEach(element => {
       sum_distance += element.distance
-      console.log(">> "+element.distance)
       var arrival_time = element.arrival_time.split(":");
       var departure_time = element.departure_time.split(":");
-      var reserve_arr_t = new Date(dmy[2],dmy[1],dmy[0], arrival_time[0], arrival_time[1])
-      var reserve_dep_t = new Date(dmy[2],dmy[1],dmy[0], departure_time[0], departure_time[1])
-      console.log(dmy[2],dmy[1],dmy[0], arrival_time[0], arrival_time[1])
-      console.log(reserve_arr_t.getTime()-reserve_dep_t.getTime())
-      
+      var reserve_arr_t = new Date(this.state.dmy[2],this.state.dmy[1],this.state.dmy[0], arrival_time[0], arrival_time[1])
+      var reserve_dep_t = new Date(this.state.dmy[2],this.state.dmy[1],this.state.dmy[0], departure_time[0], departure_time[1])
       if(previous_time !== 0){
         transfere_time = reserve_dep_t.getTime()-previous_time
       }
@@ -33,7 +31,7 @@ function SelectOptions({items, date}) {
     var sum_time_string = new Date(sum_time).toISOString().slice(11, 16)
   
     return(
-          <div key={i}>{item.map((itm, i) => {
+          <div key={i}><div>{item.map((itm, i) => {
             //hms = itm.departure_time.split(":");
             //console.log(hms)
             return (
@@ -54,24 +52,29 @@ function SelectOptions({items, date}) {
                 </table>
             )
           })}
+          </div>
           <div>
             <p>{sum_time_string}</p>
             <p>{sum_distance}</p>
+            <button>Kupit</button>
           </div>
+          <SelectDetails></SelectDetails>
           </div>
     )
   })
-  console.log(items)
+  //console.log(items)
+  render(){
   return (
     <div>
-      {itemsList}
+      {this.itemsList}
     </div>
     /*
    <div>
        <p>OK</p>
    </div>
    */
-  );
+  )};
 }
 
 export default SelectOptions;
+
