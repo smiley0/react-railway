@@ -1,6 +1,7 @@
 import React from 'react';
 import './SearchOptions.css';
 import SelectDetails from './SelectDetails'
+import './Select.css'
 
 export default class SelectOptions extends React.Component {
   state = {
@@ -29,7 +30,6 @@ export default class SelectOptions extends React.Component {
     fetch(this.state.trains.items.next)
             .then(res => res.json())
             .then(json => {
-              console.log(json)
               //this.state.trains.items.next = json.next
               //this.state.trains.items.results.push(...json.results)
               
@@ -44,26 +44,17 @@ export default class SelectOptions extends React.Component {
                     },
                     isLoaded: false
                 })
-              
-
-             //this.forceUpdate();
-              console.log(this.state.trains.items)
             });
     console.log("spracovanie dalsich poziadaviek")
-    //console.log(this.state.trains.items.next)
   }
 
   render(){
-    console.log("#####")    
-    console.log(this.props)
-    console.log("!!!!!!!")    
-    console.log(this.state.trains)
   return (
-    <div>
+    <div className="selectOptions">
       {this.state.trains.items.results.map((item, index) => (
             <Item key={index} item={item} dmy={this.state.dmy}></Item>
       ))}
-      <button onClick={this.loadNext}>Pozdejsie spoje</button>
+      <button onClick={this.loadNext}>Pozdejsie spoje <i className="fas fa-chevron-down"></i></button>
       <p>{(this.state.isLoaded) ? "nacitavam" : null}</p>
     </div>
   )};
@@ -77,8 +68,6 @@ class Item extends React.Component {
         this.setState(state => ({ isShow: !state.isShow }));
       };
     render(){
-        console.log(">>>>> props:")
-        console.log(this.props.item)
         var sum_distance = 0
         var sum_time = 0;
         var previous_time = 0;
@@ -100,9 +89,12 @@ class Item extends React.Component {
             
             
         });
+        var timespand = new Date(sum_time).toISOString().slice(11, 16);
+        var timesplit = timespand.split(":");
         return(
             <div onClick={this.toggleShow}>
-                <div>
+              <div className="itembox">
+                  <div className="left lsbox">
                     {this.props.item.map((itm, i) => {
                         return (
                             <table key={i}>
@@ -111,7 +103,6 @@ class Item extends React.Component {
                                 <th>{itm.departure_time}</th>
                                 <td>{itm.src}</td>
                                 <td><i className="fas fa-subway"></i></td>
-                                <td>{itm.id}</td>
                             </tr>
                             <tr>
                                 <th>{itm.arrival_time}</th>
@@ -121,12 +112,17 @@ class Item extends React.Component {
                             </tbody>
                             </table>
                         )
-                    })}
-                </div>
-                <i className="fas fa-shopping-cart"></i>
-                <p>distance: {sum_distance}</p>
-                <p>time: {new Date(sum_time).toISOString().slice(11, 16)}</p>
-                {(this.state.isShow)?<SelectDetails trains={this.props.item}></SelectDetails>:null}
+                    })}   
+                    <div className="detailInfo">                
+                      <p className="left">Čas cesty: {timesplit[0]} hod. {timesplit[1]} min.</p>
+                      <p className="left">Vzdialenosť: {sum_distance} km</p>
+                    </div> 
+                  </div>
+                  <div className="left rsbox">
+                      <i className="fas fa-shopping-cart"></i>
+                  </div>
+              </div>
+              {(this.state.isShow)?<SelectDetails trains={this.props.item}></SelectDetails>:null}
                 
             </div>
         )

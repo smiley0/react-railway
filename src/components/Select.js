@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import SelectOptions from './SelectOptions'
+import './Select.css'
 
 class Select extends React.Component {
     state = {
@@ -43,9 +44,8 @@ class Select extends React.Component {
         }
         else {
             return(
-                <div>
-                    <h1> Select </h1>
-                    <p>{url}</p>
+                <div className="center select">
+                    <h1> Nájdené spojenia </h1>
                     <SelectOptions items={items} date={this.props.searchInfo.date}></SelectOptions>
                 </div>
             )

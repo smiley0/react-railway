@@ -1,0 +1,69 @@
+.select h1 {
+    color: rgb(200, 0, 0);
+    text-align: center;
+}
+.select .itembox{
+    border: 2px solid black;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 1em;
+    overflow: hidden;
+    position: relative;
+}
+.select .lsbox {
+    width: 74%;
+    background-color: ;
+}
+.select .rsbox {
+    width: 25%;
+    height: 100%;
+
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-left: 1px dashed black;
+}
+.select table {
+    width: 100%;
+    border-bottom: 1px dashed black;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+.select table th {
+    text-align: left;
+    width: 10%;
+}
+.select table td:last-child {
+    text-align: center;
+    width: 130px;
+}
+.select .detailInfo p{
+    width: 50%;
+    margin: 0;
+    color: gray;
+}
+.select .detailInfo p:last-child{
+    text-align: right;
+}
+
+.selectOptions button {
+    margin-left: 25%;
+    margin-top: 25px;
+    margin-bottom: 50px;
+    width: 50%;
+    height: 40px;
+    background-color: white;
+    border: 3px solid rgb(200, 0, 0);
+    border-radius: 4px;
+    font-size: 16px;
+    color: black;
+    font-weight: bold;
+}
+.selectOptions button i{
+    padding-left: 20px;
+}
