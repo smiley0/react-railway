@@ -2,6 +2,7 @@ import React from 'react';
 import './SearchOptions.css';
 import SelectDetails from './SelectDetails'
 import './Select.css'
+import Loading from './Loading'
 
 export default class SelectOptions extends React.Component {
   state = {
@@ -54,8 +55,10 @@ export default class SelectOptions extends React.Component {
       {this.state.trains.items.results.map((item, index) => (
             <Item key={index} item={item} dmy={this.state.dmy}></Item>
       ))}
-      <button onClick={this.loadNext}>Pozdejsie spoje <i className="fas fa-chevron-down"></i></button>
-      <p>{(this.state.isLoaded) ? "nacitavam" : null}</p>
+      <div className='loadMore'>
+        <button onClick={this.loadNext}>Pozdejsie spoje <i className="fas fa-chevron-down"></i></button>
+        <div className="center smallLoad">{(this.state.isLoaded) ? <Loading></Loading> : null}</div>
+      </div>
     </div>
   )};
 }

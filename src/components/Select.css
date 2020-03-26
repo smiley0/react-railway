@@ -3,9 +3,9 @@
     text-align: center;
 }
 .select .itembox{
-    border: 2px solid black;
+    border: 0px solid black;
+    box-shadow: -5px -5px 15px rgba(100, 100, 100, .4), 5px -5px 15px rgba(100, 100, 100, .4);
     margin-top: 1em;
-    margin-bottom: 1em;
     padding: 1em;
     overflow: hidden;
     position: relative;
@@ -54,7 +54,6 @@
 .selectOptions button {
     margin-left: 25%;
     margin-top: 25px;
-    margin-bottom: 50px;
     width: 50%;
     height: 40px;
     background-color: white;
@@ -66,4 +65,41 @@
 }
 .selectOptions button i{
     padding-left: 20px;
+}
+.bigLoad {
+    height: 600px;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+}
+.bigLoad p {
+    padding-left: 470px;
+    font-size: 2em;
+    font-weight: bold;
+    color: rgb(200, 0, 0);
+}
+.smallLoad p{
+    padding-left: 500px;
+    font-weight: bold;
+    color: rgb(200, 0, 0);
+}
+
+.itemsDetail {
+    padding: 1em;
+    box-shadow: -5px 5px 16px rgba(100, 100, 100, .4), 5px 5px 16px rgba(100, 100, 100, .4);
+}
+.itemsDetail h3 {
+    margin-top: 0;
+}
+.itemsDetail button {
+    background-color: red;
+    border: none;
+    color: white;
+    font-size: 2.2em;
+    margin-bottom: 0;
+    height: 50px;
+    -webkit-text-stroke: 1px rgb(80, 0, 0);
+}
+.loadMore {
+    height: 110px;
 }

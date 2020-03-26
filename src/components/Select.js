@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import SelectOptions from './SelectOptions'
 import './Select.css'
+import Loading from './Loading'
 
 class Select extends React.Component {
     state = {
@@ -32,13 +33,12 @@ class Select extends React.Component {
         console.log(this.props)
         //?time=8:00&src=Krivan&dst=Bratislava
         
-        var { isLoaded, items, url} = this.state;
+        var { isLoaded, items} = this.state;
 
         if (!isLoaded) {
             return (
-            <div>
-                <h4>Loading...</h4>
-                <p>{url}</p>
+            <div className='center bigLoad'>
+                <Loading></Loading>
             </div>
             )
         }

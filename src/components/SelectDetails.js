@@ -1,4 +1,5 @@
 import React from 'react'
+import './Select.css'
 export default class SelectDetails extends React.Component {
     state = {
       opened: false,
@@ -7,7 +8,7 @@ export default class SelectDetails extends React.Component {
       console.log("trains")
       console.log(this.props.trains)
       return (
-        <div>
+        <div className='itemsDetail'>
           {this.props.trains.map((item, index) => (
                 <MoreDetail key={index} item={item}></MoreDetail>
           ))}
