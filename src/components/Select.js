@@ -14,12 +14,13 @@ class Select extends React.Component {
     componentDidMount(){
         this.setState(
             {
-                url: "http://127.0.0.1:8000/results/?src="+this.props.searchInfo.src + "&dst=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time + "&limit=5",
+                url: "http://127.0.0.1:8000/search/?from="+this.props.searchInfo.src + "&to=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time + "&limit=5",
             }
         )
         console.log(">>>>"+this.state.url)
-        fetch("http://127.0.0.1:8000/results/?src="+this.props.searchInfo.src + "&dst=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time + "&limit=5")
-            .then(res => res.json())
+        fetch("http://127.0.0.1:8000/search/?from="+this.props.searchInfo.src + "&to=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time + "&limit=5")
+        //fetch("http://127.0.0.1:8000/search/?from="+this.props.searchInfo.src + "&to=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time)
+        .then(res => res.json())
             .then(json => {
                 this.setState({
                     isLoaded: true,

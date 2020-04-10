@@ -9,7 +9,7 @@ export default class SelectDetails extends React.Component {
       console.log(this.props.trains)
       return (
         <div className='itemsDetail'>
-          {this.props.trains.map((item, index) => (
+          {this.props.trains.transfer_history.map((item, index) => (
                 <MoreDetail key={index} item={item}></MoreDetail>
           ))}
 
@@ -27,7 +27,10 @@ export default class SelectDetails extends React.Component {
     render(){
       return (
         <div>
-          <h3>{this.props.item.name}</h3>
+          <h3>{this.props.item.train.category_short + " " +
+            this.props.item.train.number + " " +
+            this.props.item.train.name }
+          </h3>
           <p>Budu dalsie informacie o vlaku</p>
         </div>
       )

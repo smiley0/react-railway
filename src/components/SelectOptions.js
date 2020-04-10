@@ -50,9 +50,11 @@ export default class SelectOptions extends React.Component {
   }
 
   render(){
+    console.log("results")
+    console.log(this.state.trains.items)
   return (
     <div className="selectOptions">
-      {this.state.trains.items.results.map((item, index) => (
+      {this.state.trains.items.result.map((item, index) => (
             <Item key={index} item={item} dmy={this.state.dmy}></Item>
       ))}
       <div className='loadMore'>
@@ -71,6 +73,7 @@ class Item extends React.Component {
         this.setState(state => ({ isShow: !state.isShow }));
       };
     render(){
+      /*
         var sum_distance = 0
         var sum_time = 0;
         var previous_time = 0;
@@ -94,31 +97,38 @@ class Item extends React.Component {
         });
         var timespand = new Date(sum_time).toISOString().slice(11, 16);
         var timesplit = timespand.split(":");
+        */
+        console.log("Item")
+        console.log(this.props.item)
+        var hour = String(this.props.item.duration / 3600).split(".");
+        var min = (this.props.item.duration % 3600)/60;
         return(
             <div onClick={this.toggleShow}>
               <div className="itembox">
                   <div className="left lsbox">
-                    {this.props.item.map((itm, i) => {
+                    {this.props.item.transfer_history.map((itm, i) => {
                         return (
+                            
                             <table key={i}>
                             <tbody>
                             <tr> 
-                                <th>{itm.departure_time}</th>
-                                <td>{itm.src}</td>
+                                <th>{itm.stop_from.departure_time.substring(0,5)}</th>
+                                <td>{itm.stop_from.station_name}</td>
                                 <td><i className="fas fa-subway"></i></td>
                             </tr>
                             <tr>
-                                <th>{itm.arrival_time}</th>
-                                <td>{itm.dst}</td>
-                                <td>{itm.number}</td>
+                                <th>{itm.stop_to.arrival_time.substring(0,5)}</th>
+                                <td>{itm.stop_to.station_name}</td>
+                                <td>{itm.train.number}</td>
                             </tr>
                             </tbody>
                             </table>
+                            
                         )
                     })}   
                     <div className="detailInfo">                
-                      <p className="left">Čas cesty: {timesplit[0]} hod. {timesplit[1]} min.</p>
-                      <p className="left">Vzdialenosť: {sum_distance} km</p>
+                      <p className="left">Čas cesty: {hour[0]} hod. {min} min.</p>
+                      <p className="left">Vzdialenosť: {this.props.item.distance} km</p>
                     </div> 
                   </div>
                   <div className="left rsbox">

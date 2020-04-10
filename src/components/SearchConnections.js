@@ -34,7 +34,7 @@ class SearchConnections extends React.Component {
         }
         else{
             if(e.target.id === "dst"){
-                fetch('http://127.0.0.1:8000/stations2/?fnd='+e.target.value)
+                fetch('http://127.0.0.1:8000/list-of-stations/?fnd='+e.target.value)
                     .then(res => res.json())
                     .then((data) => {
                         this.setState({ dst_items: data})
@@ -42,7 +42,7 @@ class SearchConnections extends React.Component {
                     }) 
             }
             else if(e.target.id === "src"){
-                fetch('http://127.0.0.1:8000/stations2/?fnd='+e.target.value)
+                fetch('http://127.0.0.1:8000/list-of-stations/?fnd='+e.target.value)
                 .then(res => res.json())
                 .then((data) => {
                     this.setState({ src_items: data})
