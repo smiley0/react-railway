@@ -1,8 +1,10 @@
 import React from 'react'
 import Loading from './Loading'
+import {connect} from 'react-redux'
 
-export default class Passenger extends React.Component {
+class Passenger extends React.Component {
     state = {
+      reservation: false,
       isLoaded: false,
       passenger_types: [],
       tablerows2: [{id:0,fname:"",lname:"", type:"", showType:false}]
@@ -95,7 +97,15 @@ export default class Passenger extends React.Component {
         }
     }
 
+    onReservation = (e) => {
+        console.log(e.target.name)
+        console.log(e.target.checked)
+        this.setState({reservation: e.target.checked})
+    }
+
     render(){
+        console.log(">>>>>>>>>>>>>>>>")
+        console.log(this.props.connectionInfo)
         if (!this.state.isLoaded) {
             return (
             <div className='center bigLoad'>
@@ -106,7 +116,7 @@ export default class Passenger extends React.Component {
         else{
             return (
                 <div className='passenger'>
-                <h1>ok som na dobrej stranke</h1>
+                <h2>Informácie o cestujúcich ({this.state.tablerows2.length} osoba)</h2>
                 <table>
                     <thead>
                         <tr>
@@ -133,11 +143,29 @@ export default class Passenger extends React.Component {
                         </tr>
                     </tbody>
                 </table>
+                <form action="/action_page.php">
+                    <label htmlFor="reservation"> Chcem rezervovat miesta</label>
+                    <input onChange={this.onReservation} type="checkbox" id="reservation" name="reservation" value="reservation"></input>
+                </form>
+                {(this.state.reservation)?
+                <div>{this.props.connectionInfo.transfer_history.map((item, index) => (
+                    <TrainSegment key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
+                ))}</div>
+                :null}
                 </div>
             )
         }
     }
   }
+  const mapStateToProps = (state) => {
+    return {
+        connectionInfo: state.connectionInfo,
+        searchInfo: state.searchInfo
+
+    }
+}
+
+export default connect(mapStateToProps)(Passenger)
 /*
   class SelectType extends React.Component {
     state={
@@ -163,4 +191,71 @@ export default class Passenger extends React.Component {
         {optionsList}
       </ul>
     );
+  }
+
+  class TrainSegment extends React.Component {
+    state = {
+        isShow: false,
+    }
+    toggleShow = () => {
+        this.setState(state => ({ isShow: !state.isShow }));
+      };
+    render(){
+        //{this.props.item.train.number}
+        console.log(this.props.item.distance)
+        console.log(this.props.date)
+        var dmy = this.props.date.split(".");
+        var arrival_time = this.props.item.stop_to.arrival_time.split(":");
+        var departure_time = this.props.item.stop_from.departure_time.split(":");
+        var reserve_arr_t = new Date(dmy[2],dmy[1],dmy[0], arrival_time[0], arrival_time[1])
+        var reserve_dep_t = new Date(dmy[2],dmy[1],dmy[0], departure_time[0], departure_time[1])
+        //console.log(reserve_arr_t.getTime()-reserve_dep_t.getTime())
+        var sum_time_string = new Date(reserve_arr_t.getTime()-reserve_dep_t.getTime()).toISOString().slice(11, 16)
+        console.log(sum_time_string)
+        return(
+            <div>
+                <div onClick={this.toggleShow}>
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><i className="fas fa-subway"></i></td>
+                                    <td>{this.props.item.stop_from.departure_time.substring(0,5)}</td>
+                                    <td>{this.props.item.stop_from.station_name}</td>
+                                </tr>
+                                <tr>
+                                    <td>{this.props.item.train.number}</td>
+                                    <td>{this.props.item.stop_to.arrival_time.substring(0,5)}</td>
+                                    <td>{this.props.item.stop_to.station_name}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div className="detailInfo">                
+                            <p>Čas cesty: {sum_time_string.substring(0,2)} hod. {sum_time_string.substring(3)} min.</p>
+                            <p>Vzdialenosť: {this.props.item.stop_to.distance-this.props.item.stop_from.distance} km</p>
+                        </div> 
+                    </div>
+                    <div>
+                        <p>VYBRAT MIESTO</p>
+                    </div>
+                </div>
+                {(this.state.isShow)?<SelectSeats trains={this.props.item}></SelectSeats>:null}
+            </div>
+        )
+    }
+}
+
+class SelectSeats extends React.Component {
+    state = {
+      opened: false,
+    }
+  
+    render(){
+      return (
+        <div>
+          <h2>Zvol si vagon</h2>
+        </div>
+      )
+      
+    }
   }

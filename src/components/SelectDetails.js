@@ -1,10 +1,14 @@
 import React from 'react'
 import './Select.css'
+import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-export default class SelectDetails extends React.Component {
+class SelectDetails extends React.Component {
     state = {
       opened: false,
     }
+    handleClick = () => {
+      this.props.setConnection(this.props.trains)
+  }
     render(){
       console.log("trains")
       console.log(this.props.trains)
@@ -14,12 +18,26 @@ export default class SelectDetails extends React.Component {
                 <MoreDetail key={index} item={item}></MoreDetail>
           ))}
 
-          <NavLink to='/passenger'><button>Kupit listok</button></NavLink>
+          <NavLink to='/passenger'><button onClick={this.handleClick}>Kupit listok</button></NavLink>
         </div>
       )
       
     }
   }
+
+  const mapStateToProps = (state) => {
+    return {
+        connectionInfo: state.connectionInfo
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setConnection: (connection) => {dispatch({type: 'SET_CONNECTION', connection: connection})}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectDetails)
 
   class MoreDetail extends React.Component {
     state={
