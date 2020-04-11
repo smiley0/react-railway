@@ -76,10 +76,10 @@ class SearchConnections extends React.Component {
     addTimeDate = () => {
         console.log("Add time was called!!!!!")
         var date = new Date();
-        var m = date.getMinutes();
-        var h = date.getHours();
-        var d = date.getDate();
-        var mo = date.getMonth();
+        var m = ((date.getMinutes()<10?'0':'')+date.getMinutes());
+        var h = ((date.getHours()<10?'0':'')+date.getHours());
+        var d = ((date.getDate()<10?'0':'')+date.getDate());
+        var mo = ((date.getMonth()<10?'0':'')+date.getMonth());
         var y = date.getFullYear();
         this.setState({
             time: h + ":" + m,
@@ -115,6 +115,44 @@ class SearchConnections extends React.Component {
         e.preventDefault();
     }
 
+    timePP = () => {
+        if(this.state.time.substring(3)>= 30){
+            this.setState({
+                time: (Number(this.state.time.substring(0,2))+1)+ ":00",
+            })
+            
+        }
+        else{
+            if(Number(this.state.time.substring(0,2)) !== 24){
+                this.setState({
+                    time: (this.state.time.substring(0,2))+ ":30",
+                })
+            }
+        }
+    }
+
+    timeMM = () => {
+        if(Number(this.state.time.substring(3)) === 0){
+            this.setState({
+                //time: (this.state.time.substring(0,2))+ ":30",
+                time: (Number(this.state.time.substring(0,2))-1)+ ":30",
+            })
+            
+        }
+        else if(Number(this.state.time.substring(3)) > 30){
+            this.setState({
+                time: (this.state.time.substring(0,2))+ ":30",
+            })
+        }
+        else{
+            if(Number(this.state.time.substring(0,2)) !== 24){
+                this.setState({
+                    time: (Number(this.state.time.substring(0,2)))+ ":00",
+                })
+            }
+        }
+    }
+
 
     render(){
         console.log('props')
@@ -143,9 +181,9 @@ class SearchConnections extends React.Component {
                                 <div><i className="fas fa-chevron-right"></i></div>
                             </div>
                             <div className='inputTime'>
-                                <div><i className="fas fa-chevron-left"></i></div>
+                                <div onClick={this.timeMM}><i className="fas fa-chevron-left"></i></div>
                                 <input autoComplete="off" type="text" id="time" onChange={this.handleChangeTD} value={this.state.time}></input>
-                                <div><i className="fas fa-chevron-right"></i></div>
+                                <div onClick={this.timePP}><i className="fas fa-chevron-right"></i></div>
                             </div>
 
                             <div className='radio'>                                

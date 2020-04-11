@@ -1,5 +1,6 @@
 import React from 'react'
 import './Select.css'
+import {NavLink} from 'react-router-dom'
 export default class SelectDetails extends React.Component {
     state = {
       opened: false,
@@ -13,7 +14,7 @@ export default class SelectDetails extends React.Component {
                 <MoreDetail key={index} item={item}></MoreDetail>
           ))}
 
-          <button>Kupit listok</button>
+          <NavLink to='/passenger'><button>Kupit listok</button></NavLink>
         </div>
       )
       

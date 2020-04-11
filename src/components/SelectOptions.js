@@ -73,38 +73,13 @@ class Item extends React.Component {
         this.setState(state => ({ isShow: !state.isShow }));
       };
     render(){
-      /*
-        var sum_distance = 0
-        var sum_time = 0;
-        var previous_time = 0;
-        var transfere_time = 0;
-        this.props.item.forEach(element => {
-            //this.state.train.push({number: element.number ,name: element.name})
-            sum_distance += element.distance
-            var arrival_time = element.arrival_time.split(":");
-            var departure_time = element.departure_time.split(":");
-            
-            var reserve_arr_t = new Date(this.props.dmy[2],this.props.dmy[1],this.props.dmy[0], arrival_time[0], arrival_time[1])
-            var reserve_dep_t = new Date(this.props.dmy[2],this.props.dmy[1],this.props.dmy[0], departure_time[0], departure_time[1])
-            if(previous_time !== 0){
-              transfere_time = reserve_dep_t.getTime()-previous_time
-            }
-      
-            sum_time += transfere_time + reserve_arr_t.getTime() - reserve_dep_t.getTime() 
-            previous_time = reserve_arr_t.getTime()
-            
-            
-        });
-        var timespand = new Date(sum_time).toISOString().slice(11, 16);
-        var timesplit = timespand.split(":");
-        */
         console.log("Item")
         console.log(this.props.item)
         var hour = String(this.props.item.duration / 3600).split(".");
         var min = (this.props.item.duration % 3600)/60;
         return(
-            <div onClick={this.toggleShow}>
-              <div className="itembox">
+            <div>
+              <div onClick={this.toggleShow} className="itembox">
                   <div className="left lsbox">
                     {this.props.item.transfer_history.map((itm, i) => {
                         return (
