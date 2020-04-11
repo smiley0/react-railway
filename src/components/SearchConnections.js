@@ -79,7 +79,7 @@ class SearchConnections extends React.Component {
         var m = ((date.getMinutes()<10?'0':'')+date.getMinutes());
         var h = ((date.getHours()<10?'0':'')+date.getHours());
         var d = ((date.getDate()<10?'0':'')+date.getDate());
-        var mo = ((date.getMonth()<10?'0':'')+date.getMonth());
+        var mo = (((date.getMonth()+1)<10?'0':'')+(date.getMonth()+1));
         var y = date.getFullYear();
         this.setState({
             time: h + ":" + m,
