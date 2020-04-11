@@ -239,7 +239,7 @@ export default connect(mapStateToProps)(Passenger)
                         <p>VYBRAT MIESTO</p>
                     </div>
                 </div>
-                {(this.state.isShow)?<SelectSeats trains={this.props.item}></SelectSeats>:null}
+                {(this.state.isShow)?<SelectSeats item={this.props.item} date={this.props.date}></SelectSeats>:null}
             </div>
         )
     }
@@ -247,15 +247,123 @@ export default connect(mapStateToProps)(Passenger)
 
 class SelectSeats extends React.Component {
     state = {
-      opened: false,
+      isLoaded: false,
+      trainInfo: {},
     }
-  
+    componentDidMount(){
+        fetch("http://127.0.0.1:8000/train/"+this.props.item.train.number+"/")
+        .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    isLoaded: true,
+                    trainInfo: json,
+                })
+            });
+    }
+    
     render(){
-      return (
-        <div>
-          <h2>Zvol si vagon</h2>
-        </div>
-      )
+        console.log("TRAIN")
+      console.log(this.props.item)
+        if (!this.state.isLoaded) {
+            return (
+            <div className='center bigLoad'>
+                <Loading></Loading>
+            </div>
+            )
+        }
+        else{
+
+            console.log(this.state.trainInfo)
+            return (
+                <div>
+                  <h2>Zvol si vozen</h2>
+                  <Train info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
+                </div>
+              )
+        }
+      
       
     }
   }
+
+  class Train extends React.Component {
+      state = {
+          displayCarriage: NaN,
+      }
+    
+    showCarriage = (e, id) => {
+        if(isNaN(this.state.displayCarriage)){
+            this.setState({
+                displayCarriage: id,
+            })
+        }
+        else if(this.state.displayCarriage === id){
+            this.setState({
+                displayCarriage: NaN,
+            })
+        }
+        else{
+            this.setState({
+                displayCarriage: id,
+            })
+        }
+    }
+
+    findStationID(stations, name){
+        for(var i = 0; i<stations.length; i+=1){
+            if(stations[i]["station_name"] === name){
+                return stations[i].id;
+            }
+        }
+        return -1;
+    }
+    
+    render(){
+        const optionsList = this.props.info.carriages.map((carriage, i) => {
+        return(
+                <li key={i} onClick={(e)=>{this.showCarriage(e, carriage.id)}}>
+                    <div>
+                        <p>{carriage.number}</p>
+                        <p>{carriage.seats}</p>
+                    </div>
+                </li>
+        )
+        })
+        console.log(this.props.from)
+        console.log(this.props.to)
+        console.log(this.props.info.stops)
+        console.log(this.findStationID(this.props.info.stops, this.props.from))
+        console.log(this.findStationID(this.props.info.stops, this.props.to))
+        var fromID = this.findStationID(this.props.info.stops, this.props.from);
+        var toID = this.findStationID(this.props.info.stops, this.props.to);
+        return (
+        <div>
+        <ul>
+            <li key="9999">
+                <div>
+                    <p>{this.props.info.category_short} {this.props.info.number}</p>
+                    <p>{this.props.info.name}</p>
+                </div>
+            </li>
+            {optionsList}
+        </ul>
+        {(!isNaN(this.state.displayCarriage))?<Carriage date={this.props.date} from={fromID} to={toID} number={this.state.displayCarriage}></Carriage>:null}
+        </div>
+        );
+    }
+  }
+
+class Carriage extends React.Component {
+    
+  
+  render(){
+      return (
+      <div>
+            <p>{this.props.number}</p>
+            <p>{this.props.from}</p>
+            <p>{this.props.to}</p>
+            <p>{this.props.date}</p>
+      </div>
+      );
+  }
+}
