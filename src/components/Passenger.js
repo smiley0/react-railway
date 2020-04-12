@@ -298,6 +298,46 @@ class SelectSeats extends React.Component {
       state = {
           displayCarriage: NaN,
           carriage: {},
+          reload: 0,
+          reservations: [],
+          isLoaded: false,
+          loading: []
+      }
+
+      componentDidMount(){
+        var date = this.props.date.split(".");
+        var dateformat = date[2]+'-'+date[1]+'-'+date[0];
+        let fromID = this.findStationID(this.props.info.stops, this.props.from);
+        let toID = this.findStationID(this.props.info.stops, this.props.to);
+          console.log("carriages")
+          console.log(this.props.info.carriages.length)
+          if(this.props.info.carriages.length !== 0) {
+            /*
+            const loading = []
+            for(var i = 0; i<this.props.info.carriages.length; i+=1){
+                loading.push(false)
+            }
+            this.setState({loading: loading})
+            */
+          for(var i = 0; i<this.props.info.carriages.length; i+=1){
+            console.log(this.props.info.carriages[i].id)
+            let id = this.props.info.carriages[i].id
+            fetch("http://127.0.0.1:8000/carriage-assignment/"+id+"/reservations/?from="+fromID+"&to="+toID+"&date="+dateformat)
+            .then(res => res.json())
+                .then(json => {
+                    var reservations = this.state.reservations
+                    reservations.push({id: id,result:json})
+                    this.setState({
+                        reservations: reservations,
+                        //isLoaded: true,
+                    })
+                });
+          }
+          this.setState({isLoaded: true,})
+        }
+        else{
+            this.setState({isLoaded: true,})
+        }
       }
     
     showCarriage = (e, id, carriage) => {
@@ -305,18 +345,21 @@ class SelectSeats extends React.Component {
             this.setState({
                 displayCarriage: id,
                 carriage: carriage,
+                reload: 0,
             })
         }
         else if(this.state.displayCarriage === id){
             this.setState({
                 displayCarriage: NaN,
                 carriage: {},
+                reload: 0,
             })
         }
         else{
             this.setState({
                 displayCarriage: id,
                 carriage: carriage,
+                reload: 1,
             })
         }
     }
@@ -331,24 +374,35 @@ class SelectSeats extends React.Component {
     }
     
     render(){
+        if (!this.state.isLoaded) {
+            return (
+            <div className='center bigLoad'>
+                <Loading></Loading>
+            </div>
+            )
+        }
+        else{
         const optionsList = this.props.info.carriages.map((carriage, i) => {
             console.log("carriage")
             console.log(carriage)
+            let free = carriage.seats
+            for(let i = 0; i<this.state.reservations.length; i+=1){
+                if(this.state.reservations[i].id === carriage.id){
+                    free = free - this.state.reservations[i].result.length
+                }
+            }
         return(
                 <li key={i} onClick={(e)=>{this.showCarriage(e, carriage.id, carriage)}}>
                     <div className={'class'+carriage.type+ ' wagon'}>
                         <span>cislo vozna: {carriage.number}</span>
                         <span>trieda: {carriage.type}</span>
-                        <span>pocet miest: {carriage.seats}</span>
+                        <span>volnych miest:{free}/{carriage.seats}</span>
                     </div>
                 </li>
         )
         })
-        console.log(this.props.from)
-        console.log(this.props.to)
-        console.log(this.props.info.stops)
-        console.log(this.findStationID(this.props.info.stops, this.props.from))
-        console.log(this.findStationID(this.props.info.stops, this.props.to))
+        console.log("??????reservations???????????")
+        console.log(this.state.reservations)
         var fromID = this.findStationID(this.props.info.stops, this.props.from);
         var toID = this.findStationID(this.props.info.stops, this.props.to);
         return (
@@ -363,9 +417,10 @@ class SelectSeats extends React.Component {
             </li>
             {optionsList}
         </ul>
-        {(!isNaN(this.state.displayCarriage))?<Carriage date={this.props.date} from={fromID} to={toID} number={this.state.displayCarriage}></Carriage>:null}
+        {(!isNaN(this.state.displayCarriage))?<Carriage date={this.props.date} from={fromID} to={toID} number={this.state.displayCarriage} reload={this.state.reload}></Carriage>:null}
         </div>
         );
+        }
     }
   }
 
@@ -405,6 +460,7 @@ class Carriage extends React.Component {
             <p>{this.props.from}</p>
             <p>{this.props.to}</p>
             <p>{this.props.date}</p>
+            <p>{this.props.reload}</p>
       </div>
       );
     }
