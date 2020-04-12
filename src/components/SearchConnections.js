@@ -34,7 +34,7 @@ class SearchConnections extends React.Component {
         }
         else{
             if(e.target.id === "dst"){
-                fetch('http://127.0.0.1:8000/list-of-stations/?fnd='+e.target.value)
+                fetch('http://127.0.0.1:8000/station/?search='+e.target.value)
                     .then(res => res.json())
                     .then((data) => {
                         this.setState({ dst_items: data})
@@ -42,7 +42,7 @@ class SearchConnections extends React.Component {
                     }) 
             }
             else if(e.target.id === "src"){
-                fetch('http://127.0.0.1:8000/list-of-stations/?fnd='+e.target.value)
+                fetch('http://127.0.0.1:8000/station/?search='+e.target.value)
                 .then(res => res.json())
                 .then((data) => {
                     this.setState({ src_items: data})
@@ -55,7 +55,7 @@ class SearchConnections extends React.Component {
 
 
     addToDst = (id) => {
-        const item = this.state.dst_items.find(item => item.id === id);
+        const item = this.state.dst_items.results.find(item => item.id === id);
         console.log(item)
         this.setState({
             dst: item.name,
@@ -65,7 +65,7 @@ class SearchConnections extends React.Component {
     }
 
     addToSrc = (id) => {
-        const item = this.state.src_items.find(item => item.id === id);
+        const item = this.state.src_items.results.find(item => item.id === id);
         console.log(item)
         this.setState({
             src: item.name,

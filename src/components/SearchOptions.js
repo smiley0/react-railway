@@ -2,7 +2,16 @@ import React from 'react';
 import './SearchOptions.css';
 
 function SearchOptions({type, len, options, addToDst}) {
-  const optionsList = options.map(option => {
+  console.log(">>>>>>>>>>>>>>>Options<<<<<<<<<<<<<<<<<")
+  console.log(options.results)
+  if(options.results === undefined){
+    return(
+      <ul className={type}>
+    </ul>
+    );
+  }
+  else{
+  const optionsList = options.results.map(option => {
     return(
           <li onClick={() => {addToDst(option.id)}} key={option.id}><b>{option.name.substring(0,len)}</b>{option.name.substring(len)}</li>
     )
@@ -12,6 +21,7 @@ function SearchOptions({type, len, options, addToDst}) {
       {optionsList}
     </ul>
   );
+}
 }
 
 export default SearchOptions;

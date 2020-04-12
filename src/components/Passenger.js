@@ -297,22 +297,26 @@ class SelectSeats extends React.Component {
   class Train extends React.Component {
       state = {
           displayCarriage: NaN,
+          carriage: {},
       }
     
-    showCarriage = (e, id) => {
+    showCarriage = (e, id, carriage) => {
         if(isNaN(this.state.displayCarriage)){
             this.setState({
                 displayCarriage: id,
+                carriage: carriage,
             })
         }
         else if(this.state.displayCarriage === id){
             this.setState({
                 displayCarriage: NaN,
+                carriage: {},
             })
         }
         else{
             this.setState({
                 displayCarriage: id,
+                carriage: carriage,
             })
         }
     }
@@ -331,7 +335,7 @@ class SelectSeats extends React.Component {
             console.log("carriage")
             console.log(carriage)
         return(
-                <li key={i} onClick={(e)=>{this.showCarriage(e, carriage.id)}}>
+                <li key={i} onClick={(e)=>{this.showCarriage(e, carriage.id, carriage)}}>
                     <div className={'class'+carriage.type+ ' wagon'}>
                         <span>cislo vozna: {carriage.number}</span>
                         <span>trieda: {carriage.type}</span>
@@ -366,9 +370,35 @@ class SelectSeats extends React.Component {
   }
 
 class Carriage extends React.Component {
+    state = {
+        isLoaded: false,
+        seatsReservation: {},
+    }
     
-  
+    componentDidMount(){
+        var date = this.props.date.split(".");
+        var dateformat = date[2]+'-'+date[1]+'-'+date[0];
+        fetch("http://127.0.0.1:8000/carriage-assignment/"+this.props.number+"/reservations/?from="+this.props.from+"&to="+this.props.to+"&date="+dateformat)
+        .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    isLoaded: true,
+                    seatsReservation: json,
+                })
+            });
+    }
   render(){
+    if (!this.state.isLoaded) {
+        return (
+        <div className='center bigLoad'>
+            <Loading></Loading>
+        </div>
+        )
+    }
+    else{
+        console.log("SEATA RESERVATION")
+        console.log(this.state.seatsReservation)
+        console.log(this.props.date)
       return (
       <div>
             <p>{this.props.number}</p>
@@ -377,5 +407,6 @@ class Carriage extends React.Component {
             <p>{this.props.date}</p>
       </div>
       );
+    }
   }
 }
