@@ -1,0 +1,137 @@
+.passengerMain {
+    width: 700px;
+}
+.passenger h1 {
+    color: rgb(200, 0, 0);
+    text-align: center;
+}
+.passenger .gray {
+    color: gray;
+    font-size: 0.8em;
+}
+.passengers td {
+    width: 25%;
+}
+.passenger input {
+    width: 88%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding-left: 10%;
+    font-size: 1.2em;
+}
+.passenger .remove {
+    width: 100%;
+    font-size: 1.2em;
+    padding: 8px 20px;
+    border: 2px solid red;
+    border-radius: 8px;
+    background-color: white;
+}
+.passenger thead {
+    font-size: 1.2em;
+    color: #c80000;
+}
+.passenger .addmore {
+    width: 99%;
+    background-color: red;
+    color: white;
+    padding: 10px 0px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    margin-left: 0.5%;
+}
+.passengers {
+    margin-bottom: 40px;
+}
+.selectType {
+    width: 168px;
+    list-style: none;
+    position: absolute;
+    z-index: 1;
+    margin: 0;
+    padding:0;
+}
+.selectType li {
+    padding: 5px 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+.selectType li:first-child{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.selectType li:last-child{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.passenger .checkBox {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: gray;
+    display: block;
+    margin-bottom: 30px;
+}
+.passenger .checkBox:hover {
+    color: #c80000;
+}
+.passenger .checkBox input {
+    width: auto;
+    height: auto;
+}
+/*##############*/
+.connection .itembox {
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px dashed black;
+}
+.connection .lsbox {
+    width: 56%;
+    margin: 2%;
+}
+.connection .rsbox {
+    width: 40%;
+    height: 100%;
+    
+    position: absolute;
+    right: 0;
+    top: 0;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /*border-left: 1px dashed black;*/
+}
+.connection .rsbox .buy{
+    background-color: red;
+    padding: 15px 55px;
+    color: white;
+    font-weight: bold;
+}
+
+.connection table {
+    width: 100%;
+    /*border-bottom: 1px dashed black;*/
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+.connection table td{
+    text-align: center;
+}
+.connection table td:last-child{
+    text-align: right;
+}
+.detailInfo p{
+    margin: 0;
+}
+.detailInfo p:first-child{
+    width: 60%;
+}
+.detailInfo p:last-child{
+    width: 40%;
+    text-align: right;
+}
+

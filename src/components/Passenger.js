@@ -1,6 +1,7 @@
 import React from 'react'
 import Loading from './Loading'
 import {connect} from 'react-redux'
+import './Passenger.css'
 
 class Passenger extends React.Component {
     state = {
@@ -115,43 +116,48 @@ class Passenger extends React.Component {
         }
         else{
             return (
-                <div className='passenger'>
-                <h2>Informácie o cestujúcich ({this.state.tablerows2.length} osoba)</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Meno</th>
-                            <th>Priezvisko</th>
-                            <th>Typ</th>
-                            <th>Zmazat?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.tablerows2.map((r) => (
-                            <tr key={r.id}>
-                            <td><input id="fname" type="text" value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].fname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
-                            <td><input id="lname" type="text" value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].lname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
-                            <td><div><input onClick={() => {this.toggleShow(r.id)}} placeholder='Vyber' value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].type} onChange={this.handleChange}></input>
-                                    
-                                    {(this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].showType)?<SelectType moreOptions={this.state.passenger_types.results} addType={this.addType} id={r.id}></SelectType>:null}
-                                    </div></td>
-                            <td><button onClick={() => {this.removeRow(r.id)}}>zmaz</button></td>
-                            </tr>
-                        ))}
-                        <tr>
-                            <td><button onClick={this.addRow}>pridat dalsieho cestujuceho</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <form action="/action_page.php">
-                    <label htmlFor="reservation"> Chcem rezervovat miesta</label>
-                    <input onChange={this.onReservation} type="checkbox" id="reservation" name="reservation" value="reservation"></input>
-                </form>
+                <div className='passenger center'>
+                <div className='passengerMain'>
+                <h1>Informácie o cestujúcich <span className='gray'>({this.state.tablerows2.length} {/*(this.state.tablerows2.length === 1)?"osoba":"osoby"*/}cestujúci)</span></h1>
+                <div className='passengers'>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Meno</th>
+                                    <th>Priezvisko</th>
+                                    <th>Typ</th>
+                                    <th>Odstrániť?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.tablerows2.map((r) => (
+                                    <tr key={r.id}>
+                                    <td><input id="fname" type="text" value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].fname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
+                                    <td><input id="lname" type="text" value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].lname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
+                                    <td><div><input onClick={() => {this.toggleShow(r.id)}} placeholder='Vyber' value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].type} onChange={this.handleChange}></input>
+                                            
+                                            {(this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].showType)?<SelectType moreOptions={this.state.passenger_types.results} addType={this.addType} id={r.id}></SelectType>:null}
+                                            </div></td>
+                                    <td><button className='remove' onClick={() => {this.removeRow(r.id)}}>zmaz</button></td>
+                                    </tr>
+                                ))}
+                                
+                            </tbody>
+                                
+                                
+                        </table>
+                <button className='addmore' onClick={this.addRow}>pridat dalsieho cestujuceho</button>
+                </div>
+                <label className='checkBox' htmlFor="reservation"> 
+                Chcem rezervovat miesta                
+                <input onChange={this.onReservation} type="checkbox" id="reservation" name="reservation" value="reservation"></input>                
+                </label>
                 {(this.state.reservation)?
                 <div>{this.props.connectionInfo.transfer_history.map((item, index) => (
                     <TrainSegment key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
                 ))}</div>
                 :null}
+                </div>
                 </div>
             )
         }
@@ -187,7 +193,7 @@ export default connect(mapStateToProps)(Passenger)
       )
     })
     return (
-      <ul>
+      <ul className='selectType'>
         {optionsList}
       </ul>
     );
@@ -213,9 +219,9 @@ export default connect(mapStateToProps)(Passenger)
         var sum_time_string = new Date(reserve_arr_t.getTime()-reserve_dep_t.getTime()).toISOString().slice(11, 16)
         console.log(sum_time_string)
         return(
-            <div>
-                <div onClick={this.toggleShow}>
-                    <div>
+            <div className='connection'>
+                <div className='itembox' onClick={this.toggleShow}>
+                    <div className='left lsbox'>
                         <table>
                             <tbody>
                                 <tr>
@@ -231,12 +237,14 @@ export default connect(mapStateToProps)(Passenger)
                             </tbody>
                         </table>
                         <div className="detailInfo">                
-                            <p>Čas cesty: {sum_time_string.substring(0,2)} hod. {sum_time_string.substring(3)} min.</p>
-                            <p>Vzdialenosť: {this.props.item.stop_to.distance-this.props.item.stop_from.distance} km</p>
+                            <p className='left'>Čas cesty: {sum_time_string.substring(0,2)} hod. {sum_time_string.substring(3)} min.</p>
+                            <p className='left'>Vzdialenosť: {this.props.item.stop_to.distance-this.props.item.stop_from.distance} km</p>
                         </div> 
                     </div>
-                    <div>
-                        <p>VYBRAT MIESTO</p>
+                    <div className='left rsbox'>
+                        <div className='buy'>
+                            <p>VYBRAT MIESTO</p>
+                        </div>
                     </div>
                 </div>
                 {(this.state.isShow)?<SelectSeats item={this.props.item} date={this.props.date}></SelectSeats>:null}
