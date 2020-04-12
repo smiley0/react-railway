@@ -328,11 +328,14 @@ class SelectSeats extends React.Component {
     
     render(){
         const optionsList = this.props.info.carriages.map((carriage, i) => {
+            console.log("carriage")
+            console.log(carriage)
         return(
                 <li key={i} onClick={(e)=>{this.showCarriage(e, carriage.id)}}>
-                    <div>
-                        <p>{carriage.number}</p>
-                        <p>{carriage.seats}</p>
+                    <div className={'class'+carriage.type+ ' wagon'}>
+                        <span>cislo vozna: {carriage.number}</span>
+                        <span>trieda: {carriage.type}</span>
+                        <span>pocet miest: {carriage.seats}</span>
                     </div>
                 </li>
         )
@@ -345,12 +348,13 @@ class SelectSeats extends React.Component {
         var fromID = this.findStationID(this.props.info.stops, this.props.from);
         var toID = this.findStationID(this.props.info.stops, this.props.to);
         return (
-        <div>
+        <div className='train'>
         <ul>
             <li key="9999">
-                <div>
-                    <p>{this.props.info.category_short} {this.props.info.number}</p>
-                    <p>{this.props.info.name}</p>
+                <div className='engine'>
+                    <span>{this.props.info.category_short} {this.props.info.number}</span>
+                    <span>{this.props.info.name}</span>
+                    <span>&#8203;</span>
                 </div>
             </li>
             {optionsList}
