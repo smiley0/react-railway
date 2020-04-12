@@ -298,7 +298,6 @@ class SelectSeats extends React.Component {
       state = {
           displayCarriage: NaN,
           carriage: {},
-          reload: 0,
           reservations: [],
           isLoaded: false,
           loading: []
@@ -341,25 +340,33 @@ class SelectSeats extends React.Component {
       }
     
     showCarriage = (e, id, carriage) => {
+        let carriageInfo = {};
         if(isNaN(this.state.displayCarriage)){
+            for(let i = 0; i<this.state.reservations.length; i+=1){
+                if(this.state.reservations[i].id === id){
+                    carriageInfo = this.state.reservations[i]
+                }
+            }
             this.setState({
                 displayCarriage: id,
-                carriage: carriage,
-                reload: 0,
+                carriage: carriageInfo,
             })
         }
         else if(this.state.displayCarriage === id){
             this.setState({
                 displayCarriage: NaN,
-                carriage: {},
-                reload: 0,
+                carriage: carriageInfo,
             })
         }
         else{
+            for(let i = 0; i<this.state.reservations.length; i+=1){
+                if(this.state.reservations[i].id === id){
+                    carriageInfo = this.state.reservations[i]
+                }
+            }
             this.setState({
                 displayCarriage: id,
-                carriage: carriage,
-                reload: 1,
+                carriage: carriageInfo,
             })
         }
     }
@@ -389,6 +396,11 @@ class SelectSeats extends React.Component {
             for(let i = 0; i<this.state.reservations.length; i+=1){
                 if(this.state.reservations[i].id === carriage.id){
                     free = free - this.state.reservations[i].result.length
+                    var obj = this.state.reservations
+                    obj[i].seats = carriage.seats;
+                    obj[i].type = carriage.type;
+                    //this.setState({reservation: obj})
+
                 }
             }
         return(
@@ -401,10 +413,7 @@ class SelectSeats extends React.Component {
                 </li>
         )
         })
-        console.log("??????reservations???????????")
-        console.log(this.state.reservations)
-        var fromID = this.findStationID(this.props.info.stops, this.props.from);
-        var toID = this.findStationID(this.props.info.stops, this.props.to);
+
         return (
         <div className='train'>
         <ul>
@@ -417,7 +426,7 @@ class SelectSeats extends React.Component {
             </li>
             {optionsList}
         </ul>
-        {(!isNaN(this.state.displayCarriage))?<Carriage date={this.props.date} from={fromID} to={toID} number={this.state.displayCarriage} reload={this.state.reload}></Carriage>:null}
+        {(!isNaN(this.state.displayCarriage))?<Carriage info={this.state.carriage} ></Carriage>:null}
         </div>
         );
         }
@@ -426,43 +435,18 @@ class SelectSeats extends React.Component {
 
 class Carriage extends React.Component {
     state = {
-        isLoaded: false,
         seatsReservation: {},
     }
     
-    componentDidMount(){
-        var date = this.props.date.split(".");
-        var dateformat = date[2]+'-'+date[1]+'-'+date[0];
-        fetch("http://127.0.0.1:8000/carriage-assignment/"+this.props.number+"/reservations/?from="+this.props.from+"&to="+this.props.to+"&date="+dateformat)
-        .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    isLoaded: true,
-                    seatsReservation: json,
-                })
-            });
-    }
+    
   render(){
-    if (!this.state.isLoaded) {
-        return (
-        <div className='center bigLoad'>
-            <Loading></Loading>
-        </div>
-        )
-    }
-    else{
         console.log("SEATA RESERVATION")
-        console.log(this.state.seatsReservation)
-        console.log(this.props.date)
+        console.log(this.props.info)
       return (
       <div>
-            <p>{this.props.number}</p>
-            <p>{this.props.from}</p>
-            <p>{this.props.to}</p>
-            <p>{this.props.date}</p>
-            <p>{this.props.reload}</p>
+            <p>info</p>
       </div>
       );
     }
-  }
+  
 }
