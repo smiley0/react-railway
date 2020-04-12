@@ -1,5 +1,5 @@
-.passengerMain {
-    width: 700px;
+.passenger {
+    overflow: hidden;
 }
 .passenger h1 {
     color: rgb(200, 0, 0);
@@ -177,4 +177,78 @@
 */
 .train span {
     display: block;
+}
+/*#################*/
+.seats-60{
+    width: 96%;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 2%;
+}
+.seats-60 .width{
+    width: 5%;
+    height: 25%;
+    float: left;
+}
+.seat {
+    width: 60%;
+    height: 80%;
+    margin: 0 10%;
+    text-align: center;
+}
+.s-left {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+.s-right {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.free {
+    background-color: rgb(180, 255, 180);
+    border: 1px solid green;
+}
+.reserved{
+    background-color: rgb(255, 180, 180);
+    border: 1px solid red;
+}
+.intro {
+    overflow: hidden;
+}
+.intro .remove-x {
+    padding-top: 15px;
+    size: 9em;
+    float: right;
+}
+.intro .remove-x:hover{
+    color: rgb(200, 0, 0);
+}
+.intro h2 {
+    float: left;
+}
+
+
+.passengerMain {
+    width: 700px;
+    float: left;
+}
+.passengerTotal {
+    width: 324px;
+    float: left;
+}
+.passengerTotal .context {
+    margin-left: 24px;
+    margin-top: 30px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    height: 350px;
+}
+.context h1{
+    text-align: center;
+    background-color: rgb(250, 0, 0);
+    color: white;
+    margin-top: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }

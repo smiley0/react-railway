@@ -158,6 +158,11 @@ class Passenger extends React.Component {
                 ))}</div>
                 :null}
                 </div>
+                <div className="passengerTotal">
+                    <div className='context'>
+                        <h1>Prehlad</h1>
+                    </div>
+                </div>
                 </div>
             )
         }
@@ -284,7 +289,10 @@ class SelectSeats extends React.Component {
             console.log(this.state.trainInfo)
             return (
                 <div>
-                  <h2>Zvol si vozen</h2>
+                    <div className="intro">
+                        <h2>Vyber si vozen</h2>
+                        <i className="remove-x far fa-times-circle fa-2x"></i>
+                    </div>
                   <Train info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
                 </div>
               )
@@ -435,18 +443,79 @@ class SelectSeats extends React.Component {
 
 class Carriage extends React.Component {
     state = {
-        seatsReservation: {},
+        className: [],
     }
     
     
   render(){
-        console.log("SEATA RESERVATION")
         console.log(this.props.info)
-      return (
-      <div>
-            <p>info</p>
-      </div>
-      );
+        let result = [];
+        if(this.props.info.seats === 60){
+            /*
+            const optionsList = moreOptions.map((option, i) => {
+                return(
+                      <li key={i} onClick={()=>{addType(id, option.name)}}>{option.name}</li>
+                )
+              })
+            */
+            for(let i=1; i <= this.props.info.seats; i+=1){
+                let element = {}
+                element.i = i;
+                element.state = "free"
+                for(let x of this.props.info.result){
+                    console.log(i)
+                    console.log(x.seat_number)
+                    if(i === x.seat_number){
+                        console.log("RESERVED")
+                        element.state = "reserved"
+                    }
+                }
+                if(i%2===1){
+                    element.position = "s-left";
+                }
+                else{
+                    element.position = "s-right";
+                }
+                this.state.className.push(element)
+                //result.push(<div key={i}>{i}</div>)  
+            }
+            result = this.state.className.map((classes, i) => {
+                return (
+                    <div key={classes.i} className='width'>
+                        <div className={'seat ' + classes.state +' '+ classes.position}>
+                            {classes.i}
+                        </div>
+                    </div>
+                )
+            })
+            console.log(this.state.className)
+            return (
+                <div>
+                    <div className="intro">
+                        <h2>Vyber si miesto</h2>
+                        <i className="remove-x far fa-times-circle fa-2x"></i>
+                    </div>
+                    <div className="seats-60">
+                        {result}
+                    </div>
+                </div>
+            );
+        }
+        else if(this.props.info.seats === 48){
+            return (
+                <div>
+                      <p>{this.props.info.seats}</p>
+                </div>
+                );
+        }
+        else{
+            return (
+                <div>
+                      <p>info</p>
+                </div>
+                );
+        }
+      
     }
   
 }
