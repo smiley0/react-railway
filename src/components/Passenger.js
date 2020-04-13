@@ -21,15 +21,6 @@ class Passenger extends React.Component {
                     passenger_types: json,
                 })
             });
-        console.log("------")
-        console.log(this.addTrains())    
-         /*   
-        var rows = this.state.passengers[0];
-        rows.trains = this.addTrains()
-        this.setState({
-            passengers: rows
-        })
-        */
        
        this.setState({
            trains: this.addTrains(),
@@ -42,7 +33,7 @@ class Passenger extends React.Component {
         let trains = this.props.connectionInfo.transfer_history
         for(let i =0;i<trains.length;i+=1){
 
-            T.push({train: trains[i].train.number, users: [{id: 0, reserved: false,}]})
+            T.push({train: trains[i].train.number, users: [{id: 0, reserved: false, carriageID:null, seatID:null,}]})
         }
         return T;
     }
@@ -59,7 +50,7 @@ class Passenger extends React.Component {
 
         var trains = this.state.trains
         for(let i =0;i<trains.length;i+=1){
-            trains[i].users.push({id: nextId, reserved: false,})
+            trains[i].users.push({id: nextId, reserved: false, carriageID:null, seatID:null,})
         }
         this.setState({
             trains: trains,
@@ -87,13 +78,10 @@ class Passenger extends React.Component {
             })
 
             var trains = this.state.trains
-            console.log("mazem")
             for(let k =0;k<trains.length;k+=1){
                 for(let j=0; j< trains[k].users.length; j+=1){
                     if(trains[k].users[j].id === i){
-                        console.log("zhoda")
                         trains[k].users.splice(j, 1);
-                        console.log(trains)
                     }
                 }
             }
@@ -150,8 +138,6 @@ class Passenger extends React.Component {
     }
 
     render(){
-        console.log("trains-users")
-        console.log(this.state.trains)
         if (!this.state.isLoaded) {
             return (
             <div className='center bigLoad'>
@@ -199,7 +185,7 @@ class Passenger extends React.Component {
                 </label>
                 {(this.state.reservation)?
                 <div>{this.props.connectionInfo.transfer_history.map((item, index) => (
-                    <TrainSegment passengers={this.state.passengers} key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
+                    <TrainSegment trains={this.state.trains} passengers={this.state.passengers} key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
                 ))}</div>
                 :null}
                 </div>
@@ -283,7 +269,7 @@ export default connect(mapStateToProps)(Passenger)
                         </div>
                     </div>
                 </div>
-                {(this.state.isShow)?<SelectSeats passengers={this.props.passengers} hide={this.hideTrain} item={this.props.item} date={this.props.date}></SelectSeats>:null}
+                {(this.state.isShow)?<SelectSeats trains={this.props.trains} passengers={this.props.passengers} hide={this.hideTrain} item={this.props.item} date={this.props.date}></SelectSeats>:null}
             </div>
         )
     }
@@ -320,7 +306,7 @@ class SelectSeats extends React.Component {
                         <h2>Vyber si vozen</h2>
                         <i onClick={this.props.hide} className="remove-x far fa-times-circle fa-2x"></i>
                     </div>
-                  <Train passengers={this.props.passengers} info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
+                  <Train trains={this.props.trains} passengers={this.props.passengers} info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
                 </div>
               )
         }
@@ -469,7 +455,7 @@ class SelectSeats extends React.Component {
             </li>
             {optionsList}
         </ul>
-        {(!isNaN(this.state.displayCarriage))?<Carriage passengers={this.props.passengers} hide={this.hideCarriage} id={this.state.displayCarriage} info={this.state.carriage} trainID={this.props.info.number} ></Carriage>:null}
+        {(!isNaN(this.state.displayCarriage))?<Carriage trains={this.props.trains} passengers={this.props.passengers} hide={this.hideCarriage} id={this.state.displayCarriage} info={this.state.carriage} trainID={this.props.info.number} carriageID={this.state.displayCarriage} ></Carriage>:null}
         </div>
         );
         }
@@ -510,25 +496,55 @@ class Carriage extends React.Component {
             })
         }
     }
+
+    makeReservation = (uid, sid) => {
+        console.log(uid)
+        console.log(sid)
+        console.log(this.props.carriageID)
+        console.log(this.props.trainID)
+
+        console.log(this.props.trains)
+        for(let i=0; i< this.props.trains.length; i+=1){
+            if(this.props.trains[i].train === this.props.trainID){
+                this.props.trains[i].users[uid].reserved = true;
+                this.props.trains[i].users[uid].carriageID = this.props.carriageID;
+                this.props.trains[i].users[uid].seatID = sid; 
+            }
+        }
+    }
     
     
   render(){
+      let cOrder;
+    for(let i=0; i< this.props.trains.length; i+=1){
+        if(this.props.trains[i].train === this.props.trainID){
+            cOrder = i;
+            break;
+        }
+    }
         if(this.props.info.seats === 60){
-            /*
-            const optionsList = moreOptions.map((option, i) => {
-                return(
-                      <li key={i} onClick={()=>{addType(id, option.name)}}>{option.name}</li>
-                )
-              })
-            */
+           
             let listOfPassengers = [];
             for(let i=0; i<this.props.passengers.length; i+=1){
                 listOfPassengers.push(this.props.passengers[i].fname + ' ' + this.props.passengers[i].lname)
             }
             let result = this.state.className.map((classes, i) => {
-                return (
-                    <Seat key={classes.i} passengers={listOfPassengers} classes={classes}></Seat>
-                )
+                for(let j =0;this.props.trains[cOrder].users.length; j+=1){
+                    console.log("cyklus")
+                    console.log(this.props.trains[cOrder].users[j].seatID )
+                    if(this.props.trains[cOrder].users[j].seatID === i+1){
+                        let newClasses = classes
+                        newClasses.state = 'maybe'
+                        return (
+                            <Seat key={classes.i} train={this.props.trains[cOrder]} makeReservation={this.makeReservation} passengers={listOfPassengers} classes={newClasses}></Seat>
+                        )
+                    }
+                    else{
+                        return (
+                            <Seat key={classes.i} train={this.props.trains[cOrder]} makeReservation={this.makeReservation} passengers={listOfPassengers} classes={classes}></Seat>
+                        )
+                    }
+                }
             })
             return (
                 <div>
@@ -589,22 +605,32 @@ class Seat extends React.Component {
         })
     }
 
+    bookSeat = (i) => {
+        this.setState({
+            selected: false,
+        })
+        console.log({user: i, seat: this.props.classes.i})
+        this.props.makeReservation(i, this.props.classes.i)
+    }
+
     render(){
+        let reservation = this.state.reservation 
+
         return(
             <div className='width'>
-                <div onClick={this.selectSeat} className={'seat ' + this.state.reservation +' '+ this.props.classes.position}>
+                <div onClick={this.selectSeat} className={'seat ' + reservation +' '+ this.props.classes.position}>
                     {this.props.classes.i}
                 </div>
-                {(this.state.selected & this.props.classes.state === 'free')?<PassengerOptions passengers={this.props.passengers}></PassengerOptions>:null}
+                {(this.state.selected & this.props.classes.state === 'free')?<PassengerOptions bookSeat={this.bookSeat} passengers={this.props.passengers}></PassengerOptions>:null}
             </div>
         )
     }
 }
 
-function PassengerOptions({passengers}) {
+function PassengerOptions({passengers, bookSeat}) {
     const passengersList = passengers.map((option, i) => {
       return(
-            <li key={i}>{option}</li>
+            <li onClick={() => {bookSeat(i)}} key={i}>{option}</li>
       )
     })
     return (
