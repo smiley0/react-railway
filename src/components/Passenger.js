@@ -8,7 +8,8 @@ class Passenger extends React.Component {
       reservation: false,
       isLoaded: false,
       passenger_types: [],
-      passengers: [{id:0,fname:"",lname:"", type:"", reservation:{}, showType:false}]
+      passengers: [{id:0,fname:"",lname:"", type:"", showType:false}],
+      trains: [],
     }
 
     componentDidMount(){
@@ -20,15 +21,48 @@ class Passenger extends React.Component {
                     passenger_types: json,
                 })
             });
+        console.log("------")
+        console.log(this.addTrains())    
+         /*   
+        var rows = this.state.passengers[0];
+        rows.trains = this.addTrains()
+        this.setState({
+            passengers: rows
+        })
+        */
+       
+       this.setState({
+           trains: this.addTrains(),
+       })
+    }
+
+    addTrains = () => {
+        
+        let T = []
+        let trains = this.props.connectionInfo.transfer_history
+        for(let i =0;i<trains.length;i+=1){
+
+            T.push({train: trains[i].train.number, users: [{id: 0, reserved: false,}]})
+        }
+        return T;
     }
 
     addRow = () => {
         var rows = this.state.passengers;
         const nextId = this.state.passengers[this.state.passengers.length-1].id + 1;
-        const newrow = {id: nextId,fname:"",lname:"", type:"", reservation:{}};
+        const newrow = {id: nextId,fname:"",lname:"", type:""};
+        newrow.trains = this.addTrains()
         rows.push(newrow)
         this.setState({
             passengers: rows
+        })
+
+        var trains = this.state.trains
+        for(let i =0;i<trains.length;i+=1){
+            trains[i].users.push({id: nextId, reserved: false,})
+        }
+        this.setState({
+            trains: trains,
         })
     }
 
@@ -51,11 +85,29 @@ class Passenger extends React.Component {
             this.setState({
                 passengers: rows
             })
+
+            var trains = this.state.trains
+            console.log("mazem")
+            for(let k =0;k<trains.length;k+=1){
+                for(let j=0; j< trains[k].users.length; j+=1){
+                    if(trains[k].users[j].id === i){
+                        console.log("zhoda")
+                        trains[k].users.splice(j, 1);
+                        console.log(trains)
+                    }
+                }
+            }
+            this.setState({
+                trains: trains,
+            })
         }
         else{
             const row = [{id: 0,fname:"",lname:"", type:""}];
             this.setState({
                 passengers: row
+            })
+            this.setState({
+                trains: this.addTrains(),
             })
         }
     }
@@ -89,6 +141,8 @@ class Passenger extends React.Component {
             rows[index].lname = e.target.value;
             this.setState({passengers: rows})
         }
+
+
     }
 
     onReservation = (e) => {
@@ -96,6 +150,8 @@ class Passenger extends React.Component {
     }
 
     render(){
+        console.log("trains-users")
+        console.log(this.state.trains)
         if (!this.state.isLoaded) {
             return (
             <div className='center bigLoad'>
@@ -314,6 +370,7 @@ class SelectSeats extends React.Component {
         else{
             this.setState({isLoaded: true,})
         }
+        //this.props.
       }
     
     showCarriage = (e, id, carriage) => {
@@ -464,8 +521,6 @@ class Carriage extends React.Component {
                 )
               })
             */
-            console.log("INFO")
-            console.log(this.props.info)
             let listOfPassengers = [];
             for(let i=0; i<this.props.passengers.length; i+=1){
                 listOfPassengers.push(this.props.passengers[i].fname + ' ' + this.props.passengers[i].lname)
@@ -535,7 +590,6 @@ class Seat extends React.Component {
     }
 
     render(){
-        console.log(this.props.passengers)
         return(
             <div className='width'>
                 <div onClick={this.selectSeat} className={'seat ' + this.state.reservation +' '+ this.props.classes.position}>
