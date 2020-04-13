@@ -8,7 +8,7 @@ class Passenger extends React.Component {
       reservation: false,
       isLoaded: false,
       passenger_types: [],
-      tablerows2: [{id:0,fname:"",lname:"", type:"", showType:false}]
+      passengers: [{id:0,fname:"",lname:"", type:"", reservation:{}, showType:false}]
     }
 
     componentDidMount(){
@@ -23,12 +23,12 @@ class Passenger extends React.Component {
     }
 
     addRow = () => {
-        var rows = this.state.tablerows2;
-        const nextId = this.state.tablerows2[this.state.tablerows2.length-1].id + 1;
+        var rows = this.state.passengers;
+        const nextId = this.state.passengers[this.state.passengers.length-1].id + 1;
         const newrow = {id: nextId,fname:"",lname:"", type:""};
         rows.push(newrow)
         this.setState({
-            tablerows2: rows
+            passengers: rows
         })
     }
 
@@ -42,52 +42,52 @@ class Passenger extends React.Component {
     }
 
     removeRow = (i) =>{
-        if(this.state.tablerows2.length > 1){
-            var rows = this.state.tablerows2
+        if(this.state.passengers.length > 1){
+            var rows = this.state.passengers
             const index = this.findID(rows, i);
             if (index > -1) {
                 rows.splice(index, 1);
             }            
             this.setState({
-                tablerows2: rows
+                passengers: rows
             })
         }
         else{
             const row = [{id: 0,fname:"",lname:"", type:""}];
             this.setState({
-                tablerows2: row
+                passengers: row
             })
         }
     }
 
     toggleShow = (id) => {
-        var index = this.findID(this.state.tablerows2, id);
-        var rows = this.state.tablerows2;
+        var index = this.findID(this.state.passengers, id);
+        var rows = this.state.passengers;
         rows[index].showType = !rows[index].showType;
         this.setState({
-            tablerows2: rows
+            passengers: rows
         })
       };
 
     addType = (id, type) => {
-        var rows = this.state.tablerows2;
-        var index = this.findID(this.state.tablerows2, id);
+        var rows = this.state.passengers;
+        var index = this.findID(this.state.passengers, id);
         rows[index].type = type;
         this.setState({
-            tablerows2: rows
+            passengers: rows
         })
         this.toggleShow(id)
     }
     handleChange = (e, id) => {
-        var rows = this.state.tablerows2;
-        var index = this.findID(this.state.tablerows2, id);
+        var rows = this.state.passengers;
+        var index = this.findID(this.state.passengers, id);
         if(e.target.id === "fname"){
             rows[index].fname = e.target.value;
-            this.setState({tablerows2: rows})
+            this.setState({passengers: rows})
         }
         else if(e.target.id === "lname"){
             rows[index].lname = e.target.value;
-            this.setState({tablerows2: rows})
+            this.setState({passengers: rows})
         }
     }
 
@@ -107,7 +107,7 @@ class Passenger extends React.Component {
             return (
                 <div className='passenger center'>
                 <div className='passengerMain'>
-                <h1>Informácie o cestujúcich <span className='gray'>({this.state.tablerows2.length} {/*(this.state.tablerows2.length === 1)?"osoba":"osoby"*/}cestujúci)</span></h1>
+                <h1>Informácie o cestujúcich <span className='gray'>({this.state.passengers.length} {/*(this.state.passengers.length === 1)?"osoba":"osoby"*/}cestujúci)</span></h1>
                 <div className='passengers'>
                         <table>
                             <thead>
@@ -119,13 +119,13 @@ class Passenger extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.tablerows2.map((r) => (
+                                {this.state.passengers.map((r) => (
                                     <tr key={r.id}>
-                                    <td><input id="fname" type="text" value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].fname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
-                                    <td><input id="lname" type="text" value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].lname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
-                                    <td><div><input onClick={() => {this.toggleShow(r.id)}} placeholder='Vyber' value={this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].type} onChange={this.handleChange}></input>
+                                    <td><input id="fname" type="text" value={this.state.passengers[this.findID(this.state.passengers, r.id)].fname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
+                                    <td><input id="lname" type="text" value={this.state.passengers[this.findID(this.state.passengers, r.id)].lname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
+                                    <td><div><input onClick={() => {this.toggleShow(r.id)}} placeholder='Vyber' value={this.state.passengers[this.findID(this.state.passengers, r.id)].type} onChange={this.handleChange}></input>
                                             
-                                            {(this.state.tablerows2[this.findID(this.state.tablerows2, r.id)].showType)?<SelectType moreOptions={this.state.passenger_types.results} addType={this.addType} id={r.id}></SelectType>:null}
+                                            {(this.state.passengers[this.findID(this.state.passengers, r.id)].showType)?<SelectType moreOptions={this.state.passenger_types.results} addType={this.addType} id={r.id}></SelectType>:null}
                                             </div></td>
                                     <td><button className='remove' onClick={() => {this.removeRow(r.id)}}>zmaz</button></td>
                                     </tr>
@@ -143,7 +143,7 @@ class Passenger extends React.Component {
                 </label>
                 {(this.state.reservation)?
                 <div>{this.props.connectionInfo.transfer_history.map((item, index) => (
-                    <TrainSegment key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
+                    <TrainSegment passengers={this.state.passengers} key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
                 ))}</div>
                 :null}
                 </div>
@@ -227,7 +227,7 @@ export default connect(mapStateToProps)(Passenger)
                         </div>
                     </div>
                 </div>
-                {(this.state.isShow)?<SelectSeats hide={this.hideTrain} item={this.props.item} date={this.props.date}></SelectSeats>:null}
+                {(this.state.isShow)?<SelectSeats passengers={this.props.passengers} hide={this.hideTrain} item={this.props.item} date={this.props.date}></SelectSeats>:null}
             </div>
         )
     }
@@ -264,7 +264,7 @@ class SelectSeats extends React.Component {
                         <h2>Vyber si vozen</h2>
                         <i onClick={this.props.hide} className="remove-x far fa-times-circle fa-2x"></i>
                     </div>
-                  <Train info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
+                  <Train passengers={this.props.passengers} info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
                 </div>
               )
         }
@@ -412,7 +412,7 @@ class SelectSeats extends React.Component {
             </li>
             {optionsList}
         </ul>
-        {(!isNaN(this.state.displayCarriage))?<Carriage hide={this.hideCarriage} id={this.state.displayCarriage} info={this.state.carriage} ></Carriage>:null}
+        {(!isNaN(this.state.displayCarriage))?<Carriage passengers={this.props.passengers} hide={this.hideCarriage} id={this.state.displayCarriage} info={this.state.carriage} ></Carriage>:null}
         </div>
         );
         }
@@ -423,6 +423,8 @@ class Carriage extends React.Component {
     state = {
         id: NaN,
         className: [],
+        selected: false,
+
     }
 
     componentDidMount = () => {
@@ -465,11 +467,7 @@ class Carriage extends React.Component {
             
             let result = this.state.className.map((classes, i) => {
                 return (
-                    <div key={classes.i} className='width'>
-                        <div className={'seat ' + classes.state +' '+ classes.position}>
-                            {classes.i}
-                        </div>
-                    </div>
+                    <Seat key={classes.i} classes={classes}></Seat>
                 )
             })
             return (
@@ -501,4 +499,45 @@ class Carriage extends React.Component {
       
     }
   
+}
+
+class Seat extends React.Component {
+    state = {
+        selected: false,
+        reservation: "",
+    }
+
+    selectSeat = () => {
+        if(!this.state.selected & this.props.classes.state === 'free'){
+            this.setState({
+                reservation: "maybe",
+            })
+        }
+        else{
+            this.setState({
+                reservation: this.props.classes.state,
+            })
+        }
+        this.setState({
+            selected: !this.state.selected,
+        })
+    }
+
+    componentDidMount = () => {
+        this.setState({
+            reservation: this.props.classes.state,
+        })
+    }
+
+    render(){
+
+        console.log(String(this.state.selected))
+        return(
+            <div className='width'>
+                <div onClick={this.selectSeat} className={'seat ' + this.state.reservation +' '+ this.props.classes.position}>
+                    {this.props.classes.i}
+                </div>
+            </div>
+        )
+    }
 }

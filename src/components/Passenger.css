@@ -161,8 +161,14 @@
     border-radius: 10px;
     border-top-left-radius: 100px;
 }
+.train .engine:hover {
+    cursor: not-allowed;
+}
 .train .wagon {
     border-radius: 10px;
+}
+.train .wagon:hover {
+    cursor: pointer;
 }
 .train .class1 {
     border-color: rgb(211, 182, 20)
@@ -212,6 +218,10 @@
 .reserved{
     background-color: rgb(255, 180, 180);
     border: 1px solid red;
+}
+.maybe {
+    background-color: rgb(255, 168, 137);
+    border: 1px solid orangered;
 }
 .intro {
     overflow: hidden;
