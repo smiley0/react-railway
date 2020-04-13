@@ -23,7 +23,6 @@ class Passenger extends React.Component {
     }
 
     addRow = () => {
-        console.log(this.state.passenger_types.results[0].name)
         var rows = this.state.tablerows2;
         const nextId = this.state.tablerows2[this.state.tablerows2.length-1].id + 1;
         const newrow = {id: nextId,fname:"",lname:"", type:""};
@@ -43,7 +42,6 @@ class Passenger extends React.Component {
     }
 
     removeRow = (i) =>{
-        console.log("odstranujem" + i)
         if(this.state.tablerows2.length > 1){
             var rows = this.state.tablerows2
             const index = this.findID(rows, i);
@@ -72,8 +70,6 @@ class Passenger extends React.Component {
       };
 
     addType = (id, type) => {
-        console.log(id)
-        console.log(type)
         var rows = this.state.tablerows2;
         var index = this.findID(this.state.tablerows2, id);
         rows[index].type = type;
@@ -83,9 +79,6 @@ class Passenger extends React.Component {
         this.toggleShow(id)
     }
     handleChange = (e, id) => {
-        console.log("handleChange"+e.target.id)
-        console.log("handleChange"+e.target.value)
-        console.log(id)
         var rows = this.state.tablerows2;
         var index = this.findID(this.state.tablerows2, id);
         if(e.target.id === "fname"){
@@ -99,14 +92,10 @@ class Passenger extends React.Component {
     }
 
     onReservation = (e) => {
-        console.log(e.target.name)
-        console.log(e.target.checked)
         this.setState({reservation: e.target.checked})
     }
 
     render(){
-        console.log(">>>>>>>>>>>>>>>>")
-        console.log(this.props.connectionInfo)
         if (!this.state.isLoaded) {
             return (
             <div className='center bigLoad'>
@@ -177,20 +166,6 @@ class Passenger extends React.Component {
 }
 
 export default connect(mapStateToProps)(Passenger)
-/*
-  class SelectType extends React.Component {
-    state={
-        isShow: false,
-    }
-    render(){
-      return (
-        <div>
-          <p>dalsie typy</p>
-        </div>
-      )
-    }
-  }
-*/
   function SelectType ({moreOptions, addType,id}) {
     const optionsList = moreOptions.map((option, i) => {
       return(
@@ -211,18 +186,18 @@ export default connect(mapStateToProps)(Passenger)
     toggleShow = () => {
         this.setState(state => ({ isShow: !state.isShow }));
       };
+    hideTrain = () => {
+        this.setState({
+            isShow: false,
+        })
+    }
     render(){
-        //{this.props.item.train.number}
-        console.log(this.props.item.distance)
-        console.log(this.props.date)
         var dmy = this.props.date.split(".");
         var arrival_time = this.props.item.stop_to.arrival_time.split(":");
         var departure_time = this.props.item.stop_from.departure_time.split(":");
         var reserve_arr_t = new Date(dmy[2],dmy[1],dmy[0], arrival_time[0], arrival_time[1])
         var reserve_dep_t = new Date(dmy[2],dmy[1],dmy[0], departure_time[0], departure_time[1])
-        //console.log(reserve_arr_t.getTime()-reserve_dep_t.getTime())
         var sum_time_string = new Date(reserve_arr_t.getTime()-reserve_dep_t.getTime()).toISOString().slice(11, 16)
-        console.log(sum_time_string)
         return(
             <div className='connection'>
                 <div className='itembox' onClick={this.toggleShow}>
@@ -252,7 +227,7 @@ export default connect(mapStateToProps)(Passenger)
                         </div>
                     </div>
                 </div>
-                {(this.state.isShow)?<SelectSeats item={this.props.item} date={this.props.date}></SelectSeats>:null}
+                {(this.state.isShow)?<SelectSeats hide={this.hideTrain} item={this.props.item} date={this.props.date}></SelectSeats>:null}
             </div>
         )
     }
@@ -275,8 +250,6 @@ class SelectSeats extends React.Component {
     }
     
     render(){
-        console.log("TRAIN")
-      console.log(this.props.item)
         if (!this.state.isLoaded) {
             return (
             <div className='center bigLoad'>
@@ -285,13 +258,11 @@ class SelectSeats extends React.Component {
             )
         }
         else{
-
-            console.log(this.state.trainInfo)
             return (
                 <div>
                     <div className="intro">
                         <h2>Vyber si vozen</h2>
-                        <i className="remove-x far fa-times-circle fa-2x"></i>
+                        <i onClick={this.props.hide} className="remove-x far fa-times-circle fa-2x"></i>
                     </div>
                   <Train info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
                 </div>
@@ -304,6 +275,7 @@ class SelectSeats extends React.Component {
 
   class Train extends React.Component {
       state = {
+          actualCarriage: NaN,
           displayCarriage: NaN,
           carriage: {},
           reservations: [],
@@ -316,8 +288,6 @@ class SelectSeats extends React.Component {
         var dateformat = date[2]+'-'+date[1]+'-'+date[0];
         let fromID = this.findStationID(this.props.info.stops, this.props.from);
         let toID = this.findStationID(this.props.info.stops, this.props.to);
-          console.log("carriages")
-          console.log(this.props.info.carriages.length)
           if(this.props.info.carriages.length !== 0) {
             /*
             const loading = []
@@ -327,7 +297,6 @@ class SelectSeats extends React.Component {
             this.setState({loading: loading})
             */
           for(var i = 0; i<this.props.info.carriages.length; i+=1){
-            console.log(this.props.info.carriages[i].id)
             let id = this.props.info.carriages[i].id
             fetch("http://127.0.0.1:8000/carriage-assignment/"+id+"/reservations/?from="+fromID+"&to="+toID+"&date="+dateformat)
             .then(res => res.json())
@@ -366,6 +335,7 @@ class SelectSeats extends React.Component {
                 carriage: carriageInfo,
             })
         }
+        /*
         else{
             for(let i = 0; i<this.state.reservations.length; i+=1){
                 if(this.state.reservations[i].id === id){
@@ -377,6 +347,14 @@ class SelectSeats extends React.Component {
                 carriage: carriageInfo,
             })
         }
+        */
+    }
+
+    hideCarriage = () =>{
+        this.setState({
+            displayCarriage: NaN,
+            carriage: {},
+        })
     }
 
     findStationID(stations, name){
@@ -387,6 +365,8 @@ class SelectSeats extends React.Component {
         }
         return -1;
     }
+
+    
     
     render(){
         if (!this.state.isLoaded) {
@@ -398,8 +378,6 @@ class SelectSeats extends React.Component {
         }
         else{
         const optionsList = this.props.info.carriages.map((carriage, i) => {
-            console.log("carriage")
-            console.log(carriage)
             let free = carriage.seats
             for(let i = 0; i<this.state.reservations.length; i+=1){
                 if(this.state.reservations[i].id === carriage.id){
@@ -434,7 +412,7 @@ class SelectSeats extends React.Component {
             </li>
             {optionsList}
         </ul>
-        {(!isNaN(this.state.displayCarriage))?<Carriage info={this.state.carriage} ></Carriage>:null}
+        {(!isNaN(this.state.displayCarriage))?<Carriage hide={this.hideCarriage} id={this.state.displayCarriage} info={this.state.carriage} ></Carriage>:null}
         </div>
         );
         }
@@ -443,13 +421,39 @@ class SelectSeats extends React.Component {
 
 class Carriage extends React.Component {
     state = {
+        id: NaN,
         className: [],
+    }
+
+    componentDidMount = () => {
+        let result = [];
+        for(let i=1; i <= this.props.info.seats; i+=1){
+            let element = {}
+            element.i = i;
+            element.state = "free"
+            for(let x of this.props.info.result){
+                if(i === x.seat_number){
+                    element.state = "reserved"
+                }
+            }
+            if(i%2===1){
+                element.position = "s-left";
+            }
+            else{
+                element.position = "s-right";
+            }
+            //this.state.className.push(element)
+            result.push(element) 
+        }
+        if(JSON.stringify(result)!==JSON.stringify(this.state.className)){
+            this.setState({
+                className: result,
+            })
+        }
     }
     
     
   render(){
-        console.log(this.props.info)
-        let result = [];
         if(this.props.info.seats === 60){
             /*
             const optionsList = moreOptions.map((option, i) => {
@@ -458,28 +462,8 @@ class Carriage extends React.Component {
                 )
               })
             */
-            for(let i=1; i <= this.props.info.seats; i+=1){
-                let element = {}
-                element.i = i;
-                element.state = "free"
-                for(let x of this.props.info.result){
-                    console.log(i)
-                    console.log(x.seat_number)
-                    if(i === x.seat_number){
-                        console.log("RESERVED")
-                        element.state = "reserved"
-                    }
-                }
-                if(i%2===1){
-                    element.position = "s-left";
-                }
-                else{
-                    element.position = "s-right";
-                }
-                this.state.className.push(element)
-                //result.push(<div key={i}>{i}</div>)  
-            }
-            result = this.state.className.map((classes, i) => {
+            
+            let result = this.state.className.map((classes, i) => {
                 return (
                     <div key={classes.i} className='width'>
                         <div className={'seat ' + classes.state +' '+ classes.position}>
@@ -488,12 +472,11 @@ class Carriage extends React.Component {
                     </div>
                 )
             })
-            console.log(this.state.className)
             return (
                 <div>
                     <div className="intro">
                         <h2>Vyber si miesto</h2>
-                        <i className="remove-x far fa-times-circle fa-2x"></i>
+                        <i onClick={this.props.hide} className="remove-x far fa-times-circle fa-2x"></i>
                     </div>
                     <div className="seats-60">
                         {result}
