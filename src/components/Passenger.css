@@ -279,6 +279,13 @@ ul.passengersList li {
     padding: 12px 20px;
     text-align: center;
 }
+ul.passengersList li{
+    /*display: none;*/
+    background-color: pink;
+} 
+ul.passengersList li.li-hide{
+    display: none;
+} 
 /*
 .train li div {
     width: 180px;
