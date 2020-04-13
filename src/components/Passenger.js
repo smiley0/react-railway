@@ -467,7 +467,7 @@ class Carriage extends React.Component {
         id: NaN,
         className: [],
         selected: false,
-
+        uid: [],
     }
 
     componentDidMount = () => {
@@ -511,6 +511,7 @@ class Carriage extends React.Component {
                 this.props.trains[i].users[uid].seatID = sid; 
             }
         }
+        this.state.uid.push(uid);
     }
     
     
@@ -522,29 +523,56 @@ class Carriage extends React.Component {
             break;
         }
     }
+    let reserved = [];
+    for(let j =0;j < this.props.trains[cOrder].users.length; j+=1){
+        reserved.push({seatID:this.props.trains[cOrder].users[j].seatID,
+                       carriageID: this.props.trains[cOrder].users[j].carriageID})
+    }
+    console.log("reserved")
+    console.log(this.props.trains[cOrder])
+    console.log(reserved)
+    
+    let className = this.state.className
+    className.forEach((value, i) => {
+        //console.log(i)
+        //console.log(value)
+        for(let j=0; j<reserved.length; j+=1){
+            if(reserved[j].seatID === value.i & reserved[j].carriageID===this.props.carriageID){
+                value.state = 'maybe';
+            } 
+        }
+    })
+    console.log(this.state.className)
+    /*
+    for(let j =0;j < this.props.trains[cOrder].users.length; j+=1){
+        console.log("cyklus")
+        console.log(j)
+        console.log(this.props.trains[cOrder].users[j].seatID )
+        if(this.props.trains[cOrder].users[j].seatID === i+1){
+            let newClasses = classes
+            newClasses.state = 'maybe'
+            return (
+                <Seat key={classes.i} train={this.props.trains[cOrder]} makeReservation={this.makeReservation} passengers={listOfPassengers} classes={newClasses}></Seat>
+            )
+        }
+    }
+    */
+    
         if(this.props.info.seats === 60){
            
             let listOfPassengers = [];
             for(let i=0; i<this.props.passengers.length; i+=1){
                 listOfPassengers.push(this.props.passengers[i].fname + ' ' + this.props.passengers[i].lname)
             }
+
+
             let result = this.state.className.map((classes, i) => {
-                for(let j =0;this.props.trains[cOrder].users.length; j+=1){
-                    console.log("cyklus")
-                    console.log(this.props.trains[cOrder].users[j].seatID )
-                    if(this.props.trains[cOrder].users[j].seatID === i+1){
-                        let newClasses = classes
-                        newClasses.state = 'maybe'
-                        return (
-                            <Seat key={classes.i} train={this.props.trains[cOrder]} makeReservation={this.makeReservation} passengers={listOfPassengers} classes={newClasses}></Seat>
-                        )
-                    }
-                    else{
-                        return (
-                            <Seat key={classes.i} train={this.props.trains[cOrder]} makeReservation={this.makeReservation} passengers={listOfPassengers} classes={classes}></Seat>
-                        )
-                    }
-                }
+                    
+                return (
+                    <Seat key={classes.i} train={this.props.trains[cOrder]} makeReservation={this.makeReservation} passengers={listOfPassengers} classes={classes}></Seat>
+                )
+                    
+                
             })
             return (
                 <div>
