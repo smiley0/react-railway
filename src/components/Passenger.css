@@ -216,11 +216,11 @@
     border: 1px solid green;
 }
 .reserved{
-    background-color: rgb(255, 180, 180);
+    background-color: rgb(255, 107, 107);
     border: 1px solid red;
 }
 .maybe {
-    background-color: rgb(255, 168, 137);
+    background-color: rgba(255, 90, 30,.4);
     border: 1px solid orangered;
 }
 .intro {
@@ -262,3 +262,28 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
+
+ul.passengersList {
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    z-index: 1;
+    overflow: hidden;
+}
+ul.passengersList li {
+    background-color: white;
+    border: 1px solid gray;
+    display: block;
+    padding: 12px 20px;
+    text-align: center;
+}
+/*
+.train li div {
+    width: 180px;
+    height: 80px;
+    border: 3px solid  rgb(200, 0, 0);
+    padding: 10px;
+    margin: 3px;
+}*/
