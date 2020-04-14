@@ -8,7 +8,7 @@ class Passenger extends React.Component {
       reservation: false,
       isLoaded: false,
       passenger_types: [],
-      passengers: [{id:0,fname:"",lname:"", type:"", showType:false}],
+      passengers: [{id:0,fname:"",lname:"", type:"", type_short:"", showType:false}],
       trains: [],
     }
 
@@ -41,8 +41,8 @@ class Passenger extends React.Component {
     addRow = () => {
         var rows = this.state.passengers;
         const nextId = this.state.passengers[this.state.passengers.length-1].id + 1;
-        const newrow = {id: nextId,fname:"",lname:"", type:""};
-        newrow.trains = this.addTrains()
+        const newrow = {id: nextId,fname:"",lname:"", type:"", type_short:""};
+        //newrow.trains = this.addTrains()
         rows.push(newrow)
         this.setState({
             passengers: rows
@@ -90,7 +90,7 @@ class Passenger extends React.Component {
             })
         }
         else{
-            const row = [{id: 0,fname:"",lname:"", type:""}];
+            const row = [{id: 0,fname:"",lname:"", type:"", type_short:""}];
             this.setState({
                 passengers: row
             })
@@ -113,6 +113,12 @@ class Passenger extends React.Component {
         var rows = this.state.passengers;
         var index = this.findID(this.state.passengers, id);
         rows[index].type = type;
+        let pass_type = this.state.passenger_types.results.find((val) => {
+            return val.name === type;
+          });
+        
+        rows[index].type_short = pass_type.short;
+        //rows[index].typeID = 
         this.setState({
             passengers: rows
         })
@@ -190,9 +196,7 @@ class Passenger extends React.Component {
                 :null}
                 </div>
                 <div className="passengerTotal">
-                    <div className='context'>
-                        <h1>Prehlad</h1>
-                    </div>
+                    <Summary passengers={this.state.passengers} reservations={this.state.trains}></Summary>
                 </div>
                 </div>
             )
@@ -207,6 +211,7 @@ class Passenger extends React.Component {
     }
 }
 
+
 export default connect(mapStateToProps)(Passenger)
   function SelectType ({moreOptions, addType,id}) {
     const optionsList = moreOptions.map((option, i) => {
@@ -220,6 +225,92 @@ export default connect(mapStateToProps)(Passenger)
       </ul>
     );
   }
+
+
+class Summary extends React.Component {
+    state = {
+        isLoaded: false,
+        trainInfo: {},
+    }
+
+    render(){
+        console.log("summary")
+        console.log(this.props.passengers)
+        console.log("reservations")
+        console.log(this.props.reservations)
+        const passengersList = this.props.passengers.map((passenger, i) => {
+            /*
+            let myReservations = this.props.reservation.forEach(val => {
+                console.log(val.train)
+            })
+            */
+            console.log(this.props.reservations)
+            this.props.reservations.forEach(val => {
+                val.users.forEach(user => {
+                    if(user.id === passenger.id){
+                        //console.log(user.reserved)
+                    }
+                })
+            })
+            return(
+                <div key={i}>
+                    <h3>{passenger.fname + ' ' + passenger.lname + ' (' + passenger.type + ')'}</h3>
+                    <SumReservation passengerID={passenger.id} reservations={this.props.reservations}></SumReservation>
+                </div>
+            )
+            })
+        return (
+            <div className='context'>
+                <h1>Prehlad</h1>
+                {passengersList}
+            </div>
+        )
+    }
+}
+class SumReservation extends React.Component {
+    state = {
+        isLoaded: false,
+        trainInfo: {},
+    }
+
+    render(){
+        console.log(this.props.reservations)
+        let reservations = this.props.reservations.map((val, i) => {
+            console.log(val.train)
+            val.users.map(user => {
+                if(user.id === this.props.passengerID){
+                    
+                    return(
+                        <div key={i}>
+                            <p>{val.train}</p>
+                            <p>{user.reserved}</p>
+                        </div>
+                    )
+                }
+                else{
+                    return(
+                        <div key={i}>
+                            <p>{val.train}</p>
+                        </div>
+                    )
+                }
+            })
+            /*
+            val.users.forEach(user => {
+                if(user.id === passenger.id){
+                    console.log(user.reserved)
+                }
+            })
+            */
+        })
+        return(
+            <div>
+                {reservations}
+            </div>
+        )
+    }
+    
+}
 
   class TrainSegment extends React.Component {
     state = {
