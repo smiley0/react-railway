@@ -38,6 +38,12 @@ class Passenger extends React.Component {
         return T;
     }
 
+    setTrains = (trainsRes) =>{
+        this.setState({
+            trains: trainsRes
+        })
+    }
+
     addRow = () => {
         var rows = this.state.passengers;
         const nextId = this.state.passengers[this.state.passengers.length-1].id + 1;
@@ -191,7 +197,7 @@ class Passenger extends React.Component {
                 </label>
                 {(this.state.reservation)?
                 <div>{this.props.connectionInfo.transfer_history.map((item, index) => (
-                    <TrainSegment trains={this.state.trains} passengers={this.state.passengers} key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
+                    <TrainSegment setTrains={this.setTrains} trains={this.state.trains} passengers={this.state.passengers} key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
                 ))}</div>
                 :null}
                 </div>
@@ -228,22 +234,39 @@ export default connect(mapStateToProps)(Passenger)
 
 
 class Summary extends React.Component {
-    state = {
-        isLoaded: false,
-        trainInfo: {},
+    /*
+    componentDidUpdate(props){
+        console.log("componentwillreceiveProps")
+        console.log(props)
+        props.passengers.forEach((passenger, i) => {
+            console.log(passenger.fname)
+            props.reservations.forEach(val => {
+                console.log(val.train)
+                val.users.forEach(user => {
+                    if(user.id === passenger.id){
+                        if(user.reserved){
+                            console.log("vozen: "+ user.carriageNumber)
+                            console.log("sedadlo: "+ user.seatID)
+                        }
+                        else{
+                            console.log("bez miestenky")
+                        }
+                    }
+                })
+            })
+        })
+        
     }
-
+    */
+   //componentDidUpdate
     render(){
-        console.log("summary")
-        console.log(this.props.passengers)
-        console.log("reservations")
-        console.log(this.props.reservations)
-        const passengersList = this.props.passengers.map((passenger, i) => {
+        //const passengersList = this.props.passengers.map((passenger, i) => {
             /*
             let myReservations = this.props.reservation.forEach(val => {
                 console.log(val.train)
             })
             */
+           /*
             console.log(this.props.reservations)
             this.props.reservations.forEach(val => {
                 val.users.forEach(user => {
@@ -259,14 +282,16 @@ class Summary extends React.Component {
                 </div>
             )
             })
+            */
         return (
             <div className='context'>
                 <h1>Prehlad</h1>
-                {passengersList}
+                {/*passengersList*/}
             </div>
         )
     }
 }
+/*
 class SumReservation extends React.Component {
     state = {
         isLoaded: false,
@@ -295,13 +320,13 @@ class SumReservation extends React.Component {
                     )
                 }
             })
-            /*
-            val.users.forEach(user => {
-                if(user.id === passenger.id){
-                    console.log(user.reserved)
-                }
-            })
-            */
+            
+            //val.users.forEach(user => {
+            //    if(user.id === passenger.id){
+            //        console.log(user.reserved)
+            //    }
+            //})
+            
         })
         return(
             <div>
@@ -311,7 +336,7 @@ class SumReservation extends React.Component {
     }
     
 }
-
+*/
   class TrainSegment extends React.Component {
     state = {
         isShow: false,
@@ -360,7 +385,7 @@ class SumReservation extends React.Component {
                         </div>
                     </div>
                 </div>
-                {(this.state.isShow)?<SelectSeats trains={this.props.trains} passengers={this.props.passengers} hide={this.hideTrain} item={this.props.item} date={this.props.date}></SelectSeats>:null}
+                {(this.state.isShow)?<SelectSeats setTrains={this.props.setTrains} trains={this.props.trains} passengers={this.props.passengers} hide={this.hideTrain} item={this.props.item} date={this.props.date}></SelectSeats>:null}
             </div>
         )
     }
@@ -397,7 +422,7 @@ class SelectSeats extends React.Component {
                         <h2>Vyber si vozen</h2>
                         <i onClick={this.props.hide} className="remove-x far fa-times-circle fa-2x"></i>
                     </div>
-                  <Train trains={this.props.trains} passengers={this.props.passengers} info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
+                  <Train setTrains={this.props.setTrains} trains={this.props.trains} passengers={this.props.passengers} info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
                 </div>
               )
         }
@@ -431,11 +456,14 @@ class SelectSeats extends React.Component {
             */
           for(var i = 0; i<this.props.info.carriages.length; i+=1){
             let id = this.props.info.carriages[i].id
+            let number = this.props.info.carriages[i].number
+            console.log("NUMBER")
+            console.log(number)
             fetch("http://127.0.0.1:8000/carriage-assignment/"+id+"/reservations/?from="+fromID+"&to="+toID+"&date="+dateformat)
             .then(res => res.json())
                 .then(json => {
                     var reservations = this.state.reservations
-                    reservations.push({id: id,result:json})
+                    reservations.push({id: id,result:json, number: number})
                     this.setState({
                         reservations: reservations,
                         //isLoaded: true,
@@ -456,6 +484,8 @@ class SelectSeats extends React.Component {
             for(let i = 0; i<this.state.reservations.length; i+=1){
                 if(this.state.reservations[i].id === id){
                     carriageInfo = this.state.reservations[i]
+                    console.log("reservations i")
+                    console.log(this.state.reservations[i])
                 }
             }
             this.setState({
@@ -533,7 +563,7 @@ class SelectSeats extends React.Component {
             </li>
             {optionsList}
         </ul>
-        {(!isNaN(this.state.displayCarriage))?<Carriage trains={this.props.trains} passengers={this.props.passengers} hide={this.hideCarriage} id={this.state.displayCarriage} info={this.state.carriage} trainID={this.props.info.number} carriageID={this.state.displayCarriage} ></Carriage>:null}
+        {(!isNaN(this.state.displayCarriage))?<Carriage setTrains={this.props.setTrains} trains={this.props.trains} passengers={this.props.passengers} hide={this.hideCarriage} id={this.state.displayCarriage} info={this.state.carriage} trainID={this.props.info.number} carriageID={this.state.displayCarriage} ></Carriage>:null}
         </div>
         );
         }
@@ -577,13 +607,18 @@ class Carriage extends React.Component {
     }
 
     makeReservation = (uid, sid) => {
-        for(let i=0; i< this.props.trains.length; i+=1){
-            if(this.props.trains[i].train === this.props.trainID){
-                this.props.trains[i].users[uid].reserved = true;
-                this.props.trains[i].users[uid].carriageID = this.props.carriageID;
-                this.props.trains[i].users[uid].seatID = sid; 
+        console.log("????????")
+        console.log(this.props.info)
+        let trains = this.props.trains
+        for(let i=0; i< trains.length; i+=1){
+            if(trains[i].train === this.props.trainID){
+                trains[i].users[uid].reserved = true;
+                trains[i].users[uid].carriageID = this.props.carriageID;
+                trains[i].users[uid].carriageNumber = this.props.info.number;
+                trains[i].users[uid].seatID = sid; 
             }
         }
+        this.props.setTrains(trains)
         this.state.uid.push(uid);
 
         let suid = this.state.uidd;
