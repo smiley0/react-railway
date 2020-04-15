@@ -182,7 +182,7 @@ class Passenger extends React.Component {
                                             
                                             {(this.state.passengers[this.findID(this.state.passengers, r.id)].showType)?<SelectType moreOptions={this.state.passenger_types.results} addType={this.addType} id={r.id}></SelectType>:null}
                                             </div></td>
-                                    <td><button className='remove' onClick={() => {this.removeRow(r.id)}}>zmaz</button></td>
+                                    <td><button className='remove' onClick={() => {/*this.removeRow(r.id)*/}}>zmaz</button></td>
                                     </tr>
                                 ))}
                                 
@@ -237,6 +237,17 @@ export default connect(mapStateToProps)(Passenger)
 class Summary extends React.Component {
     state = {
         passengerType: "",
+        wholeAmount: [],
+    }
+
+    addToWholeAmount = (price, pos) => {
+        let sum = this.state.wholeAmount;
+        sum[pos] = Number(price)
+        this.setState({sum: sum})
+        //sum+=Number(price);
+        //this.setState({
+        //    sum: sum,
+        //})
     }
 
     componentDidMount = () =>{
@@ -245,38 +256,8 @@ class Summary extends React.Component {
             passengerType: this.props.passengers.type_short,
         })
     }
-    /*
-    componentDidUpdate(props){
-        console.log("componentwillreceiveProps")
-        console.log(props)
-        props.passengers.forEach((passenger, i) => {
-            console.log(passenger.fname)
-            props.reservations.forEach(val => {
-                console.log(val.train)
-                val.users.forEach(user => {
-                    if(user.id === passenger.id){
-                        if(user.reserved){
-                            console.log("vozen: "+ user.carriageNumber)
-                            console.log("sedadlo: "+ user.seatID)
-                        }
-                        else{
-                            console.log("bez miestenky")
-                        }
-                    }
-                })
-            })
-        })
-        
-    }
-    */
-   //componentDidUpdate
     render(){
         const passengersList = this.props.passengers.map((passenger, i) => {
-            /*
-            let myReservations = this.props.reservation.forEach(val => {
-                console.log(val.train)
-            })
-            */
            
             this.props.reservations.forEach(val => {
                 val.users.forEach(user => {
@@ -285,9 +266,11 @@ class Summary extends React.Component {
                     }
                 })
             })
+            console.log("whole amount")
+            console.log(this.state.wholeAmount)
             return(
                 <div key={i}>
-                    <PassengerRes reservations={this.props.reservations} passenger={passenger} distance={this.props.distance}></PassengerRes>
+                    <PassengerRes order={i} addToWholeAmount={this.addToWholeAmount} reservations={this.props.reservations} passenger={passenger} distance={this.props.distance}></PassengerRes>
                 </div>
             )
             })
@@ -296,6 +279,7 @@ class Summary extends React.Component {
             <div className='context'>
                 <h1>Prehlad</h1>
                 {passengersList}
+                <h1>Zakupit {this.state.wholeAmount.length > 0?this.state.wholeAmount.reduce((total, value) => {return total+value;}):'-'}</h1>
             </div>
         )
     }
@@ -306,6 +290,19 @@ class PassengerRes extends React.Component {
         passengerType: "",
         priceLoaded: false,
         price: "",
+        sum: [],
+    }
+    addToPrice = (price, pos) => {
+        let sum = this.state.sum;
+        sum[pos] = Number(price)
+        this.setState({sum: sum})
+        //sum+=Number(price);
+        //this.setState({
+        //    sum: sum,
+        //})
+        if(this.state.sum.length>0){
+            this.props.addToWholeAmount(this.state.sum.reduce((total, value) => {return total+value;}),this.props.order)
+        }
     }
     componentDidMount = () =>{
         this.setState({
@@ -313,10 +310,6 @@ class PassengerRes extends React.Component {
         })
     }
     componentDidUpdate = (props) => {
-        console.log("NEW")
-        console.log(props.passenger.type_short)
-        console.log("OLD")
-        console.log(this.state.passengerType)
         if(props.passenger.type_short !== this.state.passengerType){
             this.setState({
                 passengerType: props.passenger.type_short,
@@ -337,11 +330,14 @@ class PassengerRes extends React.Component {
                     price: "",
                 })
             }
-
-        }        
+        }
     }
 
     render(){
+
+        
+        console.log("reservations")
+        console.log(this.props.reservations)
         const trainsList = this.props.reservations.map((train, i) => {
             /*
             let myReservations = this.props.reservation.forEach(val => {
@@ -351,7 +347,7 @@ class PassengerRes extends React.Component {
            
             return(
                 <div key={i}>
-                    <TrainRes train={train} distance={this.props.distance} passengerID = {this.props.passenger.id} passengerType = {this.props.passenger.type_short}></TrainRes>
+                    <TrainRes order={i} addToPrice={this.addToPrice} train={train} distance={this.props.distance} passengerID = {this.props.passenger.id} passengerType = {this.props.passenger.type_short}></TrainRes>
                 </div>
             )
             })
@@ -361,6 +357,7 @@ class PassengerRes extends React.Component {
                 <h3>{this.props.passenger.fname + ' ' + this.props.passenger.lname + ' (' + this.props.passenger.type + ')'}</h3>
                 {/*(this.state.priceLoaded)?<p>zakladna cena: {this.state.price.second_class_price}</p>: <p>zakladna cena: -</p>*/}
                 {trainsList}
+                <p>sum: {this.state.sum.length > 0?this.state.sum.reduce((total, value) => {return total+value;}):'-'} </p>
             </div>
         )
     }
@@ -400,6 +397,17 @@ class TrainRes extends React.Component {
                         priceLoaded: true,
                         price: json,
                     })
+                    if(this.state.reservation.reserved === false){
+                        this.props.addToPrice(json.second_class_price, this.props.order)
+                    }
+                    else{
+                        if(this.state.reservation.carriageClass === "1"){
+                            this.props.addToPrice(json.first_class_price, this.props.order)
+                        }
+                        else{
+                            this.props.addToPrice(json.second_class_price, this.props.order)
+                        }
+                    }
                 });
             }
             else{
@@ -420,6 +428,17 @@ class TrainRes extends React.Component {
                         price: json,
                         updateReserved: true,
                     })
+                    if(this.state.reservation.reserved === false){
+                        this.props.addToPrice(json.second_class_price, this.props.order)
+                    }
+                    else{
+                        if(this.state.reservation.carriageClass === "1"){
+                            this.props.addToPrice(json.first_class_price, this.props.order)
+                        }
+                        else{
+                            this.props.addToPrice(json.second_class_price, this.props.order)
+                        }
+                    }
                 });
             }
             else{
@@ -432,6 +451,7 @@ class TrainRes extends React.Component {
     }
     
     render() {
+        console.log(this.props.order)
         return(
             <div>
                 <p>{this.props.train.category}{this.props.train.train}: ({this.props.train.from} - {this.props.train.to})</p>
