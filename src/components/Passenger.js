@@ -28,8 +28,6 @@ class Passenger extends React.Component {
     }
 
     addTrains = () => {
-        console.log("Transfer-hystory")
-        console.log(this.props.connectionInfo.transfer_history)
         let T = []
         let trains = this.props.connectionInfo.transfer_history
         for(let i =0;i<trains.length;i+=1){
@@ -98,15 +96,15 @@ class Passenger extends React.Component {
                 trains: trains,
             })
         }
+        /*
         else{
             const row = [{id: 0,fname:"",lname:"", type:"", type_short:""}];
             this.setState({
-                passengers: row
-            })
-            this.setState({
+                passengers: row,
                 trains: this.addTrains(),
             })
         }
+        */
     }
 
     toggleShow = (id) => {
@@ -237,6 +235,16 @@ export default connect(mapStateToProps)(Passenger)
 
 
 class Summary extends React.Component {
+    state = {
+        passengerType: "",
+    }
+
+    componentDidMount = () =>{
+        console.log(this.props.passengers)
+        this.setState({
+            passengerType: this.props.passengers.type_short,
+        })
+    }
     /*
     componentDidUpdate(props){
         console.log("componentwillreceiveProps")
@@ -305,25 +313,35 @@ class PassengerRes extends React.Component {
         })
     }
     componentDidUpdate = (props) => {
+        console.log("NEW")
+        console.log(props.passenger.type_short)
+        console.log("OLD")
+        console.log(this.state.passengerType)
         if(props.passenger.type_short !== this.state.passengerType){
             this.setState({
                 passengerType: props.passenger.type_short,
             })
+            if(props.passenger.type_short !== ""){
             fetch("http://127.0.0.1:8000/passenger-type/"+props.passenger.type_short+"/calculate_price/?distance="+props.distance)
             .then(res => res.json())
                 .then(json => {
                     this.setState({
                         priceLoaded: true,
-                        price: json,
+                        price: "",
                     })
                 });
-            
+            }
+            else{
+                this.setState({
+                    priceLoaded: false,
+                    price: "",
+                })
+            }
 
         }        
     }
 
     render(){
-        console.log(this.props.passenger)
         const trainsList = this.props.reservations.map((train, i) => {
             /*
             let myReservations = this.props.reservation.forEach(val => {
@@ -333,7 +351,7 @@ class PassengerRes extends React.Component {
            
             return(
                 <div key={i}>
-                    <TrainRes train={train} distance={this.props.distance} passengerID = {this.props.passenger.id}></TrainRes>
+                    <TrainRes train={train} distance={this.props.distance} passengerID = {this.props.passenger.id} passengerType = {this.props.passenger.type_short}></TrainRes>
                 </div>
             )
             })
@@ -352,27 +370,80 @@ class PassengerRes extends React.Component {
 class TrainRes extends React.Component {
     state = {
         reservation: {},
+        reserved: false,
+        passengerType: "",
+        priceLoaded: false,
+        price: "",
+        updateReserved: false,
     }
     componentDidMount = () => {
         let res = this.props.train.users.find((val)=>{
             return val.id === this.props.passengerID
         })
-        console.log("res")
-        console.log(res)
         this.setState({
             reservation: res,
         })
     }
+    
+    componentDidUpdate = (props) => {
+        if(props.passengerType !== this.state.passengerType){
+            this.setState({
+                passengerType: props.passengerType
+            })
+            //console.log("updating component")
+            //console.log(props.train)
+            if(props.passengerType !== ""){
+            fetch("http://127.0.0.1:8000/passenger-type/"+props.passengerType+"/calculate_price/?distance="+this.props.train.tDistance+"&reservation="+this.state.reservation.reserved)
+            .then(res => res.json())
+                .then(json => {
+                    this.setState({
+                        priceLoaded: true,
+                        price: json,
+                    })
+                });
+            }
+            else{
+                this.setState({
+                    priceLoaded: false,
+                    price: "",
+                })
+            }
+
+        }   
+        if(this.state.updateReserved !== this.state.reservation.reserved ){
+            if(this.state.passengerType !== ""){
+            fetch("http://127.0.0.1:8000/passenger-type/"+props.passengerType+"/calculate_price/?distance="+this.props.train.tDistance+"&reservation="+this.state.reservation.reserved)
+            .then(res => res.json())
+                .then(json => {
+                    this.setState({
+                        priceLoaded: true,
+                        price: json,
+                        updateReserved: true,
+                    })
+                });
+            }
+            else{
+                this.setState({
+                    priceLoaded: false,
+                    price: "",
+                })
+            }
+        } 
+    }
+    
     render() {
-        console.log(this.props.train)
         return(
             <div>
                 <p>{this.props.train.category}{this.props.train.train}: ({this.props.train.from} - {this.props.train.to})</p>
                 {(this.state.reservation.reserved)?
                     <div>
-                        <p> rezervacia vozen: {this.state.reservation.carriageNumber} miesto: {this.state.reservation.seatID}</p>
+                        <p> rezervacia vozen: {this.state.reservation.carriageNumber}({this.state.reservation.carriageClass}. trieda) miesto: {this.state.reservation.seatID}</p>
+                        {(this.state.reservation.carriageClass === "1")?<p>{this.state.price.first_class_price}</p>: <p> {this.state.price.second_class_price}</p>}
                     </div>:
-                    <p>bez rezervacie</p>}
+                    <div>
+                        <p>bez rezervacie</p>
+                        <p>cena: {this.state.price.second_class_price}</p>
+                    </div>}
                 
             </div>
         )
