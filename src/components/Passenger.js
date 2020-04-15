@@ -28,12 +28,15 @@ class Passenger extends React.Component {
     }
 
     addTrains = () => {
-        
+        console.log("Transfer-hystory")
+        console.log(this.props.connectionInfo.transfer_history)
         let T = []
         let trains = this.props.connectionInfo.transfer_history
         for(let i =0;i<trains.length;i+=1){
 
-            T.push({train: trains[i].train.number, users: [{id: 0, reserved: false, carriageID:null, seatID:null,}]})
+            T.push({train: trains[i].train.number, tDistance: trains[i].stop_to.distance - trains[i].stop_from.distance, 
+                from: trains[i].stop_from.station_name,to: trains[i].stop_to.station_name, 
+                category: trains[i].train.category_short, users: [{id: 0, reserved: false, carriageID:null, seatID:null,}]})
         }
         return T;
     }
@@ -361,10 +364,10 @@ class TrainRes extends React.Component {
         })
     }
     render() {
-        console.log(this.props.train.users)
+        console.log(this.props.train)
         return(
             <div>
-                <p>{this.props.train.train}</p>
+                <p>{this.props.train.category}{this.props.train.train}: ({this.props.train.from} - {this.props.train.to})</p>
                 {(this.state.reservation.reserved)?
                     <div>
                         <p> rezervacia vozen: {this.state.reservation.carriageNumber} miesto: {this.state.reservation.seatID}</p>
@@ -650,6 +653,7 @@ class Carriage extends React.Component {
                 trains[i].users[uid].reserved = true;
                 trains[i].users[uid].carriageID = this.props.carriageID;
                 trains[i].users[uid].carriageNumber = this.props.info.number;
+                trains[i].users[uid].carriageClass = this.props.info.type;
                 trains[i].users[uid].seatID = sid; 
             }
         }
