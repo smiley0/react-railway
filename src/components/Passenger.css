@@ -1,5 +1,6 @@
 .passenger {
     overflow: hidden;
+    min-height: 600px;
 }
 .passenger h1 {
     color: rgb(200, 0, 0);
@@ -251,17 +252,93 @@
     margin-left: 24px;
     margin-top: 30px;
     border: 1px solid gray;
-    border-radius: 8px;
-    height: 350px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 .context h1{
     text-align: center;
     background-color: rgb(250, 0, 0);
     color: white;
-    margin-top: 0;
+    margin: 0;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
+.singlePerson{
+    border: 1px solid gray;
+    margin: 5px;
+    padding: 5px;
+}
+.singlePerson h3{
+    color: rgb(200, 0, 0);
+    margin: 0px;
+}
+.singlePerson .smallerGray{
+    color: gray;
+}
+.singlePerson .darkRed {
+    color: rgb(200, 0, 0);
+
+}
+.singlePerson p:last-child{
+    text-align: center;
+}
+div.dashed:first-of-type{
+    border-top: 1px dashed black;
+}
+.trainRes{
+    border-bottom: 1px dashed black;
+}
+.trainRes table{
+    width: 100%;
+}
+.trainRes .tBody1{
+    width: 25%;
+    padding-top: 10px;
+    float: left;
+}
+.tBody1 tr, .tBody2 tr{
+    width: 100%;
+    display: table;
+}
+.tBody1 td, .tBody2 td{
+    text-align: center;
+    padding: 0;
+}
+.trainRes .tBody2{
+    width: 75%;
+    float: left;
+}
+.withoutReservation{
+    overflow: hidden;
+}
+.withoutReservation p {
+    width: 50%;
+    float: left;
+    margin: 4px 0;
+}
+.withoutReservation p:last-child {
+    text-align: right;
+}
+.darkRed{
+    color: rgb(200, 0, 0);
+}
+.withReservation p:last-child{
+    text-align: right;
+}
+.bold {
+    font-weight: bold;
+}
+.context button {
+    margin: 5px;
+    width: 288px;
+    height: 50px;
+    border: none;
+    font-size: 1.8em;
+    font-weight: bold;
+    background-color: rgb(255, 0, 0);
+}
+
+
 
 ul.passengersList {
     width: 200px;

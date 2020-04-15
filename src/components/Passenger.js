@@ -5,7 +5,7 @@ import './Passenger.css'
 
 class Passenger extends React.Component {
     state = {
-      reservation: false,
+      reservation: true,
       isLoaded: false,
       passenger_types: [],
       passengers: [{id:0,fname:"",lname:"", type:"", type_short:"", showType:false}],
@@ -192,10 +192,12 @@ class Passenger extends React.Component {
                         </table>
                 <button className='addmore' onClick={this.addRow}>pridat dalsieho cestujuceho</button>
                 </div>
+                {/* 
                 <label className='checkBox' htmlFor="reservation"> 
                 Chcem rezervovat miesta                
                 <input onChange={this.onReservation} type="checkbox" id="reservation" name="reservation" value="reservation"></input>                
                 </label>
+                */}
                 {(this.state.reservation)?
                 <div>{this.props.connectionInfo.transfer_history.map((item, index) => (
                     <TrainSegment setTrains={this.setTrains} trains={this.state.trains} passengers={this.state.passengers} key={index} item={item} date={this.props.searchInfo.date}></TrainSegment>
@@ -279,7 +281,7 @@ class Summary extends React.Component {
             <div className='context'>
                 <h1>Prehlad</h1>
                 {passengersList}
-                <h1>Zakupit {this.state.wholeAmount.length > 0?this.state.wholeAmount.reduce((total, value) => {return total+value;}):'-'}</h1>
+                <button>Zakupit - {this.state.wholeAmount.length > 0?this.state.wholeAmount.reduce((total, value) => {return total+value;}) + '€':''}</button>
             </div>
         )
     }
@@ -346,18 +348,18 @@ class PassengerRes extends React.Component {
             */
            
             return(
-                <div key={i}>
+                <div className='dashed' key={i}>
                     <TrainRes order={i} addToPrice={this.addToPrice} train={train} distance={this.props.distance} passengerID = {this.props.passenger.id} passengerType = {this.props.passenger.type_short}></TrainRes>
                 </div>
             )
             })
         return(
-            <div>
+            <div className='singlePerson'>
                 
-                <h3>{this.props.passenger.fname + ' ' + this.props.passenger.lname + ' (' + this.props.passenger.type + ')'}</h3>
+                <h3>{this.props.passenger.fname + ' ' + this.props.passenger.lname} <span className="smallerGray"> {this.props.passenger.type!==""?"("+this.props.passenger.type+")":null}</span></h3>
                 {/*(this.state.priceLoaded)?<p>zakladna cena: {this.state.price.second_class_price}</p>: <p>zakladna cena: -</p>*/}
                 {trainsList}
-                <p>sum: {this.state.sum.length > 0?this.state.sum.reduce((total, value) => {return total+value;}):'-'} </p>
+                <p>spolu: <span className="darkRed">{this.state.sum.length > 0?this.state.sum.reduce((total, value) => {return total+value;})+'€':''}</span> </p>
             </div>
         )
     }
@@ -453,16 +455,36 @@ class TrainRes extends React.Component {
     render() {
         console.log(this.props.order)
         return(
-            <div>
-                <p>{this.props.train.category}{this.props.train.train}: ({this.props.train.from} - {this.props.train.to})</p>
+            <div className="trainRes">
+                <table>
+                    <tbody className="tBody1">
+                        <tr>
+                            <td><i className="fas fa-subway"></i></td>
+                        </tr>
+                        <tr>
+                            <td>{this.props.train.category} {this.props.train.train}</td>
+                        </tr>
+                    </tbody>
+                    <tbody className="tBody2">
+                        <tr>
+                            <td>{this.props.train.from}</td>
+                        </tr>
+                        <tr>
+                            <td>&#8942;</td>
+                        </tr>
+                        <tr>
+                            <td>{this.props.train.to}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 {(this.state.reservation.reserved)?
-                    <div>
-                        <p> rezervacia vozen: {this.state.reservation.carriageNumber}({this.state.reservation.carriageClass}. trieda) miesto: {this.state.reservation.seatID}</p>
-                        {(this.state.reservation.carriageClass === "1")?<p>{this.state.price.first_class_price}</p>: <p> {this.state.price.second_class_price}</p>}
+                    <div className="withReservation">
+                        <p>vozen: <span className="bold">{this.state.reservation.carriageNumber}</span> ({this.state.reservation.carriageClass}. trieda) miesto: <span className="bold">{this.state.reservation.seatID}</span></p>
+                        {(this.state.reservation.carriageClass === "1")?<p>cena: <span className="darkRed">{this.state.price.first_class_price} €</span></p>: <p>cena: <span className="darkRed">{this.state.price.second_class_price} €</span></p>}
                     </div>:
-                    <div>
+                    <div className="withoutReservation">
                         <p>bez rezervacie</p>
-                        <p>cena: {this.state.price.second_class_price}</p>
+                        <p>cena: <span className="darkRed">{this.state.price.second_class_price} €</span></p>
                     </div>}
                 
             </div>
