@@ -4,10 +4,40 @@ import {connect} from 'react-redux'
 
 class Processing extends React.Component {
     state = {
-        trains: {},
-        passengers: {},
-        price: "",
-        searchInfo: {},
+        post: {
+            owner: 1,
+            valid_on:"",
+            price: "",
+            status: "U",
+            passengers: {},
+            segments: {},
+            reservations:[
+                {
+                    carriage: "",
+                    seat_number: "",
+                    segment_id: "",
+                    passenger_id: "",
+                }
+            ]
+        }
+    }
+
+    componentDidMount = () => {
+        var post = {...this.state.post}
+        post.price = this.props.price;
+        post.valid_on = this.props.searchInfo.date;
+        this.props.passengers.forEach((element, i) => {
+            console.log("passenger")
+            console.log(element)
+            post.passengers[i] = {first_name: element.fname,
+                                  last_name: element.lname,
+                                  type: element.type_short,}
+        });
+        console.log(this.props.trains)
+        this.props.trains.forEach((element, i) => {
+            post.segments[i] = {start: element.fromID, end: element.toID}
+        });
+        this.setState({post})
     }
 
     render(){
