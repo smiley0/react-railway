@@ -65,9 +65,12 @@ const initState = {
                         }
                     }
                 ]
-            }
+            },
+    passengers: {},  
+    trains: {},
+    price: "", 
         
-        }    
+}
 
 
 const rootReducer = (state = initState, action) => {
@@ -87,6 +90,16 @@ const rootReducer = (state = initState, action) => {
         return {
             ...state,
             connectionInfo: action.connection
+        }
+    }
+    else if(action.type === 'UPDATE_PASS'){
+        console.log('PASSING INFORMATION TO REDUCER')
+        console.log(action.price)
+        return{
+            ...state,
+            passengers: action.passengers,
+            trains: action.trains,
+            price: action.price,
         }
     }
     return state;

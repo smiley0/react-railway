@@ -1,6 +1,7 @@
 import React from 'react'
 import Loading from './Loading'
 import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import './Passenger.css'
 
 class Passenger extends React.Component {
@@ -28,12 +29,13 @@ class Passenger extends React.Component {
     }
 
     addTrains = () => {
+        console.log("ADDTRAIN")
         let T = []
         let trains = this.props.connectionInfo.transfer_history
+        console.log(trains)
         for(let i =0;i<trains.length;i+=1){
-
             T.push({train: trains[i].train.number, tDistance: trains[i].stop_to.distance - trains[i].stop_from.distance, 
-                from: trains[i].stop_from.station_name,to: trains[i].stop_to.station_name, 
+                from: trains[i].stop_from.station_name, fromID: trains[i].stop_from.id, to: trains[i].stop_to.station_name, toID: trains[i].stop_to.id,
                 category: trains[i].train.category_short, users: [{id: 0, reserved: false, carriageID:null, seatID:null,}]})
         }
         return T;
@@ -145,6 +147,16 @@ class Passenger extends React.Component {
 
 
     }
+    handleUpdate = (price) => {
+        //const url = {src: this.state.src, dst: this.state.dst, time: this.state.time, date: this.state.date}
+        console.log("HERUEKA")
+        console.log(price)
+        console.log(this.state.trains)
+        console.log(this.state.passengers)
+        this.props.updateReducer(this.state.trains, this.state.passengers, price)
+        //this.sleep(5000)
+        //this.props.updateReducer(url)
+    }
 
     onReservation = (e) => {
         this.setState({reservation: e.target.checked})
@@ -205,7 +217,7 @@ class Passenger extends React.Component {
                 :null}
                 </div>
                 <div className="passengerTotal">
-                    <Summary passengers={this.state.passengers} reservations={this.state.trains} distance = {this.props.connectionInfo.distance}></Summary>
+                    <Summary handleUpdate={this.handleUpdate} passengers={this.state.passengers} reservations={this.state.trains} distance = {this.props.connectionInfo.distance}></Summary>
                 </div>
                 </div>
             )
@@ -220,8 +232,16 @@ class Passenger extends React.Component {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateReducer: (trains, passengers, price) => {dispatch({type: 'UPDATE_PASS', trains: trains, passengers: passengers, price:price})}
+    }
+}
 
-export default connect(mapStateToProps)(Passenger)
+
+export default connect(mapStateToProps,mapDispatchToProps)(Passenger)
+
+
   function SelectType ({moreOptions, addType,id}) {
     const optionsList = moreOptions.map((option, i) => {
       return(
@@ -281,7 +301,7 @@ class Summary extends React.Component {
             <div className='context'>
                 <h1>Prehlad</h1>
                 {passengersList}
-                <button>Zakupit - {this.state.wholeAmount.length > 0?this.state.wholeAmount.reduce((total, value) => {return total+value;}) + '€':''}</button>
+                <NavLink to='/processing'><button onClick={() => {this.props.handleUpdate(this.state.wholeAmount.reduce((total, value) => {return total+value;}))}}>Zakupit - {this.state.wholeAmount.length > 0?this.state.wholeAmount.reduce((total, value) => {return total+value;}) + '€':''}</button></NavLink>
             </div>
         )
     }
@@ -703,7 +723,6 @@ class SelectSeats extends React.Component {
                 </li>
         )
         })
-
         return (
         <div className='train'>
         <ul>
