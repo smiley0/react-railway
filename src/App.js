@@ -8,6 +8,7 @@ import Passenger from './components/Passenger'
 import Processing from './components/Processing'
 import Footer from './components/Footer'
 import Login from './components/Login'
+import User from './components/User'
 
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='/login' component={Login} />
         <Route path='/about' component={About} />
         <Route path='/select' component={Select} />
+        <Route path='/user/:username' component={User} />
         <Route path='/passenger' component={Passenger} />
         <Route path='/processing' component={Processing} />
         <Footer></Footer>
