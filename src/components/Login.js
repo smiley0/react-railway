@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-//import {NavLink} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
 
 class Login extends React.Component {
@@ -10,6 +10,7 @@ class Login extends React.Component {
         token: "",
         haveResponse: false,
         response: {detail: ""},
+        redirect: false,
     }
 
     handleChange = (e) => {
@@ -55,6 +56,7 @@ class Login extends React.Component {
                 this.setState({
                     haveResponse: false,
                 })
+                setTimeout(()=> this.setState({redirect: true}), 1000)
             }
         }
     }
@@ -65,7 +67,7 @@ class Login extends React.Component {
             console.log(this.state.response)
             return(
                 <div>
-                    <h1> You are logged in</h1>
+                    {this.state.redirect?<Redirect to='/'></Redirect>: <h1> You are logged in</h1>}
                 </div>
             )
         }

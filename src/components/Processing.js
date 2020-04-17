@@ -75,10 +75,11 @@ class Processing extends React.Component {
     }
 
     postTicket = (post) => {
-        var headers = new Headers();
-        headers.append('Authorization', 'Basic ' + btoa('marian:heslo123'));
-        headers.append('Content-Type', 'application/json');
-        headers.append('accept', 'application/json');
+        var headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Token '+this.props.token,
+        }
         
         console.log("POST TICKET METHOD")
         const requestOptions = {
@@ -138,6 +139,7 @@ const mapStateToProps = (state) => {
         passengers: state.passengers,
         price: state.price,
         searchInfo: state.searchInfo,
+        token: state.token,
     }
 }
 
