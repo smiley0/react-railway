@@ -38,14 +38,11 @@ class Processing extends React.Component {
         var post = {...this.state.post}
         let dateSlice = this.props.searchInfo.date.split(".");
         post.valid_on = dateSlice[2]+"-"+dateSlice[1]+"-"+dateSlice[0];
-        console.log("DATE")
-        console.log(post.valid_on)
         this.props.passengers.forEach((element, i) => {
             post.passengers[i] = {first_name: element.fname,
                                   last_name: element.lname,
                                   type: element.type_short,}
         });
-        console.log(this.props.trains)
         let reservations = []
         this.props.trains.forEach((train, i) => {
             post.segments[i] = {start: train.fromID, end: train.toID}
@@ -62,8 +59,6 @@ class Processing extends React.Component {
         });
         post.reservations = reservations
         this.setState({post:post})
-        console.log("completeTicket")
-        console.log(post)
         this.postTicket(post)
 
     }
@@ -81,13 +76,11 @@ class Processing extends React.Component {
             'Authorization': 'Token '+this.props.token,
         }
         
-        console.log("POST TICKET METHOD")
         const requestOptions = {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(post)
         };
-        console.log(requestOptions)
         fetch('http://127.0.0.1:8000/ticket/', requestOptions)
             .then(res => res.json())
             .then(json => {this.setState({
@@ -97,8 +90,6 @@ class Processing extends React.Component {
     }
 
     render(){
-        console.log("Processing")
-        console.log(this.state)
         if(this.state.error){
             return(
             <div>
@@ -108,11 +99,7 @@ class Processing extends React.Component {
         }
         else{
         if(this.state.haveResponse){
-            console.log("RESPONSE")
-            console.log(this.state.response)
             const url = this.state.response.paygate_link+'&redir=http://localhost:3000/processing';
-            console.log("paygateURL")
-            console.log(url)
             window.open(url, '_blank')
             return(
                 <div>

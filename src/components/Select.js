@@ -17,7 +17,6 @@ class Select extends React.Component {
                 url: "http://127.0.0.1:8000/search/?from="+this.props.searchInfo.src + "&to=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time + "&limit=5",
             }
         )
-        console.log(">>>>"+this.state.url)
         fetch("http://127.0.0.1:8000/search/?from="+this.props.searchInfo.src + "&to=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time + "&limit=5")
         //fetch("http://127.0.0.1:8000/search/?from="+this.props.searchInfo.src + "&to=" + this.props.searchInfo.dst + "&time=" + this.props.searchInfo.time)
         .then(res => res.json())
@@ -30,8 +29,6 @@ class Select extends React.Component {
     }
 
     render(){
-        console.log('props')
-        console.log(this.props)
         //?time=8:00&src=Krivan&dst=Bratislava
         
         var { isLoaded, items} = this.state;

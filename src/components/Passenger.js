@@ -29,10 +29,8 @@ class Passenger extends React.Component {
     }
 
     addTrains = () => {
-        console.log("ADDTRAIN")
         let T = []
         let trains = this.props.connectionInfo.transfer_history
-        console.log(trains)
         for(let i =0;i<trains.length;i+=1){
             T.push({train: trains[i].train.number, tDistance: trains[i].stop_to.distance - trains[i].stop_from.distance, 
                 from: trains[i].stop_from.station_name, fromID: trains[i].stop_from.id, to: trains[i].stop_to.station_name, toID: trains[i].stop_to.id,
@@ -148,11 +146,6 @@ class Passenger extends React.Component {
 
     }
     handleUpdate = (price) => {
-        //const url = {src: this.state.src, dst: this.state.dst, time: this.state.time, date: this.state.date}
-        console.log("HERUEKA")
-        console.log(price)
-        console.log(this.state.trains)
-        console.log(this.state.passengers)
         this.props.updateReducer(this.state.trains, this.state.passengers, price)
         //this.sleep(5000)
         //this.props.updateReducer(url)
@@ -227,7 +220,7 @@ class Passenger extends React.Component {
   const mapStateToProps = (state) => {
     return {
         connectionInfo: state.connectionInfo,
-        searchInfo: state.searchInfo
+        searchInfo: state.searchInfo,
 
     }
 }
@@ -273,7 +266,6 @@ class Summary extends React.Component {
     }
 
     componentDidMount = () =>{
-        console.log(this.props.passengers)
         this.setState({
             passengerType: this.props.passengers.type_short,
         })
@@ -284,12 +276,9 @@ class Summary extends React.Component {
             this.props.reservations.forEach(val => {
                 val.users.forEach(user => {
                     if(user.id === passenger.id){
-                        //console.log(user.reserved)
                     }
                 })
             })
-            console.log("whole amount")
-            console.log(this.state.wholeAmount)
             return(
                 <div key={i}>
                     <PassengerRes order={i} addToWholeAmount={this.addToWholeAmount} reservations={this.props.reservations} passenger={passenger} distance={this.props.distance}></PassengerRes>
@@ -357,15 +346,7 @@ class PassengerRes extends React.Component {
 
     render(){
 
-        
-        console.log("reservations")
-        console.log(this.props.reservations)
         const trainsList = this.props.reservations.map((train, i) => {
-            /*
-            let myReservations = this.props.reservation.forEach(val => {
-                console.log(val.train)
-            })
-            */
            
             return(
                 <div className='dashed' key={i}>
@@ -409,8 +390,6 @@ class TrainRes extends React.Component {
             this.setState({
                 passengerType: props.passengerType
             })
-            //console.log("updating component")
-            //console.log(props.train)
             if(props.passengerType !== ""){
             fetch("http://127.0.0.1:8000/passenger-type/"+props.passengerType+"/calculate_price/?distance="+this.props.train.tDistance+"&reservation="+this.state.reservation.reserved)
             .then(res => res.json())
@@ -473,7 +452,6 @@ class TrainRes extends React.Component {
     }
     
     render() {
-        console.log(this.props.order)
         return(
             <div className="trainRes">
                 <table>

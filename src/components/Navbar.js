@@ -3,11 +3,29 @@ import {NavLink} from 'react-router-dom'
 import './Navbar.css'
 import logo from './logo.png'
 import { connect } from 'react-redux'
+import equal from 'fast-deep-equal'
 
 class Navbar extends React.Component {
+    state = {
+        uname: "",
+    }
+    
+  componentDidMount() {
+    console.log("NAVBAR REDUX STATE")
+    console.log(this.props.uname)
+
+    this.forceUpdate();
+  }
+  componentDidUpdate(prevProps) {
+    if(!equal(this.props.uname, prevProps.uname)) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
+    {
+        console.log("JOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+        console.log(prevProps)
+        console.log(this.props)
+      this.setState({uname: this.props.uname})
+    }
+  } 
     render(){
-        console.log("registered user")
-        console.log(this.props.uname)
         if(this.props.uname !== ""){
             return(
                 <div>

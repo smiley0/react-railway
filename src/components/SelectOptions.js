@@ -46,12 +46,9 @@ export default class SelectOptions extends React.Component {
                     isLoaded: false
                 })
             });
-    console.log("spracovanie dalsich poziadaviek")
   }
 
   render(){
-    console.log("results")
-    console.log(this.state.trains.items)
   return (
     <div className="selectOptions">
       {this.state.trains.items.result.map((item, index) => (
@@ -73,8 +70,6 @@ class Item extends React.Component {
         this.setState(state => ({ isShow: !state.isShow }));
       };
     render(){
-        console.log("Item")
-        console.log(this.props.item)
         var hour = String(this.props.item.duration / 3600).split(".");
         var min = (this.props.item.duration % 3600)/60;
         return(

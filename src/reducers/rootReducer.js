@@ -112,6 +112,14 @@ const rootReducer = (state = initState, action) => {
             token: action.token,
         }
     }
+    else if(action.type ==='SET_WHOLE_STATE'){
+        console.log('SET WHOLE STATE')
+        return{
+            ...state,
+            uname: action.state.uname,
+            token: action.state.token,
+        }
+    }
     return state;
 }
 

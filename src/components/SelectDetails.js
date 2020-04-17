@@ -10,8 +10,6 @@ class SelectDetails extends React.Component {
       this.props.setConnection(this.props.trains)
   }
     render(){
-      console.log("trains")
-      console.log(this.props.trains)
       return (
         <div className='itemsDetail'>
           {this.props.trains.transfer_history.map((item, index) => (

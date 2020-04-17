@@ -17,8 +17,6 @@ class SearchConnections extends React.Component {
     }
 
     handleChange = (e) => {
-        console.log("handleChange"+e.target.id)
-        console.log("handleChange"+e.target.value)
         if(e.target.id === "dst"){
             this.setState({dst: e.target.value})
         }
@@ -38,7 +36,6 @@ class SearchConnections extends React.Component {
                     .then(res => res.json())
                     .then((data) => {
                         this.setState({ dst_items: data})
-                        console.log('items: ', this.state)
                     }) 
             }
             else if(e.target.id === "src"){
@@ -46,7 +43,6 @@ class SearchConnections extends React.Component {
                 .then(res => res.json())
                 .then((data) => {
                     this.setState({ src_items: data})
-                    console.log('items: ', this.state)
                 })
             }
             
@@ -56,7 +52,6 @@ class SearchConnections extends React.Component {
 
     addToDst = (id) => {
         const item = this.state.dst_items.results.find(item => item.id === id);
-        console.log(item)
         this.setState({
             dst: item.name,
             dst_items: []
@@ -66,7 +61,6 @@ class SearchConnections extends React.Component {
 
     addToSrc = (id) => {
         const item = this.state.src_items.results.find(item => item.id === id);
-        console.log(item)
         this.setState({
             src: item.name,
             src_items: []
@@ -74,7 +68,6 @@ class SearchConnections extends React.Component {
     }
 
     addTimeDate = () => {
-        console.log("Add time was called!!!!!")
         var date = new Date();
         var m = ((date.getMinutes()<10?'0':'')+date.getMinutes());
         var h = ((date.getHours()<10?'0':'')+date.getHours());
@@ -88,8 +81,6 @@ class SearchConnections extends React.Component {
     }
 
     handleChangeTD = (e) => {
-        console.log("eTD"+e.target.id)
-        console.log("eTD"+e.target.value)
         if(e.target.id === "time"){
             this.setState({time: e.target.value})
         }
@@ -106,7 +97,6 @@ class SearchConnections extends React.Component {
 
     handleClick = () => {
         const url = {src: this.state.src, dst: this.state.dst, time: this.state.time, date: this.state.date}
-        //console.log(url)
         //this.sleep(5000)
         this.props.updateUrl(url)
     }
@@ -155,8 +145,6 @@ class SearchConnections extends React.Component {
 
 
     render(){
-        console.log('props')
-        console.log(this.props)
         return(
             <div className='sform'>
                 <div className='scontainer'>

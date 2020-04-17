@@ -2,8 +2,6 @@ import React from 'react';
 import './SearchOptions.css';
 
 function SearchOptions({type, len, options, addToDst}) {
-  console.log(">>>>>>>>>>>>>>>Options<<<<<<<<<<<<<<<<<")
-  console.log(options.results)
   if(options.results === undefined){
     return(
       <ul className={type}>

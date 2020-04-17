@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
+import {saveState} from './localStorage'
 
 
 class Login extends React.Component {
@@ -29,7 +30,6 @@ class Login extends React.Component {
         const post = {};
         post.login = this.state.uname;
         post.password = this.state.psw;
-        console.log(post)
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('accept', 'application/json');
@@ -39,7 +39,6 @@ class Login extends React.Component {
             headers: headers,
             body: JSON.stringify(post)
         };
-        console.log(requestOptions)
         fetch('http://127.0.0.1:8000/accounts/login/', requestOptions)
             .then(res => res.json())
             .then(json => {
@@ -56,6 +55,13 @@ class Login extends React.Component {
                 this.setState({
                     haveResponse: false,
                 })
+                console.log("SAVING TO LOCAL STORAGE")
+                let state = this.props.state;
+                state.token = this.state.response.token;
+                state.uname = this.state.uname;
+
+                console.log(state)
+                saveState(state);
                 setTimeout(()=> this.setState({redirect: true}), 1000)
             }
         }
@@ -63,8 +69,6 @@ class Login extends React.Component {
     
     render(){
         if(this.state.response.detail === "Login successful"){
-            //this.props.updateUnameToken(this.state.uname, this.state.response.token)
-            console.log(this.state.response)
             return(
                 <div>
                     {this.state.redirect?<Redirect to='/'></Redirect>: <h1> You are logged in</h1>}
