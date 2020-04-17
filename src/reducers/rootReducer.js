@@ -69,6 +69,8 @@ const initState = {
     passengers: {},  
     trains: {},
     price: "", 
+    uname: "",
+    token: "",
         
 }
 
@@ -100,6 +102,14 @@ const rootReducer = (state = initState, action) => {
             passengers: action.passengers,
             trains: action.trains,
             price: action.price,
+        }
+    }
+    else if(action.type === 'UPDATE_UNAME_TOKEN'){
+        console.log('PASSING USERNAME AND TOKET TO REDUCER')
+        return{
+            ...state,
+            uname: action.uname,
+            token: action.token,
         }
     }
     return state;

@@ -7,14 +7,16 @@ import Select from './components/Select'
 import Passenger from './components/Passenger'
 import Processing from './components/Processing'
 import Footer from './components/Footer'
+import Login from './components/Login'
 
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <div className="App">
         <Navbar></Navbar>
         <Route exact path='/' component={Home} />
+        <Route path='/login' component={Login} />
         <Route path='/about' component={About} />
         <Route path='/select' component={Select} />
         <Route path='/passenger' component={Passenger} />
