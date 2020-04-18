@@ -89,7 +89,7 @@ class Login extends React.Component {
                                 
                             <button onClick={this.handleClick} type="submit">Login</button>
                             <label> Remember me</label>
-                            <input type="checkbox" name="remember"></input>
+                            <input type="checkbox" name="remember" defaultChecked></input>
                             
                         </div>   
                     </form>                

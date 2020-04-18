@@ -2,7 +2,8 @@ import React from 'react'
 import SearchOptions from './SearchOptions'
 import './SearchConnection.css'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import {compose} from 'redux'
+import { withRouter } from 'react-router-dom';
 
 
 class SearchConnections extends React.Component {
@@ -93,16 +94,19 @@ class SearchConnections extends React.Component {
         this.addTimeDate();
     }
 
-    
-
-    handleClick = () => {
-        const url = {src: this.state.src, dst: this.state.dst, time: this.state.time, date: this.state.date}
-        //this.sleep(5000)
-        this.props.updateUrl(url)
-    }
 
     handleSubmit = (e) => {
         e.preventDefault();
+        if(!(this.state.src !== "" && this.state.dst !== "")){            
+            console.log("you must set From and To")
+            alert("you must set From and To");
+        }
+        else{
+            const url = {src: this.state.src, dst: this.state.dst, time: this.state.time, date: this.state.date}
+            //this.sleep(5000)
+            this.props.updateUrl(url)
+            this.props.history.push("/select")
+        }
     }
 
     timePP = () => {
@@ -150,7 +154,7 @@ class SearchConnections extends React.Component {
                 <div className='scontainer'>
                     <i className="fas fa-search"></i>
                     <h2> Vyhľadanie spojenia </h2>
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmit.bind(this)}>
                         <div className='inputrow'>
                             <div className='src'>
                             <input autoComplete="off" type="text" id="src" onChange={this.handleChange} placeholder='Odkial' value={this.state.src}></input>
@@ -190,7 +194,7 @@ class SearchConnections extends React.Component {
                                 <i className="far fa-caret-square-down"></i>
                                 Rozšírené hľadanie
                             </div>
-                            <NavLink to="/select"><button className='submitbtn' onClick={this.handleClick}>Vyhľadať spojenie</button></NavLink>
+                            <button className='submitbtn'>Vyhľadať spojenie</button>
                         </div>
                             
                     </form>
@@ -213,7 +217,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchConnections)
+export default compose(
+    withRouter, 
+    connect(mapStateToProps, mapDispatchToProps)
+ ) (SearchConnections)
 
 
 

@@ -4,6 +4,7 @@ import './Navbar.css'
 import logo from './logo.png'
 import { connect } from 'react-redux'
 import equal from 'fast-deep-equal'
+import {removeState} from './localStorage'
 
 class Navbar extends React.Component {
     state = {
@@ -25,6 +26,11 @@ class Navbar extends React.Component {
       this.setState({uname: this.props.uname})
     }
   } 
+  handleLogout = () => {
+    removeState();
+    this.props.updateUnameToken("", "")
+                
+  }
     render(){
         if(this.props.uname !== ""){
             return(
@@ -41,7 +47,7 @@ class Navbar extends React.Component {
                         </div>
                         <div className='right'>
                             <NavLink to={'/user/'+this.props.uname}><div className="userName"><h3>{this.props.uname}</h3></div></NavLink>
-                            <NavLink to='/login'><button className="login">Logout</button></NavLink>
+                            <NavLink to='/'><button className="login" onClick={this.handleLogout}>Logout</button></NavLink>
                         </div>
                     </div>
                 </nav>
@@ -102,5 +108,10 @@ const mapStateToProps = (state) => {
         uname: state.uname,
     }
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateUnameToken: (uname, token) => {dispatch({type: 'UPDATE_UNAME_TOKEN', uname: uname, token: token})}
+    }
+}
 
-export default connect(mapStateToProps) (Navbar)
+export default connect(mapStateToProps, mapDispatchToProps) (Navbar)
