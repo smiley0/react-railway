@@ -13,6 +13,8 @@ class Passenger extends React.Component {
       passenger_types: [],
       passengers: [{id:0,fname:"",lname:"", type:"", type_short:"", showType:false}],
       trains: [],
+      response: {},
+      haveResponse: false,
     }
 
     componentDidMount(){
@@ -28,6 +30,13 @@ class Passenger extends React.Component {
        this.setState({
            trains: this.addTrains(),
        })
+    }
+
+    componentDidUpdate = () => {
+        if(this.state.haveResponse){
+            const url = this.state.response.paygate_link+'&redir=http://localhost:3000/user/'+this.props.uname;
+            window.open(url, '_blank')
+        }
     }
 
     addTrains = () => {
@@ -147,6 +156,25 @@ class Passenger extends React.Component {
 
 
     }
+    postTicket = (post) => {
+        var headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Token '+this.props.token,
+        }
+        
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(post)
+        };
+        fetch('http://127.0.0.1:8000/ticket/', requestOptions)
+            .then(res => res.json())
+            .then(json => {this.setState({
+                haveResponse: true,
+                response: json,
+            })});
+    }
     handleUpdate = () => {
         console.log("BUY BUTTON CLICKED")
         console.log(this.state.passengers[0])
@@ -171,8 +199,37 @@ class Passenger extends React.Component {
             }
         }
         if(valid){       
-            this.props.updateReducer(this.state.trains, this.state.passengers)     
-            this.props.history.push("/processing");
+            //this.props.updateReducer(this.state.trains, this.state.passengers)     
+            //this.props.history.push("/processing");
+            var post = {
+                valid_on:"",
+                passengers: {},
+                segments: {},
+                reservations:[],
+            };
+            let dateSlice = this.props.searchInfo.date.split(".");
+            post.valid_on = dateSlice[2]+"-"+dateSlice[1]+"-"+dateSlice[0];
+            this.state.passengers.forEach((element, i) => {
+                post.passengers[i] = {first_name: element.fname,
+                                    last_name: element.lname,
+                                    type: element.type_short,}
+            });
+            let reservations = []
+            this.state.trains.forEach((train, i) => {
+                post.segments[i] = {start: train.fromID, end: train.toID}
+                train.users.forEach((user, j) => {
+                    if(user.reserved){
+                        var reservation = {}
+                        reservation.segment_id = i
+                        reservation.passenger_id = j
+                        reservation.carriage = user.carriageID
+                        reservation.seat_number = user.seatID
+                        reservations.push(reservation)
+                    }
+                })
+            });
+            post.reservations = reservations
+            this.postTicket(post)
         }
         else {
             window.alert('Nieje vyplnene '+message+' cestujuceho')
@@ -249,6 +306,8 @@ class Passenger extends React.Component {
     return {
         connectionInfo: state.connectionInfo,
         searchInfo: state.searchInfo,
+        token: state.token,
+        uname: state.uname,
 
     }
 }

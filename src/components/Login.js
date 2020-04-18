@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
 import {saveState} from './localStorage'
 
 
@@ -62,7 +61,7 @@ class Login extends React.Component {
 
                 console.log(state)
                 saveState(state);
-                setTimeout(()=> this.setState({redirect: true}), 1000)
+                setTimeout(()=> window.location.replace('/'), 1000)
             }
         }
     }
@@ -71,7 +70,7 @@ class Login extends React.Component {
         if(this.state.response.detail === "Login successful"){
             return(
                 <div>
-                    {this.state.redirect?<Redirect to='/'></Redirect>: <h1> You are logged in</h1>}
+                    <h1> You are logged in</h1>
                 </div>
             )
         }
@@ -112,7 +111,10 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)
-
-
+/*export default compose(
+    withRouter, 
+    connect(mapStateToProps, mapDispatchToProps)
+  ) (Login)
+*/
 
                                 

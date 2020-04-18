@@ -81,7 +81,7 @@ class Navbar extends React.Component {
                         </div>
                         <div className='right'>
                             <button className="register">Register</button>
-                            <NavLink to='/login'><button className="login">Login</button></NavLink>
+                            <a href='/login'><button className="login">Login</button></a>
                         </div>
                     </div>
                 </nav>
