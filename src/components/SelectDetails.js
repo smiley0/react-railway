@@ -1,13 +1,22 @@
 import React from 'react'
 import './Select.css'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import {compose} from 'redux'
+import { withRouter } from 'react-router-dom';
+
 class SelectDetails extends React.Component {
     state = {
       opened: false,
     }
     handleClick = () => {
-      this.props.setConnection(this.props.trains)
+      if(this.props.uname !== ""){
+          this.props.setConnection(this.props.trains);
+          this.props.history.push("/passenger");
+      }
+      else{
+          window.alert('Musis sa prihlasit')
+      }
+
   }
     render(){
       return (
@@ -16,7 +25,7 @@ class SelectDetails extends React.Component {
                 <MoreDetail key={index} item={item}></MoreDetail>
           ))}
 
-          <NavLink to='/passenger'><button onClick={this.handleClick}>Kupit listok</button></NavLink>
+          <button onClick={this.handleClick.bind(this)}>Kupit listok</button>
         </div>
       )
       
@@ -25,7 +34,8 @@ class SelectDetails extends React.Component {
 
   const mapStateToProps = (state) => {
     return {
-        connectionInfo: state.connectionInfo
+        connectionInfo: state.connectionInfo,
+        uname: state.uname,
     }
 }
 
@@ -35,7 +45,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectDetails)
+export default compose(
+  withRouter, 
+  connect(mapStateToProps, mapDispatchToProps)
+) (SelectDetails)
 
   class MoreDetail extends React.Component {
     state={

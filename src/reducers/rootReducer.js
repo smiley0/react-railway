@@ -68,7 +68,6 @@ const initState = {
             },
     passengers: {},  
     trains: {},
-    price: "", 
     uname: "",
     token: "",
         
@@ -96,12 +95,10 @@ const rootReducer = (state = initState, action) => {
     }
     else if(action.type === 'UPDATE_PASS'){
         console.log('PASSING INFORMATION TO REDUCER')
-        console.log(action.price)
         return{
             ...state,
             passengers: action.passengers,
             trains: action.trains,
-            price: action.price,
         }
     }
     else if(action.type === 'UPDATE_UNAME_TOKEN'){
