@@ -17,7 +17,11 @@ class User extends React.Component {
             uname: this.props.uname,
             token: this.props.token,
           })
-        this.getTickets();
+        console.log("CDM TOKEN")
+        console.log(this.props.token)
+        if(this.props.token !== ''){
+            this.getTickets();
+        }
     }
     componentDidUpdate(prevProps) {
         if(!equal(this.props.uname, prevProps.uname)) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
@@ -32,7 +36,7 @@ class User extends React.Component {
             this.getTickets();
         }
       } 
-    getTickets = (post) => {
+    getTickets = () => {
         var headers = {
             'accept': 'application/json',
             'Content-Type': 'application/json',
@@ -46,8 +50,8 @@ class User extends React.Component {
         fetch('http://127.0.0.1:8000/ticket/', requestOptions)
             .then(res => res.json())
             .then(json => {this.setState({
-                haveResponse: true,
                 response: json,
+                haveResponse: true,
             })});
     }
     render(){
@@ -56,6 +60,8 @@ class User extends React.Component {
             console.log(this.state.response)
             let ticketsList = null;
             if(this.state.haveResponse){
+            console.log(this.state.haveResponse)
+            console.log(this.state.response)
             ticketsList = this.state.response.results.map((ticket, i) => {
                 return(
                       <li key={i}>
@@ -160,9 +166,12 @@ class Passengers extends React.Component {
             )
         })
         return(
-            <ul>
-                {passengers}
-            </ul>
+            <div>
+                <h3>Cestujuci</h3>
+                <ul>
+                    {passengers}
+                </ul>
+            </div>
         )
     }
 }
