@@ -6,7 +6,6 @@ import About from './components/About'
 import Select from './components/Select'
 import Passenger from './components/Passenger'
 import Footer from './components/Footer'
-import Login from './components/Login'
 import User from './components/User'
 
 import {loadState} from './components/localStorage'
@@ -32,16 +31,13 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="App">
-        {/*<Navbar></Navbar>*/}
-          {window.location.pathname !== '/login'?<Navbar></Navbar>:null}
+        <Navbar></Navbar>
           <Route exact path='/' component={Home} />
-          <Route path='/login' component={Login} />
           <Route path='/about' component={About} />
           <Route path='/select' component={Select} />
           <Route path='/user/:username' component={User} />
           <Route path='/passenger' component={Passenger} />
-          {window.location.pathname !== '/login'?<Footer></Footer>:null}
-        {/*<Footer></Footer>*/}
+        <Footer></Footer>
         </div>
       </BrowserRouter>
     );
@@ -61,7 +57,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps) (App)
-/*export default compose(
-  withRouter, 
-  connect(mapStateToProps, mapDispatchToProps)
-) (App)*/
