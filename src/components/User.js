@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import equal from 'fast-deep-equal'
+import './Users.css'
 //import {NavLink} from 'react-router-dom'
 
 
@@ -10,6 +11,13 @@ class User extends React.Component {
         haveResponse: false,
         uname: "",
         token: "",
+    }
+    componentDidMount = () => {
+        this.setState({
+            uname: this.props.uname,
+            token: this.props.token,
+          })
+        this.getTickets();
     }
     componentDidUpdate(prevProps) {
         if(!equal(this.props.uname, prevProps.uname)) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
@@ -57,10 +65,10 @@ class User extends React.Component {
               })
             }
             return(
-                <div>
+                <div className='center'>
                     <h1>Hello {this.state.uname}</h1>
                     <h2>Zakupene listky</h2>
-                    <ul>
+                    <ul className='ticketList'>
                         {this.state.haveResponse? ticketsList: null}
                     </ul>
                 </div>
@@ -95,18 +103,66 @@ class Ticket extends React.Component {
     render(){
         const ticket = this.props.ticket
         console.log()
+        
         return(
-            <div onClick={this.showMore}>
-                <p>{ticket.segments[0].start.station_name} - 
-                {ticket.segments[ticket.segments.length - 1].end.station_name}</p>
-                <p>{ticket.valid_on} cena: {ticket.price}</p>
-                {ticket.status === 'U'?<a href={ticket.paygate_link}>Zaplatit</a>: null}
+            <div className='ticket' onClick={this.showMore}>
+                <div className='content-ticket'>
+                <div className='l-content-ticket'>
+                    <h2>Cestovny listok</h2>
+                    <p>{ticket.segments[0].start.station_name} - 
+                    {ticket.segments[ticket.segments.length - 1].end.station_name}</p>
+                    <p>{ticket.valid_on}</p>
+                    {ticket.status === 'U'?<a href={ticket.paygate_link}>Zaplatit</a>: null}
+                    
+                </div>    
+                <div className='r-content-ticket'>   
+                    <Passengers passengers={ticket.passengers}></Passengers>
+                    <p> cena: {ticket.price}</p>
+                </div> 
+                </div>
                 {this.state.showMore? 
-                    <div>
-                        <Segments passengers={ticket.passengers} reservations={ticket.reservations} segments={ticket.segments}></Segments>
-                    </div>
-                : null}
+                        <div>
+                            <Segments passengers={ticket.passengers} reservations={ticket.reservations} segments={ticket.segments}></Segments>
+                        </div>
+                    : null}
             </div>
+        )
+    }
+}
+class Passengers extends React.Component {
+    state = {
+        passenger_types: {},
+        isLoaded: false,
+    }
+    componentDidMount = () => {
+        fetch("http://127.0.0.1:8000/passenger-type/")
+        .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    isLoaded: true,
+                    passenger_types: json,
+                })
+            });
+    }
+    returnTypeName = (type) => {
+        let pass_type = this.state.passenger_types.results.find((val) => {
+            return val.short === type;
+          });
+        return pass_type.name
+    }
+
+    render(){
+        const passengers = this.props.passengers.map((value, i) => {
+            return(
+                <li key={i}>
+                    {value.first_name} {value.last_name} - {this.state.isLoaded? this.returnTypeName(value.type):null}
+                </li>
+            )
+        })
+        return(
+            <ul>
+                {passengers}
+            </ul>
         )
     }
 }
