@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import './Passenger.css'
 import {compose} from 'redux'
 import { withRouter } from 'react-router-dom';
+import equal from 'fast-deep-equal'
 
 class Passenger extends React.Component {
     state = {
@@ -740,6 +741,18 @@ class SelectSeats extends React.Component {
                 carriage: carriageInfo,
             })
         }
+        else{
+            for(let i = 0; i<this.state.reservations.length; i+=1){
+                if(this.state.reservations[i].id === id){
+                    carriageInfo = this.state.reservations[i]
+                }
+            }
+            this.setState({
+                displayCarriage: id,
+                carriage: carriageInfo,
+            })
+            this.forceUpdate();
+        }
     }
 
     hideCarriage = () =>{
@@ -820,6 +833,10 @@ class Carriage extends React.Component {
     }
 
     componentDidMount = () => {
+        this.test()
+    }
+
+    test =()=>{ //TODO find better name
         let result = [];
         for(let i=1; i <= this.props.info.seats; i+=1){
             let element = {}
@@ -839,10 +856,21 @@ class Carriage extends React.Component {
             //this.state.className.push(element)
             result.push(element) 
         }
+        /*
         if(JSON.stringify(result)!==JSON.stringify(this.state.className)){
             this.setState({
                 className: result,
             })
+        }
+        */
+       this.setState({
+            className: result,
+        })
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if(prevProps.id !== this.props.id){
+            this.test();
         }
     }
 
@@ -894,7 +922,12 @@ class Carriage extends React.Component {
            
             let listOfPassengers = [];
             for(let i=0; i<this.props.passengers.length; i+=1){
-                listOfPassengers.push(this.props.passengers[i].fname + ' ' + this.props.passengers[i].lname)
+                if(this.props.passengers[i].type !== ""){
+                    listOfPassengers.push({fullname: this.props.passengers[i].fname + ' ' + this.props.passengers[i].lname, type: true})
+                }
+                else{
+                    listOfPassengers.push({fullname: this.props.passengers[i].fname + ' ' + this.props.passengers[i].lname, type: false})
+                }
                 /*
                 let test = this.state.uidd.some((val) => {
                     return val === i;
@@ -978,6 +1011,14 @@ class Seat extends React.Component {
         })
     }
 
+    componentDidUpdate = (prevProps) => {
+        if(!equal(this.props.classes, prevProps.classes)){
+            this.setState({
+                reservation: this.props.classes.state,
+            })
+        }
+    }
+
     bookSeat = (i) => {
         this.setState({
             selected: false,
@@ -999,18 +1040,24 @@ class Seat extends React.Component {
 }
 
 function PassengerOptions({passengers, bookSeat, train}) {
-
-    
     const passengersList = passengers.map((option, i) => {
        if(train.users[i].reserved === true){
         return(
-            <li onClick={() => {bookSeat(i)}} className="li-hide" key={i}>{option}</li>
+            <li onClick={() => {bookSeat(i)}} className="li-hide" key={i}>{option.fullname}</li>
         )
        }
        else {
-        return(
-                <li onClick={() => {bookSeat(i)}} key={i}>{option}</li>
-        )
+           if(option.type){
+                return(
+                    <li onClick={() => {bookSeat(i)}} key={i}>{option.fullname}</li>
+                )
+           }
+           else{
+                return(
+                    <li onClick={() => {bookSeat(i)}} className="li-hide" key={i}>{option.fullname}</li>
+                )
+           }
+        
     }
     })
     return (
