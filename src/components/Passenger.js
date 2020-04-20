@@ -35,7 +35,7 @@ class Passenger extends React.Component {
     componentDidUpdate = () => {
         if(this.state.haveResponse){
             const url = this.state.response.paygate_link+'&redir=http://localhost:3000/user/'+this.props.uname;
-            window.open(url, '_blank')
+            window.location.href = url; 
         }
     }
 
