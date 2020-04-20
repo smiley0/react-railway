@@ -10,10 +10,17 @@ import avatar from './avatar.jpg'
 class Navbar extends React.Component {
     state = {
         haveResponse: false,
+        haveRegistrationResponse: false,
+        registrationResponse: {},
         uname: "",
         display: false,
+        register_display: false,
         uname2: "",
         psw: "",
+        rpsw: "",
+        fname: "",
+        lname: "",
+        email: "",
     }
     
   componentDidMount() {
@@ -32,7 +39,19 @@ class Navbar extends React.Component {
     }
     if(prevState.haveResponse !== this.state.haveResponse){
         this.closeLogin();
+        this.closeRegister();
         this.forceUpdate();
+    }
+    if(prevState.haveRegistrationResponse !== this.state.haveRegistrationResponse){
+        console.log("ODPOVED OD REGISTRACIE")
+        console.log(this.state.registrationResponse)
+        /* Prisla kladna odpoved */
+        if(this.state.registrationResponse.hasOwnProperty('username')){
+            if(this.state.registrationResponse.username === this.state.uname2){
+                console.log("DOBRA")
+                this.handleClick();
+            }
+        }
     }
   } 
   handleLogout = () => {
@@ -40,9 +59,13 @@ class Navbar extends React.Component {
     this.props.updateUnameToken("", "")
                 
   }
+
   login = () => {
       console.log("Login was clicked")
       this.setState({display: true})      
+  }
+  register = () => {
+      this.setState({register_display: true})
   }
   checkClick = (event) => {
       console.log("EVENT")
@@ -51,13 +74,22 @@ class Navbar extends React.Component {
           this.setState({display: false})
       }
   }
+  checkRegisterClick = (event) => {
+      if(event.target.className === 'registerPage'){
+        this.setState({register_display: false})
+      }
+  }
   closeLogin = () => {
     this.setState({display: false})
   }
+  closeRegister = () => {
+      this.setState({register_display: false})
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     }
-    handleClick = () => {
+  handleClick = () => {
         const post = {};
         post.login = this.state.uname2;
         post.password = this.state.psw;
@@ -89,6 +121,36 @@ class Navbar extends React.Component {
                 })
             });
     }
+    handleRegisterClick = () => {
+        const post = {};
+        post.username = this.state.uname2;
+        post.first_name = this.state.fname;
+        post.last_name = this.state.last_name;
+        post.email = this.state.email;
+        post.password = this.state.psw;
+        post.password_confirm = this.state.rpsw;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('accept', 'application/json');
+
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(post)
+        };
+
+        console.log("REQUEST OPTIONS")
+        console.log(requestOptions)
+
+        fetch('http://127.0.0.1:8000/accounts/register/', requestOptions)
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    registrationResponse: json,
+                    haveRegistrationResponse: true,
+                })
+            });
+    }
     handleChange = (e) => {
         if(e.target.id === "uname"){
             this.setState({uname2: e.target.value})
@@ -96,7 +158,18 @@ class Navbar extends React.Component {
         else if(e.target.id === "psw"){
             this.setState({psw: e.target.value})
         }
-        
+        else if(e.target.id === "rpsw"){
+            this.setState({rpsw: e.target.value})
+        } 
+        else if(e.target.id === "fname"){
+            this.setState({fname: e.target.value})
+        } 
+        else if(e.target.id === "lname"){
+            this.setState({lname: e.target.value})
+        } 
+        else if(e.target.id === "email"){
+            this.setState({email: e.target.value})
+        } 
     }
     render(){
         if(this.props.uname !== ""){
@@ -161,6 +234,47 @@ class Navbar extends React.Component {
                     </div> :
                     null
                 }
+                {this.state.register_display?
+                    <div className='registerPage' onClick={this.checkRegisterClick}>
+                        <div className='formContent'>
+                            <div className='introContent'>
+                            <h1>Zaregistruj sa</h1>
+                            <p>Prosim vyplnte formular k vytvoreniu uctu <span>(* - povinne udaje)</span></p>
+                            
+                            <span className='close'><i onClick={this.closeRegister} className="fas fa-times fa-2x"></i></span>
+                            <hr></hr>
+                            </div>
+                            <form onSubmit={this.handleSubmit}>
+                                <div className="loginForm">
+                                    <label htmlFor="uname"><b>Username *</b></label>
+                                    <input id='uname' onChange={this.handleChange} type="text" placeholder="Enter Username" name="uname" required></input>
+
+                                    <label htmlFor="fname"><b>First name</b></label>
+                                    <input id='fname' onChange={this.handleChange} type="text" placeholder="Enter First name" name="fname"></input>
+
+                                    <label htmlFor="lname"><b>Last name</b></label>
+                                    <input id='lname' onChange={this.handleChange} type="text" placeholder="Enter Last name" name="lname"></input>
+
+                                    <label htmlFor="email"><b>Email</b></label>
+                                    <input id='email' onChange={this.handleChange} type="text" placeholder="Enter Email" name="email"></input>
+
+                                    <label htmlFor="psw"><b>Password *</b></label>
+                                    <input id='psw' onChange={this.handleChange} type="password" placeholder="Enter Password" name="psw" required></input>
+                                    
+                                    <label htmlFor="psw-repeat"><b>Repeat Password *</b></label>
+                                    <input id='rpsw' onChange={this.handleChange} type="password" placeholder="Repeat Password" name="psw-repeat" required></input>    
+                                    
+                                    <button onClick={this.handleRegisterClick} type="submit">Register</button>
+                                    
+                                    <label> Remember me</label>
+                                    <input type="checkbox" name="remember" defaultChecked></input>
+                                    
+                                </div>   
+                            </form>  
+                        </div> 
+                    </div>: 
+                    null
+                }
                 <nav id='navbar'>
                     <div className='center'>
                         <div className='left'>
@@ -172,7 +286,7 @@ class Navbar extends React.Component {
                             </ul>
                         </div>
                         <div className='right'>
-                            <button className="register">Register</button>
+                            <button onClick={this.register} className="register">Register</button>
                             {/*<a href='/login'><button className="login">Login</button></a>*/}
                             <button onClick={this.login} className="login">Login</button>
                         </div>
