@@ -2,6 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import equal from 'fast-deep-equal'
 import './Users.css'
+import carriage from './carriage.png'
+import seat from './seat.jpg'
 //import {NavLink} from 'react-router-dom'
 
 
@@ -120,17 +122,15 @@ class Ticket extends React.Component {
                     <p>{ticket.valid_on}</p>
                     {ticket.status === 'U'?<a href={ticket.paygate_link}>Zaplatit</a>: null}
                     
+                    {this.state.showMore? 
+                            <Segments passengers={ticket.passengers} reservations={ticket.reservations} segments={ticket.segments}></Segments>
+                    : null}
                 </div>    
                 <div className='r-content-ticket'>   
                     <Passengers passengers={ticket.passengers}></Passengers>
                     <p> cena: {ticket.price}</p>
                 </div> 
                 </div>
-                {this.state.showMore? 
-                        <div>
-                            <Segments passengers={ticket.passengers} reservations={ticket.reservations} segments={ticket.segments}></Segments>
-                        </div>
-                    : null}
             </div>
         )
     }
@@ -180,11 +180,25 @@ class Segments extends React.Component {
     render(){
         const segments = this.props.segments
         const segment = segments.map((segment, i) => {
+            console.log("SEGMENTTTT")
+            console.log(segment)
             return(
                   <li key={i}>
                     <div>
-                        <p>{segment.start.station_name} {segment.start.departure_time}</p>
-                        <p>{segment.end.station_name} {segment.end.arrival_time}</p>
+                        <table className='segment'>
+                            <tbody>
+                                <tr>
+                                    <td><i className="fas fa-subway"></i> {segment.train.category_short}-{segment.train.number}</td>
+                                    <td>{segment.start.station_name}</td>
+                                    <td>{segment.start.departure_time}</td>
+                                </tr>
+                                <tr>
+                                    <td>{segment.train.name}</td>
+                                    <td>{segment.end.station_name}</td>
+                                    <td>{segment.end.arrival_time}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <ul>
                             <Reservations passengers={this.props.passengers} id={segment.id} reservations={this.props.reservations}></Reservations>
                         </ul>
@@ -193,7 +207,7 @@ class Segments extends React.Component {
             )
           })
         return(
-            <div>
+            <div className='advancedInfo'>
                 <ul>
                     {segment}
                 </ul>
@@ -260,10 +274,13 @@ class ReservationInfo extends React.Component {
     }
     render(){
         return(
-            <div>
-                <p>sedadlo: {this.state.seat}</p>
-                <p>vozen: {this.state.carriage}</p>
-                <p>uzivatel: {this.state.passenger}</p>
+            <div className="seatsReservations"> 
+                <img src={carriage} alt="carriage" height="25"></img>
+                <span> {this.state.carriage}  </span>
+                <img src={seat} alt="seat" height="25"></img>
+                <span> {this.state.seat}  </span>
+                <i className="fas fa-user"></i>
+                <span> {this.state.passenger}  </span>
             </div>
         )
     }
