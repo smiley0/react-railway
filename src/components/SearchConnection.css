@@ -11,7 +11,7 @@
 }
 .fas {
     font-size: 1.3em;
-    color: red;
+    color: var(--main-color);
 }
 .scontainer h2{
     margin: 0;
@@ -167,7 +167,7 @@
    width: 16px;
    height: 16px;
    border-radius: 50%;
-   background: red;
+   background: var(--main-color-secondary);
 }
 .inputrow3 {
     margin-top: 25px;
@@ -197,7 +197,7 @@
     text-decoration: none;
     color: white;
     display: block;
-    background-color: red;
+    background-color: var(--main-color);
     text-decoration: none;
     cursor: pointer;
 }

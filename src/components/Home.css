@@ -1,65 +1,50 @@
-/*
-.home {
-    position: relative;
-}*/
-.bg { 
+.bg {
     display: block;
     position: relative;
-    background: url("trainBG.jpg"); 
-    background-position: center center;
+    background: url("trainBG.jpg") center center;
     height: 500px;
     padding-top: 60px;
 }
-/*
-.bg::after {
-    content: "";
-    background: url("trainBG.jpg"); 
-    opacity: 0.5;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    background-position: center center;
-    z-index: -1;
-}*/
 
 .left {
     float: left;
 }
+
 .right {
     float: right;
 }
+
 .sbox {
     width: 30%;
     margin-left: 2.5%;
     margin-right: 2.5%;
 }
-.sbox:first-child{
+
+.sbox:first-child {
     margin-left: 0;
 }
-.sbox:last-child{
+
+.sbox:last-child {
     margin-right: 0;
 }
+
 .sbox h3 {
     text-align: center;
-    background-color: rgba(255,0,0,.85);
+    background-color: var(--main-color-secondary);
     margin: 0;
     padding: .6em;
     color: white;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
+
 .sbox p {
     text-align: justify;
-    background-color: rgba(222, 222, 222, .85);
+    background-color: var(--card-bg);
     margin: 0;
     padding: .5em 1em;
-    /*
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    */
 }
+
 .infobox {
     position: relative;
     top: 60px;
@@ -68,40 +53,47 @@
 .setTop {
     margin-top: 150px;
 }
-.setTop::after{
+
+.setTop::after {
     content: "";
     display: block;
     clear: both;
-
 }
 
 .lbox {
     width: 49%;
-    background-color: rgba(222, 222, 222, .85);
+    background-color: var(--card-bg);
 }
+
 .lbox img {
     width: 100%;
     height: 280px;
 }
+
 .lbox p, .lbox h4 {
     margin: 0;
     padding: .5em 1em;
 }
+
 .lbox h4 {
     padding-top: 1em;
 }
+
 .lbox a {
     text-decoration: none;
     color: black;
 }
+
 .moreinfo {
     display: block;
     padding: 1.5em 1em;
 }
+
 .moreinfo i {
     padding-right: .5em;
 }
+
 .lbox a:hover > span.moreinfo {
-    color: red;
+    color: var(--main-color);
     text-decoration: underline;
 }

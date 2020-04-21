@@ -3,7 +3,7 @@
     padding: 0;
 }
 .ticket {
-    border: 0px solid black;
+    border: 0 solid black;
     box-shadow: -5px -5px 15px rgba(100, 100, 100, .4), 5px -5px 15px rgba(100, 100, 100, .4);
     margin-top: 1em;
     padding: 1em;

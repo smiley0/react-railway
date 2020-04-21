@@ -2,23 +2,29 @@
     overflow: hidden;
     min-height: 600px;
 }
+
 .passenger h1 {
-    color: rgb(200, 0, 0);
+    color: var(--main-color);
     text-align: center;
 }
+
 .passenger h2 {
-    color: rgb(200, 0, 0);
+    color: var(--main-color-secondary);
 }
+
 .passenger .gray {
     color: gray;
     font-size: 0.8em;
 }
+
 .passengers table {
     width: 100%;
 }
+
 .passengers td {
     width: 33%;
 }
+
 .passenger input {
     width: 88%;
     height: 40px;
@@ -27,53 +33,62 @@
     padding-left: 10%;
     font-size: 1.2em;
 }
+
 .passenger .remove {
     width: 100%;
     font-size: 1.2em;
     padding: 8px 20px;
-    border: 2px solid red;
+    border: 2px solid var(--main-color-secondary);
     border-radius: 8px;
     background-color: white;
 }
+
 .passenger thead {
     font-size: 1.2em;
-    color: #c80000;
+    color: var(--main-color-secondary);
 }
+
 .passenger .addmore {
     width: 98.5%;
-    background-color: red;
-    color: white;
-    padding: 10px 0px;
+    background-color: var(--main-color-secondary);
+    color: var(--text-body-on-dark);
+    padding: 10px 0;
     border: none;
     border-radius: 6px;
     font-size: 1em;
     font-weight: bold;
     margin-left: 0.5%;
 }
+
 .passengers {
     margin-bottom: 40px;
 }
+
 .selectType {
     width: 168px;
     list-style: none;
     position: absolute;
     z-index: 1;
     margin: 0;
-    padding:0;
+    padding: 0;
 }
+
 .selectType li {
     padding: 5px 20px;
     background-color: white;
     border: 1px solid #ccc;
 }
-.selectType li:first-child{
+
+.selectType li:first-child {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
-.selectType li:last-child{
+
+.selectType li:last-child {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
+
 .passenger .checkBox {
     font-size: 1.2em;
     font-weight: bold;
@@ -81,41 +96,47 @@
     display: block;
     margin-bottom: 30px;
 }
+
 .passenger .checkBox:hover {
-    color: #c80000;
+    color: var(--main-color);
 }
+
 .passenger .checkBox input {
     width: auto;
     height: auto;
 }
+
 /*##############*/
 .connection .itembox {
     overflow: hidden;
     position: relative;
     border-bottom: 1px dashed black;
 }
+
 .connection .lsbox {
     width: 56%;
     margin: 2%;
 }
+
 .connection .rsbox {
     width: 40%;
     height: 100%;
-    
+
     position: absolute;
     right: 0;
     top: 0;
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
 
     /*border-left: 1px dashed black;*/
 }
-.connection .rsbox .buy{
-    background-color: red;
+
+.connection .rsbox .buy {
+    background-color: var(--main-color-secondary);
     padding: 15px 55px;
-    color: white;
+    color: var(--text-body-on-dark);
     font-weight: bold;
 }
 
@@ -125,22 +146,28 @@
     margin-bottom: 10px;
     font-size: 1.2em;
 }
-.connection table td{
+
+.connection table td {
     text-align: center;
 }
-.connection table td:last-child{
+
+.connection table td:last-child {
     text-align: right;
 }
-.detailInfo p{
+
+.detailInfo p {
     margin: 0;
 }
-.detailInfo p:first-child{
+
+.detailInfo p:first-child {
     width: 60%;
 }
-.detailInfo p:last-child{
+
+.detailInfo p:last-child {
     width: 40%;
     text-align: right;
 }
+
 /*###########*/
 .train ul {
     list-style-type: none;
@@ -149,37 +176,45 @@
     overflow: auto;
     white-space: nowrap;
 }
+
 .train li {
     display: inline-block;
-  text-align: right;
-  text-decoration: none;
+    text-align: right;
+    text-decoration: none;
 }
+
 .train li div {
     width: 180px;
     height: 80px;
-    border: 3px solid  rgb(200, 0, 0);
+    border: 3px solid var(--main-color-secondary);
     padding: 10px;
     margin: 3px;
 }
+
 .train .engine {
-    border-radius: 10px;
-    border-top-left-radius: 100px;
+    border-radius: 100px 10px 10px 10px;
 }
+
 .train .engine:hover {
     cursor: not-allowed;
 }
+
 .train .wagon {
     border-radius: 10px;
 }
+
 .train .wagon:hover {
     cursor: pointer;
 }
+
 .train .class1 {
     border-color: rgb(211, 182, 20)
 }
+
 .train .class2 {
     border-color: black;
 }
+
 /*
 .train p {
     margin: 2px;
@@ -188,69 +223,84 @@
 .train span {
     display: block;
 }
+
 /*#################*/
-.seats-60{
+.seats-60 {
     width: 96%;
     height: 100px;
     border: 1px solid black;
     border-radius: 20px;
     padding: 2%;
 }
-.seats-60 .width{
+
+.seats-60 .width {
     width: 5%;
     height: 25%;
     float: left;
 }
+
 .seat {
     width: 60%;
     height: 80%;
     margin: 0 10%;
     text-align: center;
 }
+
 .s-left {
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
 }
+
 .s-right {
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 }
+
 .free {
     background-color: rgb(180, 255, 180);
     border: 1px solid green;
 }
-.reserved{
+
+.reserved {
     background-color: rgb(255, 107, 107);
     border: 1px solid red;
 }
+
 .maybe {
-    background-color: rgba(255, 90, 30,.4);
+    background-color: rgba(255, 90, 30, .4);
     border: 1px solid orangered;
 }
+
 .intro {
     overflow: hidden;
 }
+
 .intro .remove-x {
+    color: var(--main-color);
     padding-top: 15px;
     size: 9em;
     float: right;
+    cursor: pointer;
 }
-.intro .remove-x:hover{
-    color: rgb(200, 0, 0);
+
+.intro .remove-x:hover {
+    color: var(--main-color-secondary);
 }
+
 .intro h2 {
     float: left;
 }
-
 
 .passengerMain {
     width: 700px;
     float: left;
 }
+
 .passengerTotal {
     width: 324px;
     float: left;
 }
+
 .passengerTotal .context {
     margin-left: 24px;
     margin-top: 30px;
@@ -258,90 +308,111 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
-.context h1{
+
+.context h1 {
     text-align: center;
-    background-color: rgb(250, 0, 0);
-    color: white;
+    background-color: var(--main-color-secondary);
+    color: var(--text-body-on-dark);
     margin: 0;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+    font-size: 1.5em;
+    padding: 5px 0;
 }
-.singlePerson{
+
+.singlePerson {
     border: 1px solid gray;
     margin: 5px;
     padding: 5px;
 }
-.singlePerson h3{
-    color: rgb(200, 0, 0);
-    margin: 0px;
+
+.singlePerson h3 {
+    color: var(--main-color-light);
+    margin: 0;
 }
-.singlePerson .smallerGray{
+
+.singlePerson .smallerGray {
     color: gray;
 }
+
 .singlePerson .darkRed {
-    color: rgb(200, 0, 0);
+    color: var(--main-color);
 
 }
-.singlePerson p:last-child{
+
+.singlePerson p:last-child {
     text-align: center;
 }
-div.dashed:first-of-type{
+
+div.dashed:first-of-type {
     border-top: 1px dashed black;
 }
-.trainRes{
+
+.trainRes {
     border-bottom: 1px dashed black;
 }
-.trainRes table{
+
+.trainRes table {
     width: 100%;
 }
-.trainRes .tBody1{
+
+.trainRes .tBody1 {
     width: 25%;
     padding-top: 10px;
     float: left;
 }
-.tBody1 tr, .tBody2 tr{
+
+.tBody1 tr, .tBody2 tr {
     width: 100%;
     display: table;
 }
-.tBody1 td, .tBody2 td{
+
+.tBody1 td, .tBody2 td {
     text-align: center;
     padding: 0;
 }
-.trainRes .tBody2{
+
+.trainRes .tBody2 {
     width: 75%;
     float: left;
 }
-.withoutReservation{
+
+.withoutReservation {
     overflow: hidden;
 }
+
 .withoutReservation p {
     width: 50%;
     float: left;
     margin: 4px 0;
 }
+
 .withoutReservation p:last-child {
     text-align: right;
 }
-.darkRed{
-    color: rgb(200, 0, 0);
+
+.darkRed {
+    color: var(--main-color);
 }
-.withReservation p:last-child{
+
+.withReservation p:last-child {
     text-align: right;
 }
+
 .bold {
     font-weight: bold;
 }
+
 .context button {
     margin: 5px;
     width: 288px;
     height: 50px;
     border: none;
-    font-size: 1.8em;
+    font-size: 1.3em;
     font-weight: bold;
-    background-color: rgb(255, 0, 0);
+    background-color: var(--main-color-secondary);
+    color: var(--text-body-on-dark);
 }
-
-
 
 ul.passengersList {
     width: 200px;
@@ -352,6 +423,7 @@ ul.passengersList {
     z-index: 1;
     overflow: hidden;
 }
+
 ul.passengersList li {
     background-color: white;
     border: 1px solid gray;
@@ -359,13 +431,16 @@ ul.passengersList li {
     padding: 12px 20px;
     text-align: center;
 }
-ul.passengersList li{
+
+ul.passengersList li {
     /*display: none;*/
     background-color: pink;
-} 
-ul.passengersList li.li-hide{
+}
+
+ul.passengersList li.li-hide {
     display: none;
-} 
+}
+
 /*
 .train li div {
     width: 180px;

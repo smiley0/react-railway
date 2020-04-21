@@ -1,14 +1,17 @@
-.footer {
+footer {
     margin-top: 20px;
-    color: white;
+    color: var(--text-body-on-dark);
 }
-.footer1 {
-    background-color: red;
-}
-.footer2 {
-    background-color: rgb(200, 0, 0);
-}
-.footer2 p, .footer1 p {
+
+footer p {
     text-align: center;
     padding: 1em;
+}
+
+.footer1 {
+    background-color: var(--main-color-secondary);
+}
+
+.footer2 {
+    background-color: var(--main-color);
 }

@@ -1,97 +1,116 @@
 #navbar {
     position: relative;
-    background-color: #f9f9f9;
+    background-color: var(--header-color);
     overflow: hidden;
 }
-#navbar img{
+
+#navbar img {
     height: 100px;
 }
-#navbar .left{
+
+#navbar .left {
     width: 703px;
-    float:left;
+    float: left;
 }
+
 #navbar ul {
     float: right;
     margin: 0px;
     padding-top: 41px;
 }
+
 #navbar li {
     display: inline;
     margin-right: 5px;
 }
+
 #navbar li span:hover {
-    color: red;
+    color: var(--main-color);
 }
-#navbar li:last-child{
+
+#navbar li:last-child {
     margin-right: 15px;
 }
 
-#navbar .right{
+#navbar .right {
     float: right;
     margin-top: 15px;
     height: 70px;
-    border-left: 1px solid red;
+    border-left: 1px solid var(--main-color);
 }
+
+#navbar .userName {
+    display: inline-block;
+    width: 160px;
+    text-align: center;
+    color: var(--main-color);
+    font-size: 1.2em;
+}
+
 #navbar button {
     height: 40px;
     width: 140px;
     margin-left: 20px;
     margin-top: 15px;
-    background-color: rgb(255, 0, 0);
-    border:  2px solid rgb(255, 0, 0);
+    background-color: var(--main-color-secondary);
+    border: 2px solid var(--main-color);
+    color: var(--text-body-on-dark);
     border-radius: 4px;
     font-size: 16px;
 }
-#navbar .register {
-    background-color: white;
-}
+
 #navbar button:hover {
-    border:  4px solid rgb(255, 0, 0);
+    border: 2px solid var(--main-color);
 }
-#navbar .userName {
-    display: inline-block;
-    width: 160px;
-    text-align: center;
-    color: rgb(200, 0, 0);
-    font-size: 1.2em;
+
+#navbar button.register {
+    background-color: var(--body-color);
+    color: var(--main-color);
 }
+
 #navbar button.login:hover {
-    background-color: rgb(255, 105, 105);
+    background-color: var(--main-color);
 }
 
 #snav {
-    background-color: red;
+    background-color: var(--main-color);
 }
+
 #snav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
 }
+
 #snav li {
     float: left;
 }
+
 #snav i {
     color: white;
     padding: 0;
 }
-#snav li a{
+
+#snav li a {
     text-decoration: none;
     color: white;
     font-size: 1.2em;
     display: block;
     text-align: center;
-    padding: 14px 16px;    
+    padding: 14px 16px;
 }
-#snav .felem{
+
+#snav .felem {
     padding-bottom: 11px;
 }
 
-#snav li a:hover{
-    background-color: rgb(255, 105, 105);
+#snav li a:hover {
+    background-color: var(--main-color-secondary);
 }
+
 /* Login page */
-.loginPage {
+.modalPage {
     /* display: none; Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -100,57 +119,63 @@
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-  }
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+}
+
 .formContent {
     background-color: #fefefe;
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
     width: 60%; /* Could be more or less, depending on screen size */
 }
-.imageContent{
+
+.imageContent {
     text-align: center;
     margin: 24px 0 12px 0;
     position: relative;
 }
-.imageContent img{
+
+.imageContent img {
     width: 33%;
     border-radius: 50%;
-    border: 2px solid rgb(255, 105, 105);
+    border: 2px solid var(--main-color);
 }
-.close {
 
+.close {
     font-size: 2.5em;
     position: absolute;
     right: 25px;
     top: 0;
     color: #000;
-    font-size: 35px;
     font-weight: bold;
-  }
-  .close i{
-    color: rgb(255, 105, 105);
-  }
-  .close i:hover{
-    color: red;
+}
+
+.close i {
+    color: var(--main-color);
+}
+
+.close i:hover {
+    color: var(--main-color-secondary);
     cursor: pointer;
-  }
-  .loginForm{
-      margin: 2% 10%;
-  }
-  .loginForm input[type=text], .loginForm input[type=password] {
+}
+
+.loginForm {
+    margin: 2% 10%;
+}
+
+.loginForm input[type=text], .loginForm input[type=password] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
-  }
-  
-  /* Set a style for all buttons */
-  .loginForm button {
-    background-color: rgb(255, 105, 105);
+}
+
+/* Set a style for all buttons */
+.loginForm button {
+    background-color: var(--main-color-secondary);
     font-size: 1.6em;
     font-weight: bold;
     color: white;
@@ -159,29 +184,18 @@
     border: none;
     cursor: pointer;
     width: 100%;
-  }
-  .loginForm button:hover {
-      background-color: red;
-  }
-/* Register page */
-.registerPage {
-    /* display: none; Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-  }
+}
+
+.loginForm button:hover {
+    background-color: var(--main-color);
+}
+
 .introContent {
     margin: 24px 0 12px 0;
     position: relative;
-
     padding: 2% 10%;
 }
+
 .introContent h1 {
-    color: red;
+    color: var(--main-color);
 }

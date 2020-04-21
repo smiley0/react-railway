@@ -178,7 +178,7 @@ class Navbar extends React.Component {
                 <nav id='navbar'>
                     <div className='center'>
                         <div className='left'>
-                            <NavLink to='/'><img src={logo} alt="logo"></img></NavLink>
+                            <NavLink to='/'><img src={logo} alt="logo"/></NavLink>
                             <ul>
                                 <li><span>SK</span></li>
                                 <li>/</li>
@@ -194,7 +194,7 @@ class Navbar extends React.Component {
                 <nav id="snav">
                     <div className='center'>
                     <ul>
-                        <li><NavLink to='/' className='felem'><i className="fas fa-home"></i></NavLink></li>
+                        <li><NavLink to='/' className='felem'><i className="fas fa-home"/></NavLink></li>
                         <li><NavLink to='#'>Rezervácie</NavLink></li>
                         <li><NavLink to='#'>Výluky</NavLink></li>
                         <li><NavLink to='#'>Ceny a lístky</NavLink></li>
@@ -210,23 +210,23 @@ class Navbar extends React.Component {
             return(
                 <div>
                 {this.state.display?
-                    <div className='loginPage' onClick={this.checkClick}>
+                    <div className='modalPage' onClick={this.checkClick}>
                         <div className='formContent'>
                             <form onSubmit={this.handleSubmit}>
                                 <div className='imageContent'>
-                                    <span className='close'><i onClick={this.closeLogin} className="fas fa-times fa-2x"></i></span>
-                                    <img src={avatar} alt="Avatar" className="avatar"></img>
+                                    <span className='close'><i onClick={this.closeLogin} className="fas fa-times fa-2x"/></span>
+                                    <img src={avatar} alt="Avatar" className="avatar"/>
                                 </div>
                                 <div className="loginForm">
                                     <label htmlFor="uname"><b>Username</b></label>
-                                    <input id='uname' onChange={this.handleChange} type="text" placeholder="Enter Username" name="uname" required></input>
+                                    <input id='uname' onChange={this.handleChange} type="text" placeholder="Enter Username" name="uname" required/>
 
                                     <label htmlFor="psw"><b>Password</b></label>
-                                    <input id='psw' onChange={this.handleChange} type="password" placeholder="Enter Password" name="psw" required></input>
+                                    <input id='psw' onChange={this.handleChange} type="password" placeholder="Enter Password" name="psw" required/>
 
                                     <button onClick={this.handleClick} type="submit">Login</button>
                                     <label> Remember me</label>
-                                    <input type="checkbox" name="remember" defaultChecked></input>
+                                    <input type="checkbox" name="remember" defaultChecked/>
 
                                 </div>
                             </form>
@@ -235,39 +235,39 @@ class Navbar extends React.Component {
                     null
                 }
                 {this.state.register_display?
-                    <div className='registerPage' onClick={this.checkRegisterClick}>
+                    <div className='modalPage' onClick={this.checkRegisterClick}>
                         <div className='formContent'>
                             <div className='introContent'>
                             <h1>Zaregistrujte sa</h1>
                             <p>Prosím vyplnte formulár k vytvoreniu účtu <span>(* - povinné údaje)</span></p>
 
-                            <span className='close'><i onClick={this.closeRegister} className="fas fa-times fa-2x"></i></span>
-                            <hr></hr>
+                            <span className='close'><i onClick={this.closeRegister} className="fas fa-times fa-2x"/></span>
+                            <hr/>
                             </div>
                             <form onSubmit={this.handleSubmit}>
                                 <div className="loginForm">
                                     <label htmlFor="uname"><b>Username *</b></label>
-                                    <input id='uname' onChange={this.handleChange} type="text" placeholder="Enter Username" name="uname" required></input>
+                                    <input id='uname' onChange={this.handleChange} type="text" placeholder="Enter Username" name="uname" required/>
 
                                     <label htmlFor="fname"><b>First name</b></label>
-                                    <input id='fname' onChange={this.handleChange} type="text" placeholder="Enter First name" name="fname"></input>
+                                    <input id='fname' onChange={this.handleChange} type="text" placeholder="Enter First name" name="fname"/>
 
                                     <label htmlFor="lname"><b>Last name</b></label>
-                                    <input id='lname' onChange={this.handleChange} type="text" placeholder="Enter Last name" name="lname"></input>
+                                    <input id='lname' onChange={this.handleChange} type="text" placeholder="Enter Last name" name="lname"/>
 
                                     <label htmlFor="email"><b>Email</b></label>
-                                    <input id='email' onChange={this.handleChange} type="text" placeholder="Enter Email" name="email"></input>
+                                    <input id='email' onChange={this.handleChange} type="text" placeholder="Enter Email" name="email"/>
 
                                     <label htmlFor="psw"><b>Password *</b></label>
-                                    <input id='psw' onChange={this.handleChange} type="password" placeholder="Enter Password" name="psw" required></input>
+                                    <input id='psw' onChange={this.handleChange} type="password" placeholder="Enter Password" name="psw" required/>
 
                                     <label htmlFor="psw-repeat"><b>Repeat Password *</b></label>
-                                    <input id='rpsw' onChange={this.handleChange} type="password" placeholder="Repeat Password" name="psw-repeat" required></input>
+                                    <input id='rpsw' onChange={this.handleChange} type="password" placeholder="Repeat Password" name="psw-repeat" required/>
 
                                     <button onClick={this.handleRegisterClick} type="submit">Register</button>
 
                                     <label> Remember me</label>
-                                    <input type="checkbox" name="remember" defaultChecked></input>
+                                    <input type="checkbox" name="remember" defaultChecked/>
 
                                 </div>
                             </form>
@@ -278,7 +278,7 @@ class Navbar extends React.Component {
                 <nav id='navbar'>
                     <div className='center'>
                         <div className='left'>
-                            <NavLink to='/'><img src={logo} alt="logo"></img></NavLink>
+                            <NavLink to='/'><img src={logo} alt="logo"/></NavLink>
                             <ul>
                                 <li><span>SK</span></li>
                                 <li>/</li>
@@ -295,7 +295,7 @@ class Navbar extends React.Component {
                 <nav id="snav">
                     <div className='center'>
                     <ul>
-                        <li><NavLink to='/' className='felem'><i className="fas fa-home"></i></NavLink></li>
+                        <li><NavLink to='/' className='felem'><i className="fas fa-home"/></NavLink></li>
                         <li><NavLink to='#'>Rezervácie</NavLink></li>
                         <li><NavLink to='#'>Výluky</NavLink></li>
                         <li><NavLink to='#'>Ceny a lístky</NavLink></li>
