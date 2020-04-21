@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 class SelectDetails extends React.Component {
     state = {
       opened: false,
+      show: 0,
     }
     handleClick = () => {
       if(this.props.uname !== ""){
@@ -16,18 +17,21 @@ class SelectDetails extends React.Component {
       else{
           window.alert('Musis sa prihlasit')
       }
+  }
 
+  showMe = (i) => {
+    this.setState({show: i,})
   }
     render(){
       return (
         <div className='itemsDetail'>
           <ul>
             {this.props.trains.transfer_history.map((item, index) => (
-                  <li key={index}>{item.train.category_short} {item.train.number} {item.train.name}</li>
+                  <li onClick={() => this.showMe(index)} key={index}>{item.train.category_short} {item.train.number} {item.train.name}</li>
             ))}
           </ul>
           {this.props.trains.transfer_history.map((item, index) => (
-                <MoreDetail key={index} item={item}></MoreDetail>
+                this.state.show === index?<MoreDetail key={index} item={item}></MoreDetail>:null
           ))}
 
           <button onClick={this.handleClick.bind(this)}>Kupit listok</button>
