@@ -37,14 +37,14 @@ class User extends React.Component {
             })
             this.getTickets();
         }
-      } 
+      }
     getTickets = () => {
         var headers = {
             'accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Token '+this.props.token,
         }
-        
+
         const requestOptions = {
             method: 'GET',
             headers: headers
@@ -74,8 +74,8 @@ class User extends React.Component {
             }
             return(
                 <div className='center'>
-                    <h1>Hello {this.state.uname}</h1>
-                    <h2>Zakupene listky</h2>
+                    <h1>Vitajte {this.state.uname}</h1>
+                    <h2>Zakúpené lístky</h2>
                     <ul className='ticketList'>
                         {this.state.haveResponse? ticketsList: null}
                     </ul>
@@ -85,7 +85,7 @@ class User extends React.Component {
         else{
             return(
                 <div>
-                    <h1>Chyba</h1>                 
+                    <h1>Chyba</h1>
                 </div>
             )
         }
@@ -111,30 +111,30 @@ class Ticket extends React.Component {
         }
     }
     pay =(url) => {
-        window.location.href = url+'&redir=http://localhost:3000/user/'+this.props.uname; 
+        window.location.href = url+'&redir=http://localhost:3000/user/'+this.props.uname;
     }
     render(){
         const ticket = this.props.ticket
         console.log()
-        
+
         return(
             <div className='ticket' onClick={this.showMore}>
                 <div className='content-ticket'>
                 <div className='l-content-ticket'>
-                    <h2>Cestovny listok</h2>
-                    <p>{ticket.segments[0].start.station_name} - 
+                    <h2>Cestovný lístok</h2>
+                    <p>{ticket.segments[0].start.station_name} -
                     {ticket.segments[ticket.segments.length - 1].end.station_name}</p>
                     <p>{ticket.valid_on}</p>
                     {ticket.status === 'U'?<button onClick={() => {this.pay(ticket.paygate_link)}}>Zaplatit</button>: null}
-                    
-                    {this.state.showMore? 
+
+                    {this.state.showMore?
                             <Segments passengers={ticket.passengers} reservations={ticket.reservations} segments={ticket.segments}></Segments>
                     : null}
-                </div>    
-                <div className='r-content-ticket'>   
+                </div>
+                <div className='r-content-ticket'>
                     <Passengers passengers={ticket.passengers}></Passengers>
                     <p> cena: {ticket.price}</p>
-                </div> 
+                </div>
                 </div>
             </div>
         )
@@ -172,7 +172,7 @@ class Passengers extends React.Component {
         })
         return(
             <div>
-                <h3>Cestujuci</h3>
+                <h3>Cestujúci</h3>
                 <ul>
                     {passengers}
                 </ul>
@@ -249,7 +249,7 @@ class Reservations extends React.Component {
         )
     }
 }
- 
+
 class ReservationInfo extends React.Component {
     state = {
         seat: "",
@@ -275,11 +275,11 @@ class ReservationInfo extends React.Component {
             seat: this.props.seat,
             passenger: passenger.first_name + ' ' + passenger.last_name,
         })
-        
+
     }
     render(){
         return(
-            <div className="seatsReservations"> 
+            <div className="seatsReservations">
                 <img src={carriage} alt="carriage" height="25"></img>
                 <span> {this.state.carriage}  </span>
                 <img src={seat} alt="seat" height="25"></img>

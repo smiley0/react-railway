@@ -2,9 +2,9 @@ import React from 'react';
 
 export default class Loading extends React.Component {
     state = {
-        output: ['Nacitavam', 'Nacitavam.','Nacitavam..','Nacitavam...'],
+        output: ['Načítavam', 'Načítavam.','Načítavam..','Načítavam...'],
         counter: 1,
-        text: 'Nacitavam',
+        text: 'Načítavam',
     }
     componentDidMount() {
         this.interval = setInterval(this.change, 500);
@@ -23,7 +23,7 @@ export default class Loading extends React.Component {
     }
     render(){
         return (
-            <p>{this.state.text}</p>            
+            <p>{this.state.text}</p>
         )
     }
 }

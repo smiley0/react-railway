@@ -25,10 +25,10 @@ class SelectDetails extends React.Component {
                 <MoreDetail key={index} item={item}></MoreDetail>
           ))}
 
-          <button onClick={this.handleClick.bind(this)}>Kupit listok</button>
+          <button onClick={this.handleClick.bind(this)}>Kúpiť lístok</button>
         </div>
       )
-      
+
     }
   }
 
@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default compose(
-  withRouter, 
+  withRouter,
   connect(mapStateToProps, mapDispatchToProps)
 ) (SelectDetails)
 

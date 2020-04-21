@@ -22,7 +22,7 @@ class Navbar extends React.Component {
         lname: "",
         email: "",
     }
-    
+
   componentDidMount() {
     console.log("NAVBAR REDUX STATE")
     console.log(this.props.uname)
@@ -53,16 +53,16 @@ class Navbar extends React.Component {
             }
         }
     }
-  } 
+  }
   handleLogout = () => {
     removeState();
     this.props.updateUnameToken("", "")
-                
+
   }
 
   login = () => {
       console.log("Login was clicked")
-      this.setState({display: true})      
+      this.setState({display: true})
   }
   register = () => {
       this.setState({register_display: true})
@@ -160,16 +160,16 @@ class Navbar extends React.Component {
         }
         else if(e.target.id === "rpsw"){
             this.setState({rpsw: e.target.value})
-        } 
+        }
         else if(e.target.id === "fname"){
             this.setState({fname: e.target.value})
-        } 
+        }
         else if(e.target.id === "lname"){
             this.setState({lname: e.target.value})
-        } 
+        }
         else if(e.target.id === "email"){
             this.setState({email: e.target.value})
-        } 
+        }
     }
     render(){
         if(this.props.uname !== ""){
@@ -178,7 +178,7 @@ class Navbar extends React.Component {
                 <nav id='navbar'>
                     <div className='center'>
                         <div className='left'>
-                            <NavLink to='/'><img src={logo} alt="logo"></img></NavLink>                        
+                            <NavLink to='/'><img src={logo} alt="logo"></img></NavLink>
                             <ul>
                                 <li><span>SK</span></li>
                                 <li>/</li>
@@ -195,10 +195,10 @@ class Navbar extends React.Component {
                     <div className='center'>
                     <ul>
                         <li><NavLink to='/' className='felem'><i className="fas fa-home"></i></NavLink></li>
-                        <li><NavLink to='#'>Rezervacie</NavLink></li>
-                        <li><NavLink to='#'>Vyluky</NavLink></li>
-                        <li><NavLink to='#'>Ceny a listky</NavLink></li>
-                        <li><NavLink to='#'>O nas</NavLink></li>
+                        <li><NavLink to='#'>Rezervácie</NavLink></li>
+                        <li><NavLink to='#'>Výluky</NavLink></li>
+                        <li><NavLink to='#'>Ceny a lístky</NavLink></li>
+                        <li><NavLink to='#'>O nás</NavLink></li>
                         <li><NavLink to='#'>Kontakt</NavLink></li>
                     </ul>
                     </div>
@@ -223,14 +223,14 @@ class Navbar extends React.Component {
 
                                     <label htmlFor="psw"><b>Password</b></label>
                                     <input id='psw' onChange={this.handleChange} type="password" placeholder="Enter Password" name="psw" required></input>
-                                        
+
                                     <button onClick={this.handleClick} type="submit">Login</button>
                                     <label> Remember me</label>
                                     <input type="checkbox" name="remember" defaultChecked></input>
-                                    
-                                </div>   
-                            </form>  
-                        </div>              
+
+                                </div>
+                            </form>
+                        </div>
                     </div> :
                     null
                 }
@@ -238,9 +238,9 @@ class Navbar extends React.Component {
                     <div className='registerPage' onClick={this.checkRegisterClick}>
                         <div className='formContent'>
                             <div className='introContent'>
-                            <h1>Zaregistruj sa</h1>
-                            <p>Prosim vyplnte formular k vytvoreniu uctu <span>(* - povinne udaje)</span></p>
-                            
+                            <h1>Zaregistrujte sa</h1>
+                            <p>Prosím vyplnte formulár k vytvoreniu účtu <span>(* - povinné údaje)</span></p>
+
                             <span className='close'><i onClick={this.closeRegister} className="fas fa-times fa-2x"></i></span>
                             <hr></hr>
                             </div>
@@ -260,25 +260,25 @@ class Navbar extends React.Component {
 
                                     <label htmlFor="psw"><b>Password *</b></label>
                                     <input id='psw' onChange={this.handleChange} type="password" placeholder="Enter Password" name="psw" required></input>
-                                    
+
                                     <label htmlFor="psw-repeat"><b>Repeat Password *</b></label>
-                                    <input id='rpsw' onChange={this.handleChange} type="password" placeholder="Repeat Password" name="psw-repeat" required></input>    
-                                    
+                                    <input id='rpsw' onChange={this.handleChange} type="password" placeholder="Repeat Password" name="psw-repeat" required></input>
+
                                     <button onClick={this.handleRegisterClick} type="submit">Register</button>
-                                    
+
                                     <label> Remember me</label>
                                     <input type="checkbox" name="remember" defaultChecked></input>
-                                    
-                                </div>   
-                            </form>  
-                        </div> 
-                    </div>: 
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>:
                     null
                 }
                 <nav id='navbar'>
                     <div className='center'>
                         <div className='left'>
-                            <NavLink to='/'><img src={logo} alt="logo"></img></NavLink>                        
+                            <NavLink to='/'><img src={logo} alt="logo"></img></NavLink>
                             <ul>
                                 <li><span>SK</span></li>
                                 <li>/</li>
@@ -296,10 +296,10 @@ class Navbar extends React.Component {
                     <div className='center'>
                     <ul>
                         <li><NavLink to='/' className='felem'><i className="fas fa-home"></i></NavLink></li>
-                        <li><NavLink to='#'>Rezervacie</NavLink></li>
-                        <li><NavLink to='#'>Vyluky</NavLink></li>
-                        <li><NavLink to='#'>Ceny a listky</NavLink></li>
-                        <li><NavLink to='#'>O nas</NavLink></li>
+                        <li><NavLink to='#'>Rezervácie</NavLink></li>
+                        <li><NavLink to='#'>Výluky</NavLink></li>
+                        <li><NavLink to='#'>Ceny a lístky</NavLink></li>
+                        <li><NavLink to='#'>O nás</NavLink></li>
                         <li><NavLink to='#'>Kontakt</NavLink></li>
                     </ul>
                     </div>

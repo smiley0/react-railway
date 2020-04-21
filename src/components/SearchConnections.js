@@ -24,7 +24,7 @@ class SearchConnections extends React.Component {
         else if(e.target.id === "src"){
             this.setState({src: e.target.value})
         }
-        
+
         if(e.target.value.length === 0 && e.target.id === "dst"){
             this.setState({dst_items: [], dst: e.target.value})
         }
@@ -37,7 +37,7 @@ class SearchConnections extends React.Component {
                     .then(res => res.json())
                     .then((data) => {
                         this.setState({ dst_items: data})
-                    }) 
+                    })
             }
             else if(e.target.id === "src"){
                 fetch('http://127.0.0.1:8000/station/?search='+e.target.value)
@@ -46,7 +46,7 @@ class SearchConnections extends React.Component {
                     this.setState({ src_items: data})
                 })
             }
-            
+
         }
     }
 
@@ -57,7 +57,7 @@ class SearchConnections extends React.Component {
             dst: item.name,
             dst_items: []
         })
-        
+
     }
 
     addToSrc = (id) => {
@@ -77,7 +77,7 @@ class SearchConnections extends React.Component {
         var y = date.getFullYear();
         this.setState({
             time: h + ":" + m,
-            date: d + "." + mo + "." + y 
+            date: d + "." + mo + "." + y
         })
     }
 
@@ -97,7 +97,7 @@ class SearchConnections extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if(!(this.state.src !== "" && this.state.dst !== "")){            
+        if(!(this.state.src !== "" && this.state.dst !== "")){
             console.log("you must set From and To")
             alert("you must set From and To");
         }
@@ -114,7 +114,7 @@ class SearchConnections extends React.Component {
             this.setState({
                 time: (Number(this.state.time.substring(0,2))+1)+ ":00",
             })
-            
+
         }
         else{
             if(Number(this.state.time.substring(0,2)) !== 24){
@@ -131,7 +131,7 @@ class SearchConnections extends React.Component {
                 //time: (this.state.time.substring(0,2))+ ":30",
                 time: (Number(this.state.time.substring(0,2))-1)+ ":30",
             })
-            
+
         }
         else if(Number(this.state.time.substring(3)) > 30){
             this.setState({
@@ -157,12 +157,12 @@ class SearchConnections extends React.Component {
                     <form onSubmit={this.handleSubmit.bind(this)}>
                         <div className='inputrow'>
                             <div className='src'>
-                            <input autoComplete="off" type="text" id="src" onChange={this.handleChange} placeholder='Odkial' value={this.state.src}></input>
+                            <input autoComplete="off" type="text" id="src" onChange={this.handleChange} placeholder='Odkiaľ' value={this.state.src}></input>
                             <SearchOptions type='src' len={this.state.src.length} addToDst={this.addToSrc} options={this.state.src_items}></SearchOptions>
                             </div>
                             <i className="fas fa-exchange-alt"></i>
                             <div className='dst'>
-                            <input autoComplete="off" type="text" id="dst" onChange={this.handleChange} placeholder='Kam' value={this.state.dst}></input>                
+                            <input autoComplete="off" type="text" id="dst" onChange={this.handleChange} placeholder='Kam' value={this.state.dst}></input>
                             <SearchOptions type='dst' len={this.state.dst.length} addToDst={this.addToDst} options={this.state.dst_items}></SearchOptions>
                             </div>
                         </div>
@@ -178,12 +178,12 @@ class SearchConnections extends React.Component {
                                 <div onClick={this.timePP}><i className="fas fa-chevron-right"></i></div>
                             </div>
 
-                            <div className='radio'>                                
+                            <div className='radio'>
                                 <label htmlFor="male" className="container">Odchod
                                     <input type="radio" id="odchod" name="odchod" value="odchod" defaultChecked="checked"></input>
                                     <span className='checkmark'></span>
                                 </label>
-                                <label htmlFor="female" className="container">Prichod
+                                <label htmlFor="female" className="container">Príchod
                                     <input type="radio" id="prichod" name="prichod" value="prichod"></input>
                                     <span className='checkmark'></span>
                                 </label>
@@ -196,10 +196,10 @@ class SearchConnections extends React.Component {
                             </div>
                             <button className='submitbtn'>Vyhľadať spojenie</button>
                         </div>
-                            
+
                     </form>
                 </div>
-                
+
             </div>
         )
     }
@@ -218,10 +218,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default compose(
-    withRouter, 
+    withRouter,
     connect(mapStateToProps, mapDispatchToProps)
  ) (SearchConnections)
-
-
-
-                                

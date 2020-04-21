@@ -27,7 +27,7 @@ class Passenger extends React.Component {
                     passenger_types: json,
                 })
             });
-       
+
        this.setState({
            trains: this.addTrains(),
        })
@@ -36,7 +36,7 @@ class Passenger extends React.Component {
     componentDidUpdate = () => {
         if(this.state.haveResponse){
             const url = this.state.response.paygate_link+'&redir=http://localhost:3000/user/'+this.props.uname;
-            window.location.href = url; 
+            window.location.href = url;
         }
     }
 
@@ -44,7 +44,7 @@ class Passenger extends React.Component {
         let T = []
         let trains = this.props.connectionInfo.transfer_history
         for(let i =0;i<trains.length;i+=1){
-            T.push({train: trains[i].train.number, tDistance: trains[i].stop_to.distance - trains[i].stop_from.distance, 
+            T.push({train: trains[i].train.number, tDistance: trains[i].stop_to.distance - trains[i].stop_from.distance,
                 from: trains[i].stop_from.station_name, fromID: trains[i].stop_from.id, to: trains[i].stop_to.station_name, toID: trains[i].stop_to.id,
                 category: trains[i].train.category_short, users: [{id: 0, reserved: false, carriageID:null, seatID:null,}]})
         }
@@ -91,7 +91,7 @@ class Passenger extends React.Component {
             const index = this.findID(rows, i);
             if (index > -1) {
                 rows.splice(index, 1);
-            }            
+            }
             this.setState({
                 passengers: rows
             })
@@ -135,9 +135,9 @@ class Passenger extends React.Component {
         let pass_type = this.state.passenger_types.results.find((val) => {
             return val.name === type;
           });
-        
+
         rows[index].type_short = pass_type.short;
-        //rows[index].typeID = 
+        //rows[index].typeID =
         this.setState({
             passengers: rows
         })
@@ -163,7 +163,7 @@ class Passenger extends React.Component {
             'Content-Type': 'application/json',
             'Authorization': 'Token '+this.props.token,
         }
-        
+
         const requestOptions = {
             method: 'POST',
             headers: headers,
@@ -196,8 +196,8 @@ class Passenger extends React.Component {
                 }
             }
         }
-        if(valid){       
-            //this.props.updateReducer(this.state.trains, this.state.passengers)     
+        if(valid){
+            //this.props.updateReducer(this.state.trains, this.state.passengers)
             //this.props.history.push("/processing");
             var post = {
                 valid_on:"",
@@ -230,7 +230,7 @@ class Passenger extends React.Component {
             this.postTicket(post)
         }
         else {
-            window.alert('Nieje vyplnene '+message+' cestujuceho')
+            window.alert('Nie je vyplnene '+message+' cestujuceho')
         }
     }
 
@@ -263,25 +263,25 @@ class Passenger extends React.Component {
                             <tbody>
                                 {this.state.passengers.map((r) => (
                                     <tr key={r.id}>
-                                    <td><input id="fname" type="text" placeholder='Zadaj meno' value={this.state.passengers[this.findID(this.state.passengers, r.id)].fname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
-                                    <td><input id="lname" type="text" placeholder='Zadaj priezvisko' value={this.state.passengers[this.findID(this.state.passengers, r.id)].lname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
-                                    <td><div><input onClick={() => {this.toggleShow(r.id)}} placeholder='Vyber typ' value={this.state.passengers[this.findID(this.state.passengers, r.id)].type} onChange={this.handleChange}></input>
-                                            
+                                    <td><input id="fname" type="text" placeholder='Zadajte meno' value={this.state.passengers[this.findID(this.state.passengers, r.id)].fname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
+                                    <td><input id="lname" type="text" placeholder='Zadajte priezvisko' value={this.state.passengers[this.findID(this.state.passengers, r.id)].lname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
+                                    <td><div><input onClick={() => {this.toggleShow(r.id)}} placeholder='Vyberte typ' value={this.state.passengers[this.findID(this.state.passengers, r.id)].type} onChange={this.handleChange}></input>
+
                                             {(this.state.passengers[this.findID(this.state.passengers, r.id)].showType)?<SelectType moreOptions={this.state.passenger_types.results} addType={this.addType} id={r.id}></SelectType>:null}
                                             </div></td>
                                     </tr>
                                 ))}
-                                
+
                             </tbody>
-                                
-                                
+
+
                         </table>
-                <button className='addmore' onClick={this.addRow}>pridat dalsieho cestujuceho</button>
+                <button className='addmore' onClick={this.addRow}>pridať ďalšieho cestujúceho</button>
                 </div>
-                {/* 
-                <label className='checkBox' htmlFor="reservation"> 
-                Chcem rezervovat miesta                
-                <input onChange={this.onReservation} type="checkbox" id="reservation" name="reservation" value="reservation"></input>                
+                {/*
+                <label className='checkBox' htmlFor="reservation">
+                Chcem rezervovat miesta
+                <input onChange={this.onReservation} type="checkbox" id="reservation" name="reservation" value="reservation"></input>
                 </label>
                 */}
                 {(this.state.reservation)?
@@ -316,7 +316,7 @@ const mapDispatchToProps = (dispatch) => {
 
 
 export default compose(
-    withRouter, 
+    withRouter,
     connect(mapStateToProps, mapDispatchToProps)
   ) (Passenger)
 
@@ -357,7 +357,7 @@ class Summary extends React.Component {
     }
     render(){
         const passengersList = this.props.passengers.map((passenger, i) => {
-           
+
             this.props.reservations.forEach(val => {
                 val.users.forEach(user => {
                     if(user.id === passenger.id){
@@ -370,13 +370,13 @@ class Summary extends React.Component {
                 </div>
             )
             })
-            
+
         return (
             <div className='context'>
-                <h1>Prehlad</h1>
+                <h1>Prehľad</h1>
                 {passengersList}
                 {/*<NavLink to='/processing'><button onClick={this.props.handleUpdate}>Zakupit - {this.state.wholeAmount.length > 0?this.state.wholeAmount.reduce((total, value) => {return total+value;}) + '€':''}</button></NavLink>*/}
-                <button onClick={this.props.handleUpdate.bind(this)}>Zakupit - {this.state.wholeAmount.length > 0?this.state.wholeAmount.reduce((total, value) => {return total+value;}) + '€':''}</button>
+                <button onClick={this.props.handleUpdate.bind(this)}>Zakúpiť - {this.state.wholeAmount.length > 0?this.state.wholeAmount.reduce((total, value) => {return total+value;}) + '€':''}</button>
             </div>
         )
     }
@@ -432,7 +432,7 @@ class PassengerRes extends React.Component {
 
     render(){
         const trainsList = this.props.reservations.map((train, i) => {
-           
+
             return(
                 <div className='dashed' key={i}>
                     <TrainRes order={i} addToPrice={this.addToPrice} train={train} distance={this.props.distance} passengerID = {this.props.passenger.id} passengerType = {this.props.passenger.type_short}></TrainRes>
@@ -441,7 +441,7 @@ class PassengerRes extends React.Component {
             })
         return(
             <div className='singlePerson'>
-                
+
                 <h3>{this.props.passenger.fname + ' ' + this.props.passenger.lname} <span className="smallerGray"> {this.props.passenger.type!==""?"("+this.props.passenger.type+")":null}</span></h3>
                 {/*(this.state.priceLoaded)?<p>zakladna cena: {this.state.price.second_class_price}</p>: <p>zakladna cena: -</p>*/}
                 {trainsList}
@@ -449,7 +449,7 @@ class PassengerRes extends React.Component {
             </div>
         )
     }
-    
+
 }
 
 class TrainRes extends React.Component {
@@ -471,7 +471,7 @@ class TrainRes extends React.Component {
             train: this.props.train,
         })
     }
-    
+
     componentDidUpdate = (props) => {
         if(!equal(this.props.train, this.state.train)){
             console.log("menim>>>>>>>>")
@@ -515,9 +515,9 @@ class TrainRes extends React.Component {
                 })
             }
 
-        }  
+        }
     }
-    
+
     render() {
         return(
             <div className="trainRes">
@@ -544,14 +544,14 @@ class TrainRes extends React.Component {
                 </table>
                 {(this.state.reservation.reserved)?
                     <div className="withReservation">
-                        <p>vozen: <span className="bold">{this.state.reservation.carriageNumber}</span> ({this.state.reservation.carriageClass}. trieda) miesto: <span className="bold">{this.state.reservation.seatID}</span></p>
+                        <p>vozeň: <span className="bold">{this.state.reservation.carriageNumber}</span> ({this.state.reservation.carriageClass}. trieda) miesto: <span className="bold">{this.state.reservation.seatID}</span></p>
                         {(this.state.reservation.carriageClass === "1")?<p>cena: <span className="darkRed">{this.state.price.first_class_price} €</span></p>: <p>cena: <span className="darkRed">{this.state.price.second_class_price} €</span></p>}
                     </div>:
                     <div className="withoutReservation">
-                        <p>bez rezervacie</p>
+                        <p>bez rezervácie</p>
                         <p>cena: <span className="darkRed">{this.state.price.second_class_price} €</span></p>
                     </div>}
-                
+
             </div>
         )
     }
@@ -598,14 +598,14 @@ class TrainRes extends React.Component {
                                 </tr>
                             </tbody>
                         </table>
-                        <div className="detailInfo">                
+                        <div className="detailInfo">
                             <p className='left'>Čas cesty: {sum_time_string.substring(0,2)} hod. {sum_time_string.substring(3)} min.</p>
                             <p className='left'>Vzdialenosť: {this.props.item.stop_to.distance-this.props.item.stop_from.distance} km</p>
-                        </div> 
+                        </div>
                     </div>
                     <div className='left rsbox'>
                         <div className='buy'>
-                            <p>VYBRAT MIESTO</p>
+                            <p>VYBRAŤ MIESTO</p>
                         </div>
                     </div>
                 </div>
@@ -630,7 +630,7 @@ class SelectSeats extends React.Component {
                 })
             });
     }
-    
+
     render(){
         if (!this.state.isLoaded) {
             return (
@@ -643,15 +643,15 @@ class SelectSeats extends React.Component {
             return (
                 <div>
                     <div className="intro">
-                        <h2>Vyber si vozen</h2>
+                        <h2>Vyberte si vozeň</h2>
                         <i onClick={this.props.hide} className="remove-x far fa-times-circle fa-2x"></i>
                     </div>
                   <Train setTrains={this.props.setTrains} trains={this.props.trains} passengers={this.props.passengers} info={this.state.trainInfo} to={this.props.item.stop_to.station_name} from={this.props.item.stop_from.station_name} date={this.props.date}></Train>
                 </div>
               )
         }
-      
-      
+
+
     }
   }
 
@@ -699,7 +699,7 @@ class SelectSeats extends React.Component {
         }
         //this.props.
       }
-    
+
     showCarriage = (e, id, carriage) => {
         let carriageInfo = {};
         if(isNaN(this.state.displayCarriage)){
@@ -749,8 +749,8 @@ class SelectSeats extends React.Component {
         return -1;
     }
 
-    
-    
+
+
     render(){
         if (!this.state.isLoaded) {
             return (
@@ -775,9 +775,9 @@ class SelectSeats extends React.Component {
         return(
                 <li key={i} onClick={(e)=>{this.showCarriage(e, carriage.id, carriage)}}>
                     <div className={'class'+carriage.type+ ' wagon'}>
-                        <span>cislo vozna: {carriage.number}</span>
-                        <span>trieda: {carriage.type}</span>
-                        <span>volnych miest:{free}/{carriage.seats}</span>
+                        <span>číslo vozňa: {carriage.number}</span>
+                        <span>trieda: {carriage.carriage_class}</span>
+                        <span>volných miest:{free}/{carriage.seats}</span>
                     </div>
                 </li>
         )
@@ -832,7 +832,7 @@ class Carriage extends React.Component {
                 element.position = "s-right";
             }
             //this.state.className.push(element)
-            result.push(element) 
+            result.push(element)
         }
         /*
         if(JSON.stringify(result)!==JSON.stringify(this.state.className)){
@@ -860,7 +860,7 @@ class Carriage extends React.Component {
                 trains[i].users[uid].carriageID = this.props.carriageID;
                 trains[i].users[uid].carriageNumber = this.props.info.number;
                 trains[i].users[uid].carriageClass = this.props.info.type;
-                trains[i].users[uid].seatID = sid; 
+                trains[i].users[uid].seatID = sid;
             }
         }
         this.props.setTrains(trains)
@@ -872,8 +872,8 @@ class Carriage extends React.Component {
             uidd: suid,
         })
     }
-    
-    
+
+
   render(){
       let cOrder;
     for(let i=0; i< this.props.trains.length; i+=1){
@@ -887,17 +887,17 @@ class Carriage extends React.Component {
         reserved.push({seatID:this.props.trains[cOrder].users[j].seatID,
                        carriageID: this.props.trains[cOrder].users[j].carriageID})
     }
-    
+
     let className = this.state.className
     className.forEach((value, i) => {
         for(let j=0; j<reserved.length; j+=1){
             if(reserved[j].seatID === value.i & reserved[j].carriageID===this.props.carriageID){
                 value.state = 'maybe';
-            } 
+            }
         }
-    })  
+    })
         if(this.props.info.seats === 60){
-           
+
             let listOfPassengers = [];
             for(let i=0; i<this.props.passengers.length; i+=1){
                 if(this.props.passengers[i].type !== ""){
@@ -918,17 +918,17 @@ class Carriage extends React.Component {
 
 
             let result = this.state.className.map((classes, i) => {
-                    
+
                 return (
                     <Seat key={classes.i} train={this.props.trains[cOrder]} makeReservation={this.makeReservation} passengers={listOfPassengers} classes={classes}></Seat>
                 )
-                    
-                
+
+
             })
             return (
                 <div>
                     <div className="intro">
-                        <h2>Vyber si miesto</h2>
+                        <h2>Vyberať miesta</h2>
                         <i onClick={this.props.hide} className="remove-x far fa-times-circle fa-2x"></i>
                     </div>
                     <div className="seats-60">
@@ -951,9 +951,9 @@ class Carriage extends React.Component {
                 </div>
                 );
         }
-      
+
     }
-  
+
 }
 
 class Seat extends React.Component {
@@ -1005,7 +1005,7 @@ class Seat extends React.Component {
     }
 
     render(){
-        let reservation = this.state.reservation 
+        let reservation = this.state.reservation
         return(
             <div className='width'>
                 <div onClick={this.selectSeat} className={'seat ' + reservation +' '+ this.props.classes.position}>
@@ -1035,7 +1035,7 @@ function PassengerOptions({passengers, bookSeat, train}) {
                     <li onClick={() => {bookSeat(i)}} className="li-hide" key={i}>{option.fullname}</li>
                 )
            }
-        
+
     }
     })
     return (
