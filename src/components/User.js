@@ -67,7 +67,7 @@ class User extends React.Component {
             ticketsList = this.state.response.results.map((ticket, i) => {
                 return(
                       <li key={i}>
-                        <Ticket ticket={ticket}></Ticket>
+                        <Ticket uname={this.state.uname} ticket={ticket}></Ticket>
                       </li>
                 )
               })
@@ -105,8 +105,13 @@ class Ticket extends React.Component {
     state = {
         showMore: false,
     }
-    showMore = () => {
-        this.setState({showMore: !this.state.showMore})
+    showMore = (e) => {
+        if(e.target.nodeName !== 'BUTTON'){
+            this.setState({showMore: !this.state.showMore})
+        }
+    }
+    pay =(url) => {
+        window.location.href = url+'&redir=http://localhost:3000/user/'+this.props.uname; 
     }
     render(){
         const ticket = this.props.ticket
@@ -120,7 +125,7 @@ class Ticket extends React.Component {
                     <p>{ticket.segments[0].start.station_name} - 
                     {ticket.segments[ticket.segments.length - 1].end.station_name}</p>
                     <p>{ticket.valid_on}</p>
-                    {ticket.status === 'U'?<a href={ticket.paygate_link}>Zaplatit</a>: null}
+                    {ticket.status === 'U'?<button onClick={() => {this.pay(ticket.paygate_link)}}>Zaplatit</button>: null}
                     
                     {this.state.showMore? 
                             <Segments passengers={ticket.passengers} reservations={ticket.reservations} segments={ticket.segments}></Segments>
