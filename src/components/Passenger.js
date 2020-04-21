@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import './Passenger.css'
 import {compose} from 'redux'
 import { withRouter } from 'react-router-dom';
+import equal from 'fast-deep-equal'
 
 class Passenger extends React.Component {
     state = {
@@ -176,13 +177,10 @@ class Passenger extends React.Component {
             })});
     }
     handleUpdate = () => {
-        console.log("BUY BUTTON CLICKED")
-        console.log(this.state.passengers[0])
         let valid = true;
         let message = "";
         for(let i = 0; i < this.state.passengers.length; i += 1){
             for (const property in this.state.passengers[i]) {
-                console.log(this.state.passengers[i][property])
                 if(this.state.passengers[i][property] === ""){
                     valid = false;
                     if(property === "fname"){
@@ -260,19 +258,17 @@ class Passenger extends React.Component {
                                     <th>Meno</th>
                                     <th>Priezvisko</th>
                                     <th>Typ</th>
-                                    <th>Odstrániť?</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {this.state.passengers.map((r) => (
                                     <tr key={r.id}>
-                                    <td><input id="fname" type="text" value={this.state.passengers[this.findID(this.state.passengers, r.id)].fname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
-                                    <td><input id="lname" type="text" value={this.state.passengers[this.findID(this.state.passengers, r.id)].lname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
-                                    <td><div><input onClick={() => {this.toggleShow(r.id)}} placeholder='Vyber' value={this.state.passengers[this.findID(this.state.passengers, r.id)].type} onChange={this.handleChange}></input>
+                                    <td><input id="fname" type="text" placeholder='Zadaj meno' value={this.state.passengers[this.findID(this.state.passengers, r.id)].fname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
+                                    <td><input id="lname" type="text" placeholder='Zadaj priezvisko' value={this.state.passengers[this.findID(this.state.passengers, r.id)].lname} onChange={(e)=>{this.handleChange(e, r.id)}}></input></td>
+                                    <td><div><input onClick={() => {this.toggleShow(r.id)}} placeholder='Vyber typ' value={this.state.passengers[this.findID(this.state.passengers, r.id)].type} onChange={this.handleChange}></input>
                                             
                                             {(this.state.passengers[this.findID(this.state.passengers, r.id)].showType)?<SelectType moreOptions={this.state.passenger_types.results} addType={this.addType} id={r.id}></SelectType>:null}
                                             </div></td>
-                                    <td><button className='remove' onClick={() => {/*this.removeRow(r.id)*/}}>zmaz</button></td>
                                     </tr>
                                 ))}
                                 
@@ -435,7 +431,6 @@ class PassengerRes extends React.Component {
     }
 
     render(){
-
         const trainsList = this.props.reservations.map((train, i) => {
            
             return(
@@ -465,6 +460,7 @@ class TrainRes extends React.Component {
         priceLoaded: false,
         price: "",
         updateReserved: false,
+        train: {},
     }
     componentDidMount = () => {
         let res = this.props.train.users.find((val)=>{
@@ -472,10 +468,21 @@ class TrainRes extends React.Component {
         })
         this.setState({
             reservation: res,
+            train: this.props.train,
         })
     }
     
     componentDidUpdate = (props) => {
+        if(!equal(this.props.train, this.state.train)){
+            console.log("menim>>>>>>>>")
+            let res = this.props.train.users.find((val)=>{
+                return val.id === this.props.passengerID
+            })
+            this.setState({
+                reservation: res,
+            })
+        }
+
         if(props.passengerType !== this.state.passengerType){
             this.setState({
                 passengerType: props.passengerType
@@ -508,37 +515,7 @@ class TrainRes extends React.Component {
                 })
             }
 
-        }   
-        if(this.state.updateReserved !== this.state.reservation.reserved ){
-            if(this.state.passengerType !== ""){
-            fetch("http://127.0.0.1:8000/passenger-type/"+props.passengerType+"/calculate_price/?distance="+this.props.train.tDistance+"&reservation="+this.state.reservation.reserved)
-            .then(res => res.json())
-                .then(json => {
-                    this.setState({
-                        priceLoaded: true,
-                        price: json,
-                        updateReserved: true,
-                    })
-                    if(this.state.reservation.reserved === false){
-                        this.props.addToPrice(json.second_class_price, this.props.order)
-                    }
-                    else{
-                        if(this.state.reservation.carriageClass === "1"){
-                            this.props.addToPrice(json.first_class_price, this.props.order)
-                        }
-                        else{
-                            this.props.addToPrice(json.second_class_price, this.props.order)
-                        }
-                    }
-                });
-            }
-            else{
-                this.setState({
-                    priceLoaded: false,
-                    price: "",
-                })
-            }
-        } 
+        }  
     }
     
     render() {
@@ -579,6 +556,8 @@ class TrainRes extends React.Component {
         )
     }
 }
+
+/* ------------------------------------ */
 
 
 

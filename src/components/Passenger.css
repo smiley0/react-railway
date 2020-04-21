@@ -13,8 +13,11 @@
     color: gray;
     font-size: 0.8em;
 }
+.passengers table {
+    width: 100%;
+}
 .passengers td {
-    width: 25%;
+    width: 33%;
 }
 .passenger input {
     width: 88%;
@@ -37,7 +40,7 @@
     color: #c80000;
 }
 .passenger .addmore {
-    width: 99%;
+    width: 98.5%;
     background-color: red;
     color: white;
     padding: 10px 0px;
