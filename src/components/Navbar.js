@@ -179,11 +179,6 @@ class Navbar extends React.Component {
                     <div className='center'>
                         <div className='left'>
                             <NavLink to='/'><img src={logo} alt="logo"/></NavLink>
-                            <ul>
-                                <li><span>SK</span></li>
-                                <li>/</li>
-                                <li><span>EN</span></li>
-                            </ul>
                         </div>
                         <div className='right'>
                             <NavLink to={'/user/'+this.props.uname}><div className="userName"><h3>{this.props.uname}</h3></div></NavLink>
