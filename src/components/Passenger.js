@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 import './Passenger.css'
 import {compose} from 'redux'
 import { withRouter } from 'react-router-dom';
-import equal from 'fast-deep-equal'
 
 class Passenger extends React.Component {
     state = {
@@ -1012,7 +1011,7 @@ class Seat extends React.Component {
     }
 
     componentDidUpdate = (prevProps) => {
-        if(!equal(this.props.classes, prevProps.classes)){
+        if(this.state.reservation !== this.props.classes.state){
             this.setState({
                 reservation: this.props.classes.state,
             })
