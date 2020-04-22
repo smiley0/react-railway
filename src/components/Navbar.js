@@ -21,20 +21,16 @@ class Navbar extends React.Component {
         fname: "",
         lname: "",
         email: "",
+        loginError: false,
+        loginErrorMessage: "",
     }
     
   componentDidMount() {
-    console.log("NAVBAR REDUX STATE")
-    console.log(this.props.uname)
-
     this.forceUpdate();
   }
   componentDidUpdate(prevProps, prevState) {
     if(!equal(this.props.uname, prevProps.uname)) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
     {
-        console.log("JOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-        console.log(prevProps)
-        console.log(this.props)
       this.setState({uname: this.props.uname})
     }
     if(prevState.haveResponse !== this.state.haveResponse){
@@ -43,12 +39,9 @@ class Navbar extends React.Component {
         this.forceUpdate();
     }
     if(prevState.haveRegistrationResponse !== this.state.haveRegistrationResponse){
-        console.log("ODPOVED OD REGISTRACIE")
-        console.log(this.state.registrationResponse)
         /* Prisla kladna odpoved */
         if(this.state.registrationResponse.hasOwnProperty('username')){
             if(this.state.registrationResponse.username === this.state.uname2){
-                console.log("DOBRA")
                 this.handleClick();
             }
         }
@@ -61,15 +54,12 @@ class Navbar extends React.Component {
   }
 
   login = () => {
-      console.log("Login was clicked")
       this.setState({display: true})      
   }
   register = () => {
       this.setState({register_display: true})
   }
   checkClick = (event) => {
-      console.log("EVENT")
-      console.log(event.target.className)
       if(event.target.className === 'loginPage'){
           this.setState({display: false})
       }
@@ -102,24 +92,35 @@ class Navbar extends React.Component {
             headers: headers,
             body: JSON.stringify(post)
         };
-        console.log("REQUEST OPTIONS")
-        console.log(requestOptions)
         fetch('http://127.0.0.1:8000/accounts/login/', requestOptions)
-            .then(res => res.json())
-            .then(json => {
-                let state = this.props.state;
-                state.token = json.token;
-                state.uname = this.state.uname2;
-
-                console.log(state)
-                saveState(state);
-                this.props.updateState(state);
-                //this.forceUpdate;
-                this.setState({
-                    haveResponse: true,
-                    //response: json,
-                })
-            });
+            .then(res => {
+                const statusCode = res.status;
+                const data = res.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then(([res, data]) => {
+                if(res === 200){
+                    let state = this.props.state;
+                    state.token = data.token;
+                    state.uname = this.state.uname2;
+                    saveState(state);
+                    this.props.updateState(state);
+                    this.setState({
+                        haveResponse: true,
+                        loginError: false,
+                        //response: json,
+                    })
+                }
+                else{
+                    this.setState({
+                        loginError: true,
+                        loginErrorMessage: data.detail,
+                    })
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            })
     }
     handleRegisterClick = () => {
         const post = {};
@@ -223,7 +224,9 @@ class Navbar extends React.Component {
 
                                     <label htmlFor="psw"><b>Password</b></label>
                                     <input id='psw' onChange={this.handleChange} type="password" placeholder="Enter Password" name="psw" required></input>
-                                        
+
+                                    {this.state.loginError? <span className='errorMessage'>{this.state.loginErrorMessage}</span>: null}
+
                                     <button onClick={this.handleClick} type="submit">Login</button>
                                     <label> Remember me</label>
                                     <input type="checkbox" name="remember" defaultChecked></input>
