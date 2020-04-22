@@ -23,6 +23,15 @@
     padding-right: 1%;
 }
 
+.l-content-ticket h2 {
+    margin: 0;
+}
+
+.l-content-ticket h2 small {
+    color: var(--text-gray);
+    margin-left: 5px;
+}
+
 .r-content-ticket {
     width: 36%;
     float: left;
@@ -33,18 +42,30 @@
     position: absolute;
     right: 0;
     top: 0;
-    /*
-        display: flex;
-
-        justify-content: center;
-        align-items: center;
-        */
     border-left: 1px dashed black;
 }
 
 .l-content-ticket a {
     display: inline-block;
     padding-bottom: 1em;
+}
+
+.l-content-ticket .routeInfo {
+    font-weight: 200;
+    font-size: 1.3em;
+}
+
+.l-content-ticket button {
+    background-color: var(--main-color-secondary);
+    border: 2px solid var(--main-color);
+    border-radius: 4px;
+    color: var(--text-body-on-dark);
+    padding: 0.5em 1em;
+    font-size: 0.7em;
+}
+
+.l-content-ticket button:hover {
+    background-color: var(--main-color);
 }
 
 .r-content-ticket p {
@@ -65,6 +86,10 @@
 
 .advancedInfo {
     border-top: 1px dashed black;
+}
+
+.advancedInfo li {
+    list-style: none;
 }
 
 .seatsReservations {

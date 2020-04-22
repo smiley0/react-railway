@@ -67,7 +67,7 @@ class User extends React.Component {
             ticketsList = this.state.response.results.map((ticket, i) => {
                 return(
                       <li key={i}>
-                        <Ticket uname={this.state.uname} ticket={ticket}></Ticket>
+                        <Ticket uname={this.state.uname} ticket={ticket}/>
                       </li>
                 )
               })
@@ -121,19 +121,19 @@ class Ticket extends React.Component {
             <div className='ticket' onClick={this.showMore}>
                 <div className='content-ticket'>
                 <div className='l-content-ticket'>
-                    <h2>Cestovný lístok</h2>
-                    <p>{ticket.segments[0].start.station_name} -
+                    <h2>Cestovný lístok <small>#{ticket.id}</small></h2>
+                    <p className="routeInfo">{ticket.segments[0].start.station_name}&nbsp;-&nbsp;
                     {ticket.segments[ticket.segments.length - 1].end.station_name}</p>
-                    <p>{ticket.valid_on}</p>
-                    {ticket.status === 'U'?<button onClick={() => {this.pay(ticket.paygate_link)}}>Zaplatit</button>: null}
+                    <p><strong>Platí od:</strong> {ticket.valid_on}</p>
+                    {ticket.status === 'U'?<button onClick={() => {this.pay(ticket.paygate_link)}}>Zaplatiť</button>: null}
 
                     {this.state.showMore?
-                            <Segments passengers={ticket.passengers} reservations={ticket.reservations} segments={ticket.segments}></Segments>
+                            <Segments passengers={ticket.passengers} reservations={ticket.reservations} segments={ticket.segments}/>
                     : null}
                 </div>
                 <div className='r-content-ticket'>
-                    <Passengers passengers={ticket.passengers}></Passengers>
-                    <p> cena: {ticket.price}</p>
+                    <Passengers passengers={ticket.passengers}/>
+                    <p> cena: {ticket.price} €</p>
                 </div>
                 </div>
             </div>
@@ -193,19 +193,19 @@ class Segments extends React.Component {
                         <table className='segment'>
                             <tbody>
                                 <tr>
-                                    <td><i className="fas fa-subway"></i> {segment.train.category_short}-{segment.train.number}</td>
+                                    <td><i className="fas fa-subway"/> {segment.train.category_short} {segment.train.number} {segment.train.name}</td>
                                     <td>{segment.start.station_name}</td>
                                     <td>{segment.start.departure_time}</td>
                                 </tr>
                                 <tr>
-                                    <td>{segment.train.name}</td>
+                                    <td/>
                                     <td>{segment.end.station_name}</td>
                                     <td>{segment.end.arrival_time}</td>
                                 </tr>
                             </tbody>
                         </table>
                         <ul>
-                            <Reservations passengers={this.props.passengers} id={segment.id} reservations={this.props.reservations}></Reservations>
+                            <Reservations passengers={this.props.passengers} id={segment.id} reservations={this.props.reservations}/>
                         </ul>
                     </div>
                   </li>
@@ -235,7 +235,7 @@ class Reservations extends React.Component {
             sReservations = reservationsForSegment.map((reservation, i) => {
                 return(
                     <li key={i}>
-                        <ReservationInfo passengers={this.props.passengers} seat={reservation.seat_number} carriage={reservation.carriage} passengerID={reservation.passenger}></ReservationInfo>
+                        <ReservationInfo passengers={this.props.passengers} seat={reservation.seat_number} carriage={reservation.carriage} passengerID={reservation.passenger}/>
                     </li>
                 )
             })
