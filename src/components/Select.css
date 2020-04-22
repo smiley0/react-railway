@@ -125,3 +125,53 @@
 .loadMore {
     height: 110px;
 }
+
+/* more info */
+
+.trainsMenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.trainsMenu li {
+    display: inline-block;
+    padding: 0.5em 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--main-color);
+}
+.trainsMenu li.selected {
+    background-color: var(--bg-color-light);
+
+    color: var(--main-color);
+}
+.trainsContent {
+    background-color: var(--bg-color-light);
+    padding: 1em;
+}
+.trainsContent ul {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    list-style-type: none;
+}
+.trainsContent button {
+    margin: 1em;
+    font-size: 1em;
+    height: auto;
+    width: 220px;
+}
+
+.fa-ellipsis-v {
+    font-size: 1.1em;
+    padding-left: .4em;
+    padding-right: 1.4em;
+}
+.fa-dot-circle{
+    padding-right: 0.85em;
+}
+.fa-angle-down{
+    font-size: 1em;
+    padding-left: 0.7em;
+    padding-right: 1.7em;
+}

@@ -5,6 +5,7 @@
     --main-color-secondary: #294a9e;
     --main-color-light: #2b8be0;
     --card-bg: rgba(222, 222, 222, .95);
+    --bg-color-light: rgb(235, 235, 255);
 
     /* Typography */
     --text-body: #000;

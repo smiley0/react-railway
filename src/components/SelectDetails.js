@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 class SelectDetails extends React.Component {
     state = {
       opened: false,
+      show: 0,
     }
     handleClick = () => {
       if(this.props.uname !== ""){
@@ -18,16 +19,19 @@ class SelectDetails extends React.Component {
       }
 
   }
+  showMe = (i) => {
+    this.setState({show: i,})
+  }
     render(){
       return (
         <div className='itemsDetail'>
-          <ul>
+          <ul className='trainsMenu'>
             {this.props.trains.transfer_history.map((item, index) => (
-                  <li key={index}>{item.train.category_short} {item.train.number} {item.train.name}</li>
+                  <li className={this.state.show === index? "selected":null} onClick={() => this.showMe(index)} key={index}>{item.train.category_short} {item.train.number} {item.train.name}</li>
             ))}
           </ul>
           {this.props.trains.transfer_history.map((item, index) => (
-                <MoreDetail key={index} item={item}/>
+            this.state.show === index?<MoreDetail key={index} item={item}/>:null
           ))}
 
           <button onClick={this.handleClick.bind(this)}>Kúpiť lístok</button>
@@ -124,36 +128,38 @@ export default compose(
         console.log(before)
         console.log(journey)
         console.log(after)
-
+        let jLlength = journey.length -1;
         let journeyList = journey.map((stop, i) => {
           return(
                 <li key={i}>
-                  {stop.time.slice(0,5)} - {stop.name}
+                  {i === 0 || i === jLlength ?
+                  <i className="fas fa-dot-circle"></i>:
+                  <i className="fas fa-ellipsis-v"></i>
+                  }
+                  {i === 0 || i === jLlength ?
+                  <b>{stop.time.slice(0,5)} - {stop.name}</b>:
+                  <span>{stop.time.slice(0,5)} - {stop.name}</span>}
                 </li>
           )
         })
         let beforeList = before.map((stop, i) => {
           return(
                 <li key={i}>
-                  {stop.time.slice(0,5)} - {stop.name}
+                  <i className="fas fa-ellipsis-v"></i>{stop.time.slice(0,5)} - {stop.name}
                 </li>
           )
         })
         let afterList = after.map((stop, i) => {
           return(
                 <li key={i}>
-                  {stop.time.slice(0,5)} - {stop.name}
+                  <i className="fas fa-ellipsis-v"></i>{stop.time.slice(0,5)} - {stop.name}
                 </li>
           )
         })
         //let JourneyListShort =
 
         return(
-          <div>
-            <h3>{this.props.item.train.category_short + " " +
-              this.props.item.train.number + " " +
-              this.props.item.train.name }
-            </h3>
+          <div className='trainsContent'>
             {before.length>0?
               this.state.showBefore?<button onClick={this.toggleBefore}>Skryt predchadzajuce</button>:<button onClick={this.toggleBefore}>Zobrazit predchadzajuce</button>
               :null
@@ -194,9 +200,10 @@ export default compose(
     render(){
         return (
           <ul>
-            <li>{this.props.journey[0].time.slice(0,5)} - {this.props.journey[0].name}</li>
-            <li onClick={this.props.displayLong}>zobrazit vsetky medzistanice ({this.props.journey.length - 2})</li>
-            <li>{this.props.journey[this.props.journey.length - 1].time.slice(0,5)} - {this.props.journey[this.props.journey.length - 1].name}</li>
+            <li><i className="fas fa-dot-circle"></i><b>{this.props.journey[0].time.slice(0,5)} - {this.props.journey[0].name}</b></li>
+            {this.props.journey.length - 2 === 0? null:
+            <li onClick={this.props.displayLong}><i className="fas fa-ellipsis-v"></i> <i className="fas fa-angle-down"></i>zobrazit vsetky medzistanice ({this.props.journey.length - 2})</li>}
+            <li><i className="fas fa-dot-circle"></i><b>{this.props.journey[this.props.journey.length - 1].time.slice(0,5)} - {this.props.journey[this.props.journey.length - 1].name}</b></li>
           </ul>
         )
       }
