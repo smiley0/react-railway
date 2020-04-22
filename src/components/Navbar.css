@@ -199,3 +199,8 @@
 .introContent h1 {
     color: var(--main-color);
 }
+
+.errorMessage {
+    font-weight: bold;
+    color: red;
+}
