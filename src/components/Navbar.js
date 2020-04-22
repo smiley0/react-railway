@@ -190,11 +190,11 @@ class Navbar extends React.Component {
                     <div className='center'>
                     <ul>
                         <li><NavLink to='/' className='felem'><i className="fas fa-home"/></NavLink></li>
-                        <li><NavLink to='#'>Rezervácie</NavLink></li>
-                        <li><NavLink to='#'>Výluky</NavLink></li>
+                        <li><NavLink to='/page/reservations'>Rezervácie</NavLink></li>
+                        <li><NavLink to='/page/changes'>Výluky</NavLink></li>
                         <li><NavLink to='#'>Ceny a lístky</NavLink></li>
-                        <li><NavLink to='#'>O nás</NavLink></li>
-                        <li><NavLink to='#'>Kontakt</NavLink></li>
+                        <li><NavLink to='/page/about'>O nás</NavLink></li>
+                        <li><NavLink to='/page/contact'>Kontakt</NavLink></li>
                     </ul>
                     </div>
                 </nav>

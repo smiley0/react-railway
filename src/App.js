@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './components/Navbar'
 import {BrowserRouter, Route} from 'react-router-dom'
 import Home from './components/Home'
-import About from './components/About'
+import Page from './components/Page'
 import Select from './components/Select'
 import Passenger from './components/Passenger'
 import Footer from './components/Footer'
@@ -31,13 +31,13 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="App">
-        <Navbar></Navbar>
+        <Navbar/>
           <Route exact path='/' component={Home} />
-          <Route path='/about' component={About} />
           <Route path='/select' component={Select} />
           <Route path='/user/:username' component={User} />
           <Route path='/passenger' component={Passenger} />
-        <Footer></Footer>
+          <Route path='/page/:page' component={Page} />
+        <Footer/>
         </div>
       </BrowserRouter>
     );
