@@ -172,39 +172,9 @@ class Navbar extends React.Component {
         }
     }
     render(){
-        if(this.props.uname !== ""){
-            return(
-                <div>
-                <nav id='navbar'>
-                    <div className='center'>
-                        <div className='left'>
-                            <NavLink to='/'><img src={logo} alt="logo"/></NavLink>
-                        </div>
-                        <div className='right'>
-                            <NavLink to={'/user/'+this.props.uname}><div className="userName"><h3>{this.props.uname}</h3></div></NavLink>
-                            <NavLink to='/'><button className="login" onClick={this.handleLogout}>Logout</button></NavLink>
-                        </div>
-                    </div>
-                </nav>
-                <nav id="snav">
-                    <div className='center'>
-                    <ul>
-                        <li><NavLink to='/' className='felem'><i className="fas fa-home"/></NavLink></li>
-                        <li><NavLink to='/page/reservations'>Rezervácie</NavLink></li>
-                        <li><NavLink to='/page/changes'>Výluky</NavLink></li>
-                        <li><NavLink to='/prices'>Ceny a lístky</NavLink></li>
-                        <li><NavLink to='/page/about'>O nás</NavLink></li>
-                        <li><NavLink to='/page/contact'>Kontakt</NavLink></li>
-                    </ul>
-                    </div>
-                </nav>
-                </div>
-            )
-        }
-        else{
-            return(
-                <div>
-                {this.state.display?
+        return (
+            <div>
+                {this.state.display ?
                     <div className='modalPage' onClick={this.checkClick}>
                         <div className='formContent'>
                             <form onSubmit={this.handleSubmit}>
@@ -229,15 +199,15 @@ class Navbar extends React.Component {
                     </div> :
                     null
                 }
-                {this.state.register_display?
+                {this.state.register_display ?
                     <div className='modalPage' onClick={this.checkRegisterClick}>
                         <div className='formContent'>
                             <div className='introContent'>
-                            <h1>Zaregistrujte sa</h1>
-                            <p>Prosím vyplnte formulár k vytvoreniu účtu <span>(* - povinné údaje)</span></p>
+                                <h1>Zaregistrujte sa</h1>
+                                <p>Prosím vyplnte formulár k vytvoreniu účtu <span>(* - povinné údaje)</span></p>
 
-                            <span className='close'><i onClick={this.closeRegister} className="fas fa-times fa-2x"/></span>
-                            <hr/>
+                                <span className='close'><i onClick={this.closeRegister} className="fas fa-times fa-2x"/></span>
+                                <hr/>
                             </div>
                             <form onSubmit={this.handleSubmit}>
                                 <div className="loginForm">
@@ -270,38 +240,46 @@ class Navbar extends React.Component {
                     </div>:
                     null
                 }
-                <nav id='navbar'>
-                    <div className='center'>
-                        <div className='left'>
-                            <NavLink to='/'><img src={logo} alt="logo"/></NavLink>
-                            <ul>
-                                <li><span>SK</span></li>
-                                <li>/</li>
-                                <li><span>EN</span></li>
-                            </ul>
+                {this.props.uname !== "" ? (
+                    <nav id='navbar'>
+                        <div className='center'>
+                            <div className='left'>
+                                <NavLink to='/'><img src={logo} alt="logo"/></NavLink>
+                            </div>
+                            <div className='right'>
+                                <NavLink to={'/user/'+this.props.uname}><div className="userName"><h3>{this.props.uname}</h3></div></NavLink>
+                                <NavLink to='/'><button className="login" onClick={this.handleLogout}>Logout</button></NavLink>
+                            </div>
                         </div>
-                        <div className='right'>
-                            <button onClick={this.register} className="register">Register</button>
-                            {/*<a href='/login'><button className="login">Login</button></a>*/}
-                            <button onClick={this.login} className="login">Login</button>
+                    </nav>
+                ) : (
+                    <nav id='navbar'>
+                        <div className='center'>
+                            <div className='left'>
+                                <NavLink to='/'><img src={logo} alt="logo"/></NavLink>
+                            </div>
+                            <div className='right'>
+                                <button onClick={this.register} className="register">Register</button>
+                                {/*<a href='/login'><button className="login">Login</button></a>*/}
+                                <button onClick={this.login} className="login">Login</button>
+                            </div>
                         </div>
-                    </div>
-                </nav>
+                    </nav>
+                )}
                 <nav id="snav">
                     <div className='center'>
-                    <ul>
-                        <li><NavLink to='/' className='felem'><i className="fas fa-home"/></NavLink></li>
-                        <li><NavLink to='#'>Rezervácie</NavLink></li>
-                        <li><NavLink to='#'>Výluky</NavLink></li>
-                        <li><NavLink to='#'>Ceny a lístky</NavLink></li>
-                        <li><NavLink to='#'>O nás</NavLink></li>
-                        <li><NavLink to='#'>Kontakt</NavLink></li>
-                    </ul>
+                        <ul>
+                            <li><NavLink to='/' className='felem'><i className="fas fa-home"/></NavLink></li>
+                            <li><NavLink to='/page/reservations'>Rezervácie</NavLink></li>
+                            <li><NavLink to='/page/changes'>Výluky</NavLink></li>
+                            <li><NavLink to='/prices'>Ceny a lístky</NavLink></li>
+                            <li><NavLink to='/page/about'>O nás</NavLink></li>
+                            <li><NavLink to='/page/contact'>Kontakt</NavLink></li>
+                        </ul>
                     </div>
                 </nav>
-                </div>
-            )
-        }
+            </div>
+        )
     }
 }
 
