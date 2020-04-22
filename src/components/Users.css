@@ -2,19 +2,27 @@
     list-style: none;
     padding: 0;
 }
+
 .ticket {
     border: 0 solid black;
-    box-shadow: -5px -5px 15px rgba(100, 100, 100, .4), 5px -5px 15px rgba(100, 100, 100, .4);
-    margin-top: 1em;
+    box-shadow: var(--elevation-4);
+    transition: box-shadow 0.2s ease;
+    margin-top: 1.6em;
     padding: 1em;
     overflow: hidden;
     position: relative;
 }
+
+.ticket:hover {
+    box-shadow: var(--elevation-8);
+}
+
 .l-content-ticket {
     width: 59%;
     float: left;
     padding-right: 1%;
 }
+
 .r-content-ticket {
     width: 36%;
     float: left;
@@ -25,18 +33,20 @@
     position: absolute;
     right: 0;
     top: 0;
-/*
-    display: flex;
-    
-    justify-content: center;
-    align-items: center;
-    */
+    /*
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+        */
     border-left: 1px dashed black;
 }
+
 .l-content-ticket a {
     display: inline-block;
     padding-bottom: 1em;
 }
+
 .r-content-ticket p {
     position: absolute;
     bottom: 0;
@@ -44,34 +54,41 @@
     width: 96%;
     margin-right: 4%;
     text-align: right;
-  }
+}
 
-  .content-ticket::after{
+.content-ticket::after {
     content: "";
     display: block;
     clear: both;
 
 }
+
 .advancedInfo {
     border-top: 1px dashed black;
 }
+
 .seatsReservations {
     padding-top: 0.5em;
 }
+
 .seatsReservations span {
     margin-right: 1em;
 }
+
 .seatsReservations i {
     color: black;
     padding-right: 0.25em;
 }
+
 table.segment {
     width: 100%;
     margin-top: 1em;
 }
+
 table.segment td {
     width: 40%;
 }
+
 table.segment td:last-child {
     width: 20%;
 }

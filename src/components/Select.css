@@ -4,12 +4,17 @@
 }
 
 .select .itembox {
-    border: 0px solid black;
-    box-shadow: -5px -5px 15px rgba(100, 100, 100, .4), 5px -5px 15px rgba(100, 100, 100, .4);
-    margin-top: 1em;
+    border: 0 solid black;
+    box-shadow: var(--elevation-4);
+    margin-top: 1.6em;
     padding: 1em;
     overflow: hidden;
     position: relative;
+    transition: box-shadow 0.2s ease;
+}
+
+.select .itembox:hover {
+    box-shadow: var(--elevation-8);
 }
 
 .select .lsbox {
@@ -97,7 +102,7 @@
 
 .itemsDetail {
     padding: 1em;
-    box-shadow: -5px 5px 16px rgba(100, 100, 100, .4), 5px 5px 16px rgba(100, 100, 100, .4);
+    box-shadow: var(--elevation-4);
 }
 
 .itemsDetail h3 {
