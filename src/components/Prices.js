@@ -12,8 +12,6 @@ class Prices extends React.Component {
     }
 
     fetchPrices = () => {
-        const { page } = this.props.match.params
-
         var headers = {
             'accept': 'application/json',
             'Content-Type': 'application/json',

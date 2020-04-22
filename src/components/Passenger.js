@@ -516,6 +516,37 @@ class TrainRes extends React.Component {
             }
 
         }
+
+        if(this.state.updateReserved !== this.state.reservation.reserved ){
+            if(this.state.passengerType !== ""){
+            fetch("http://127.0.0.1:8000/passenger-type/"+props.passengerType+"/calculate_price/?distance="+this.props.train.tDistance+"&reservation="+this.state.reservation.reserved)
+            .then(res => res.json())
+                .then(json => {
+                    this.setState({
+                        priceLoaded: true,
+                        price: json,
+                        updateReserved: true,
+                    })
+                    if(this.state.reservation.reserved === false){
+                        this.props.addToPrice(json.second_class_price, this.props.order)
+                    }
+                    else{
+                        if(this.state.reservation.carriageClass === "1"){
+                            this.props.addToPrice(json.first_class_price, this.props.order)
+                        }
+                        else{
+                            this.props.addToPrice(json.second_class_price, this.props.order)
+                        }
+                    }
+                });
+            }
+            else{
+                this.setState({
+                    priceLoaded: false,
+                    price: "",
+                })
+            }
+        }
     }
 
     render() {
