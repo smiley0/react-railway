@@ -42,7 +42,7 @@ class Prices extends React.Component {
                         <div key={p.short}>
                             <h2>{p.name}</h2>
                             <p>Cena rezervácie je {p.reservation_price} €.</p>
-                            <table>
+                            <table className="table">
                                 <thead>
                                     <tr>
                                         <th>Vzdialenosť do</th>

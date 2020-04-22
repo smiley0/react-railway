@@ -1,19 +1,20 @@
-table {
+.table {
     border-collapse: collapse;
 }
-th {
+
+.table th {
     background: #ccc;
 }
 
-th, td {
+.table th, .table td {
     border: 1px solid #ccc;
     padding: 8px;
 }
 
-tr:nth-child(even) {
+.table tr:nth-child(even) {
     background: #efefef;
 }
 
-tr:hover {
+.table tr:hover {
     background: #d1d1d1;
 }
