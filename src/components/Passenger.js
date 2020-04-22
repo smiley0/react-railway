@@ -499,7 +499,7 @@ class TrainRes extends React.Component {
                         this.props.addToPrice(json.second_class_price, this.props.order)
                     }
                     else{
-                        if(this.state.reservation.carriageClass === "1"){
+                        if(this.state.reservation.carriageClass === 1){
                             this.props.addToPrice(json.first_class_price, this.props.order)
                         }
                         else{
@@ -531,7 +531,7 @@ class TrainRes extends React.Component {
                         this.props.addToPrice(json.second_class_price, this.props.order)	
                     }	
                     else{	
-                        if(this.state.reservation.carriageClass === "1"){	
+                        if(this.state.reservation.carriageClass === 1){	
                             this.props.addToPrice(json.first_class_price, this.props.order)	
                         }	
                         else{	
@@ -576,7 +576,7 @@ class TrainRes extends React.Component {
                 {(this.state.reservation.reserved)?
                     <div className="withReservation">
                         <p>vozen: <span className="bold">{this.state.reservation.carriageNumber}</span> ({this.state.reservation.carriageClass}. trieda) miesto: <span className="bold">{this.state.reservation.seatID}</span></p>
-                        {(this.state.reservation.carriageClass === "1")?<p>cena: <span className="darkRed">{this.state.price.first_class_price} €</span></p>: <p>cena: <span className="darkRed">{this.state.price.second_class_price} €</span></p>}
+                        {(this.state.reservation.carriageClass === 1)?<p>cena: <span className="darkRed">{this.state.price.first_class_price} €</span></p>: <p>cena: <span className="darkRed">{this.state.price.second_class_price} €</span></p>}
                     </div>:
                     <div className="withoutReservation">
                         <p>bez rezervacie</p>
@@ -798,16 +798,16 @@ class SelectSeats extends React.Component {
                     free = free - this.state.reservations[i].result.length
                     var obj = this.state.reservations
                     obj[i].seats = carriage.seats;
-                    obj[i].type = carriage.type;
+                    obj[i].type = carriage.carriage_class;
                     //this.setState({reservation: obj})
 
                 }
             }
         return(
                 <li key={i} onClick={(e)=>{this.showCarriage(e, carriage.id, carriage)}}>
-                    <div className={'class'+carriage.type+ ' wagon'}>
+                    <div className={'class'+carriage.carriage_class+ ' wagon'}>
                         <span>cislo vozna: {carriage.number}</span>
-                        <span>trieda: {carriage.type}</span>
+                        <span>trieda: {carriage.carriage_class}</span>
                         <span>volnych miest:{free}/{carriage.seats}</span>
                     </div>
                 </li>
