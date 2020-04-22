@@ -161,7 +161,7 @@ export default compose(
         return(
           <div className='trainsContent'>
             {before.length>0?
-              this.state.showBefore?<button onClick={this.toggleBefore}>Skryt predchadzajuce</button>:<button onClick={this.toggleBefore}>Zobrazit predchadzajuce</button>
+              this.state.showBefore?<button onClick={this.toggleBefore}>Skryť predchádzajúce</button>:<button onClick={this.toggleBefore}>Zobraziť predchádzajúce</button>
               :null
             }
             {this.state.showBefore? <ul>{beforeList}</ul>: null}
@@ -172,7 +172,7 @@ export default compose(
             <ShortList displayLong={this.displayLong} journey={journey}/>}
             {this.state.showAfter? <ul>{afterList}</ul>: null}
             {after.length>0?
-              this.state.showAfter?<button onClick={this.toggleAfter}>Skryt nasledujuce</button>:<button onClick={this.toggleAfter}>Zobrazit nasledujuce</button>
+              this.state.showAfter?<button onClick={this.toggleAfter}>Skryť nasledujúce</button>:<button onClick={this.toggleAfter}>Zobraziť nasledujúce</button>
               :null
             }
           </div>
@@ -202,7 +202,7 @@ export default compose(
           <ul>
             <li><i className="fas fa-dot-circle"></i><b>{this.props.journey[0].time.slice(0,5)} - {this.props.journey[0].name}</b></li>
             {this.props.journey.length - 2 === 0? null:
-            <li onClick={this.props.displayLong}><i className="fas fa-ellipsis-v"></i> <i className="fas fa-angle-down"></i>zobrazit vsetky medzistanice ({this.props.journey.length - 2})</li>}
+            <li onClick={this.props.displayLong}><i className="fas fa-ellipsis-v"></i> <i className="fas fa-angle-down"></i>Zobraziť všetky medzistanice ({this.props.journey.length - 2})</li>}
             <li><i className="fas fa-dot-circle"></i><b>{this.props.journey[this.props.journey.length - 1].time.slice(0,5)} - {this.props.journey[this.props.journey.length - 1].name}</b></li>
           </ul>
         )
