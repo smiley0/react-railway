@@ -10,6 +10,7 @@ import User from './components/User'
 
 import {loadState} from './components/localStorage'
 import { connect } from 'react-redux'
+import Prices from "./components/Prices";
 //import {compose} from 'redux'
 
 
@@ -37,6 +38,7 @@ class App extends React.Component {
           <Route path='/user/:username' component={User} />
           <Route path='/passenger' component={Passenger} />
           <Route path='/page/:page' component={Page} />
+          <Route path='/prices' component={Prices} />
         <Footer/>
         </div>
       </BrowserRouter>

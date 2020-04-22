@@ -192,7 +192,7 @@ class Navbar extends React.Component {
                         <li><NavLink to='/' className='felem'><i className="fas fa-home"/></NavLink></li>
                         <li><NavLink to='/page/reservations'>Rezervácie</NavLink></li>
                         <li><NavLink to='/page/changes'>Výluky</NavLink></li>
-                        <li><NavLink to='#'>Ceny a lístky</NavLink></li>
+                        <li><NavLink to='/prices'>Ceny a lístky</NavLink></li>
                         <li><NavLink to='/page/about'>O nás</NavLink></li>
                         <li><NavLink to='/page/contact'>Kontakt</NavLink></li>
                     </ul>

@@ -10,7 +10,9 @@ class Page extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.fetchArticle();
+        if (this.props.match.params['page'] !== prevProps.match.params['page']) {
+            this.fetchArticle();
+        }
     }
 
     fetchArticle = () => {
