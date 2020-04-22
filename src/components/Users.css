@@ -75,3 +75,13 @@ table.segment td {
 table.segment td:last-child {
     width: 20%;
 }
+.twoRows {
+    overflow: hidden;
+}
+.twoRows h3, .twoRows button {
+    width: 50%;
+    float: left;
+}
+.twoRows button {
+    margin-top: 1.5em;
+}
