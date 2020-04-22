@@ -37,20 +37,21 @@ class Prices extends React.Component {
         return (
             <div className='center'>
                 <h1>Ceny a lístky</h1>
-                {this.state.haveResponse ? this.state.response.results.map((p, i) => {
-                    return (
-                        <div key={p.short}>
-                            <h2>{p.name}</h2>
-                            <p>Cena rezervácie je {p.reservation_price} €.</p>
-                            <table className="table">
-                                <thead>
+                <div className="cards">
+                    {this.state.haveResponse ? this.state.response.results.map((p, i) => {
+                        return (
+                            <div className="card" key={p.short}>
+                                <h2>{p.name}</h2>
+                                <p>Cena rezervácie je {p.reservation_price} €.</p>
+                                <table className="table">
+                                    <thead>
                                     <tr>
                                         <th>Vzdialenosť do</th>
                                         <th>Prvá trieda</th>
                                         <th>Druhá trieda</th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     {p.pricing.map((pricing, i) => {
                                         return (
                                             <tr key={p.short + i}>
@@ -60,11 +61,12 @@ class Prices extends React.Component {
                                             </tr>
                                         )
                                     })}
-                                </tbody>
-                            </table>
-                        </div>
-                    )
-                }) : 'Načítavam...'}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )
+                    }) : 'Načítavam...'}
+                </div>
             </div>
         )
     }
