@@ -17,27 +17,27 @@ class SelectDetails extends React.Component {
       else{
           window.alert('Musis sa prihlasit')
       }
-  }
 
+  }
   showMe = (i) => {
     this.setState({show: i,})
   }
     render(){
       return (
         <div className='itemsDetail'>
-          <ul>
+          <ul className='trainsMenu'>
             {this.props.trains.transfer_history.map((item, index) => (
-                  <li onClick={() => this.showMe(index)} key={index}>{item.train.category_short} {item.train.number} {item.train.name}</li>
+                  <li className={this.state.show === index? "selected":null} onClick={() => this.showMe(index)} key={index}>{item.train.category_short} {item.train.number} {item.train.name}</li>
             ))}
           </ul>
           {this.props.trains.transfer_history.map((item, index) => (
-                this.state.show === index?<MoreDetail key={index} item={item}></MoreDetail>:null
+            this.state.show === index?<MoreDetail key={index} item={item}/>:null
           ))}
 
-          <button onClick={this.handleClick.bind(this)}>Kupit listok</button>
+          <button onClick={this.handleClick.bind(this)}>Kúpiť lístok</button>
         </div>
       )
-      
+
     }
   }
 
@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default compose(
-  withRouter, 
+  withRouter,
   connect(mapStateToProps, mapDispatchToProps)
 ) (SelectDetails)
 
@@ -72,7 +72,7 @@ export default compose(
         .then(res => res.json())
         .then((data) => {
             this.setState({ response: data, haveResponse: true})
-        }) 
+        })
     }
     displayLong = () => {
         this.setState({
@@ -128,51 +128,53 @@ export default compose(
         console.log(before)
         console.log(journey)
         console.log(after)
-
+        let jLlength = journey.length -1;
         let journeyList = journey.map((stop, i) => {
           return(
                 <li key={i}>
-                  {stop.time.slice(0,5)} - {stop.name}
+                  {i === 0 || i === jLlength ? 
+                  <i className="fas fa-dot-circle"></i>:
+                  <i className="fas fa-ellipsis-v"></i> 
+                  }
+                  {i === 0 || i === jLlength ? 
+                  <b>{stop.time.slice(0,5)} - {stop.name}</b>:
+                  <span>{stop.time.slice(0,5)} - {stop.name}</span>}
                 </li>
-          )        
+          )
         })
         let beforeList = before.map((stop, i) => {
           return(
                 <li key={i}>
-                  {stop.time.slice(0,5)} - {stop.name}
+                  <i className="fas fa-ellipsis-v"></i>{stop.time.slice(0,5)} - {stop.name}
                 </li>
-          )        
+          )
         })
         let afterList = after.map((stop, i) => {
           return(
                 <li key={i}>
-                  {stop.time.slice(0,5)} - {stop.name}
+                  <i className="fas fa-ellipsis-v"></i>{stop.time.slice(0,5)} - {stop.name}
                 </li>
-          )        
+          )
         })
-        //let JourneyListShort = 
+        //let JourneyListShort =
 
         return(
-          <div>
-            <h3>{this.props.item.train.category_short + " " +
-              this.props.item.train.number + " " +
-              this.props.item.train.name }
-            </h3> 
+          <div className='trainsContent'>
             {before.length>0?
               this.state.showBefore?<button onClick={this.toggleBefore}>Skryt predchadzajuce</button>:<button onClick={this.toggleBefore}>Zobrazit predchadzajuce</button>
               :null
-            } 
-            {this.state.showBefore? <ul>{beforeList}</ul>: null}          
+            }
+            {this.state.showBefore? <ul>{beforeList}</ul>: null}
             {this.state.displayLong?
             <ul>
               {journeyList}
             </ul>:
-            <ShortList displayLong={this.displayLong} journey={journey}></ShortList>}
-            {this.state.showAfter? <ul>{afterList}</ul>: null} 
+            <ShortList displayLong={this.displayLong} journey={journey}/>}
+            {this.state.showAfter? <ul>{afterList}</ul>: null}
             {after.length>0?
               this.state.showAfter?<button onClick={this.toggleAfter}>Skryt nasledujuce</button>:<button onClick={this.toggleAfter}>Zobrazit nasledujuce</button>
               :null
-            } 
+            }
           </div>
         )
       }
@@ -198,11 +200,12 @@ export default compose(
     render(){
         return (
           <ul>
-            <li>{this.props.journey[0].time.slice(0,5)} - {this.props.journey[0].name}</li>
-            <li onClick={this.props.displayLong}>zobrazit vsetky medzistanice ({this.props.journey.length - 2})</li>
-            <li>{this.props.journey[this.props.journey.length - 1].time.slice(0,5)} - {this.props.journey[this.props.journey.length - 1].name}</li>
+            <li><i className="fas fa-dot-circle"></i><b>{this.props.journey[0].time.slice(0,5)} - {this.props.journey[0].name}</b></li>
+            {this.props.journey.length - 2 === 0? null:
+            <li onClick={this.props.displayLong}><i className="fas fa-ellipsis-v"></i> <i className="fas fa-angle-down"></i>zobrazit vsetky medzistanice ({this.props.journey.length - 2})</li>}
+            <li><i className="fas fa-dot-circle"></i><b>{this.props.journey[this.props.journey.length - 1].time.slice(0,5)} - {this.props.journey[this.props.journey.length - 1].name}</b></li>
           </ul>
         )
       }
-    
+
   }

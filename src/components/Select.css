@@ -1,19 +1,26 @@
 .select h1 {
-    color: rgb(200, 0, 0);
+    color: var(--main-color);
     text-align: center;
 }
-.select .itembox{
-    border: 0px solid black;
-    box-shadow: -5px -5px 15px rgba(100, 100, 100, .4), 5px -5px 15px rgba(100, 100, 100, .4);
-    margin-top: 1em;
+
+.select .itembox {
+    border: 0 solid black;
+    box-shadow: var(--elevation-4);
+    margin-top: 1.6em;
     padding: 1em;
     overflow: hidden;
     position: relative;
+    transition: box-shadow 0.2s ease;
 }
+
+.select .itembox:hover {
+    box-shadow: var(--elevation-8);
+}
+
 .select .lsbox {
     width: 74%;
-    background-color: ;
 }
+
 .select .rsbox {
     width: 25%;
     height: 100%;
@@ -28,26 +35,31 @@
 
     border-left: 1px dashed black;
 }
+
 .select table {
     width: 100%;
     border-bottom: 1px dashed black;
     margin-bottom: 10px;
     font-size: 1.2em;
 }
+
 .select table th {
     text-align: left;
     width: 10%;
 }
+
 .select table td:last-child {
     text-align: center;
     width: 130px;
 }
-.select .detailInfo p{
+
+.select .detailInfo p {
     width: 50%;
     margin: 0;
     color: gray;
 }
-.select .detailInfo p:last-child{
+
+.select .detailInfo p:last-child {
     text-align: right;
 }
 
@@ -56,50 +68,109 @@
     margin-top: 25px;
     width: 50%;
     height: 40px;
-    background-color: white;
-    border: 3px solid rgb(200, 0, 0);
+    background-color: var(--body-color);
+    border: 3px solid var(--main-color);
     border-radius: 4px;
     font-size: 16px;
     color: black;
     font-weight: bold;
 }
-.selectOptions button i{
+
+.selectOptions button i {
     padding-left: 20px;
 }
+
 .bigLoad {
     height: 600px;
     margin-bottom: 50px;
     display: flex;
     align-items: center;
 }
+
 .bigLoad p {
     padding-left: 470px;
     font-size: 2em;
     font-weight: bold;
-    color: rgb(200, 0, 0);
+    color: var(--main-color);
 }
-.smallLoad p{
+
+.smallLoad p {
     padding-left: 500px;
     font-weight: bold;
-    color: rgb(200, 0, 0);
+    color: var(--main-color);
 }
 
 .itemsDetail {
     padding: 1em;
-    box-shadow: -5px 5px 16px rgba(100, 100, 100, .4), 5px 5px 16px rgba(100, 100, 100, .4);
+    box-shadow: var(--elevation-4);
 }
+
 .itemsDetail h3 {
     margin-top: 0;
 }
+
 .itemsDetail button {
-    background-color: red;
-    border: none;
+    background-color: var(--main-color-secondary);
+    border: 2px solid var(--main-color);
     color: white;
-    font-size: 2.2em;
+    font-size: 1.8em;
     margin-bottom: 0;
     height: 50px;
-    -webkit-text-stroke: 1px rgb(80, 0, 0);
 }
+
+.itemsDetail button:hover {
+    background-color: var(--main-color);
+}
+
 .loadMore {
     height: 110px;
+}
+/* more info */
+
+.trainsMenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.trainsMenu li {
+    display: inline-block;
+    padding: 0.5em 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--main-color);
+}
+.trainsMenu li.selected {
+    background-color: var(--bg-color-light);
+
+    color: var(--main-color);
+}
+.trainsContent {
+    background-color: var(--bg-color-light);
+    padding: 1em;
+}
+.trainsContent ul {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    list-style-type: none;
+}
+.trainsContent button {
+    margin: 1em;
+    font-size: 1em;
+    height: auto;
+    width: 220px;
+}
+
+.fa-ellipsis-v {
+    font-size: 1.1em;
+    padding-left: .4em;
+    padding-right: 1.4em;
+}
+.fa-dot-circle{
+    padding-right: 0.85em;
+}
+.fa-angle-down{
+    font-size: 1em;
+    padding-left: 0.7em;
+    padding-right: 1.7em;
 }
