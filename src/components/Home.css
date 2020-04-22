@@ -1,7 +1,8 @@
 .bg {
     display: block;
     position: relative;
-    background: url("trainBG.jpg") center center;
+    background-size: cover;
+    background: url("trainBG.jpg") fixed center center;
     height: 500px;
     padding-top: 60px;
 }
