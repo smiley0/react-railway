@@ -23,6 +23,8 @@ class Navbar extends React.Component {
         email: "",
         loginError: false,
         loginErrorMessage: "",
+        registerError: false,
+        registerErrorMessage: "",
     }
     
   componentDidMount() {
@@ -140,17 +142,45 @@ class Navbar extends React.Component {
             body: JSON.stringify(post)
         };
 
-        console.log("REQUEST OPTIONS")
-        console.log(requestOptions)
-
         fetch('http://127.0.0.1:8000/accounts/register/', requestOptions)
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    registrationResponse: json,
-                    haveRegistrationResponse: true,
-                })
-            });
+            .then(res => {
+                const statusCode = res.status;
+                const data = res.json();
+                return Promise.all([statusCode, data]);
+            })
+            .then(([res, data]) => {
+                if(res === 201){
+                    this.setState({
+                        registrationResponse: data,
+                        haveRegistrationResponse: true,
+                        registerError: false,
+                    })
+                }
+                else{
+                    this.setState({
+                        registerError: true,
+                    })
+                    if('username' in data){
+                        this.setState({
+                            registerErrorMessage: data.username[0],
+                        })
+                    }
+                    else if('password_confirm' in data){
+                        this.setState({
+                            registerErrorMessage: data.password_confirm[0],
+                        })
+                    }
+                    else{
+                        this.setState({
+                            registerErrorMessage: 'An error has occurred',
+                        })
+                    }
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            })
+
     }
     handleChange = (e) => {
         if(e.target.id === "uname"){
@@ -267,6 +297,8 @@ class Navbar extends React.Component {
                                     <label htmlFor="psw-repeat"><b>Repeat Password *</b></label>
                                     <input id='rpsw' onChange={this.handleChange} type="password" placeholder="Repeat Password" name="psw-repeat" required></input>    
                                     
+                                    {this.state.registerError? <span className='errorMessage'>{this.state.registerErrorMessage}</span>: null}
+
                                     <button onClick={this.handleRegisterClick} type="submit">Register</button>
                                     
                                     <label> Remember me</label>
